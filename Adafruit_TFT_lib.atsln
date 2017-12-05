@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Atmel Studio Solution File, Format Version 11.00
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "AdafruitTFTSPIDriver", "AdafruitTFTSPIDriver\AdafruitTFTSPIDriver.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "AdafruitTFTI2CDriver", "AdafruitTFTI2CDriver\AdafruitTFTI2CDriver.cproj", "{16F5F090-0F4D-432D-8B9F-04F66E29BD98}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "AdafruitTFTLibTest", "AdafruitTFTLibTest\AdafruitTFTLibTest.cproj", "{4CAE1CD3-E38D-47FA-BFCF-09C89E5ABB12}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.ActiveCfg = Debug|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Build.0 = Debug|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.ActiveCfg = Release|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.Build.0 = Release|AVR
+		{16F5F090-0F4D-432D-8B9F-04F66E29BD98}.Debug|AVR.ActiveCfg = Debug|AVR
+		{16F5F090-0F4D-432D-8B9F-04F66E29BD98}.Debug|AVR.Build.0 = Debug|AVR
+		{16F5F090-0F4D-432D-8B9F-04F66E29BD98}.Release|AVR.ActiveCfg = Release|AVR
+		{16F5F090-0F4D-432D-8B9F-04F66E29BD98}.Release|AVR.Build.0 = Release|AVR
+		{4CAE1CD3-E38D-47FA-BFCF-09C89E5ABB12}.Debug|AVR.ActiveCfg = Debug|AVR
+		{4CAE1CD3-E38D-47FA-BFCF-09C89E5ABB12}.Debug|AVR.Build.0 = Debug|AVR
+		{4CAE1CD3-E38D-47FA-BFCF-09C89E5ABB12}.Release|AVR.ActiveCfg = Release|AVR
+		{4CAE1CD3-E38D-47FA-BFCF-09C89E5ABB12}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
