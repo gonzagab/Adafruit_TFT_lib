@@ -8,8 +8,6 @@
 //* initialization and transmissions. As well as for slave mode.
 //*******************************************************************
 
-#include <avr/io.h>
-
 #include "SPIDriver.h"
 
 void SPIMasterInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, PortRegisters* miso)
@@ -19,8 +17,15 @@ void SPIMasterInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, 
     *(sclk->DDRx) |= sclk->mask;
     *(mosi->DDRx) |= mosi->mask;
     *(miso->DDRx) &= ~miso->mask;
-    //Enable SPI, Master, set clock rate system clock/16
-    SPCR0 = (1 << SPE0) | (1 << MSTR0) | (1 << SPR00);
+    //slave select high
+    *(ss->PORTx) |= ss->mask;
+    //mosi and sclk low
+    *(mosi->PORTx) &= ~mosi->mask;
+    *(sclk->PORTx) &= ~sclk->mask;
+	//Enable SPI, Master, MSB first
+	SPCR0 = _BV(SPE0) | _BV(MSTR0);
+	//SPI clock x2
+	SPSR0 = _BV(SPI2X0);
 }
 
 /**
@@ -34,11 +39,16 @@ void SPISlaveInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, P
     *(mosi->DDRx) |= mosi->mask;
     *(miso->DDRx) &= ~miso->mask;
     /* Enable SPI */
-    SPCR0 = (1 << SPE0);
+    SPCR0 = _BV(SPE0);
 }
 
 void SPISetClkPrescalar(uint8_t prescalar)
 {
+}
+
+void SPIStartTransmission(PortRegisters* ss)
+{
+    *(ss->PORTx) &= ~(ss->mask);
 }
 
 void SPIMasterTransmit(uint8_t cData)
@@ -46,28 +56,32 @@ void SPIMasterTransmit(uint8_t cData)
     //start transmission
     SPDR0 = cData;
     //Wait for transmission complete
-    while (!(SPSR0 & (1<<SPIF0))) {
+    while (!(SPSR0 & _BV(SPIF0))) {
         //do nothing
     }
 }
 
 void SPIMasterTransmit16(uint16_t cData)
 {
-    SPIMasterTransmit(cData);
     SPIMasterTransmit(cData >> 8);
+    SPIMasterTransmit(cData);
 }
 
 void SPIMasterTransmit32(uint32_t cData)
 {
-    SPIMasterTransmit16(cData);
     SPIMasterTransmit16(cData >> 16);
+    SPIMasterTransmit16(cData);
+}
+
+void SPIEndTransmission(PortRegisters* ss)
+{
+    *(ss->PORTx) |= ss->mask;
 }
 
 uint8_t SPISlaveReceive()
 {
-    //wait for reception complete
-    while (!(SPSR0 & (1 << SPIF0))) {
-
+    while (!(SPSR0 & _BV(SPIF0))) {
+        //wait for reception complete
     }
     //return data register
     return SPDR0;

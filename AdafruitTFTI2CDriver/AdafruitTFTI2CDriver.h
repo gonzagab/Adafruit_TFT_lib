@@ -9,6 +9,9 @@
 #ifndef ADAFRUITTFTI2CDRIVER_H_
 #define ADAFRUITTFTI2CDRIVER_H_
 
+#include <stdint.h>
+#include <stdbool.h>
+
 #define FT6206_ADDR           0x38
 #define FT6206_G_FT5201ID     0xA8
 #define FT6206_REG_NUMTOUCHES 0x02
@@ -31,6 +34,8 @@
 
 
 bool begin(uint8_t thresh = FT6206_DEFAULT_THRESSHOLD);
+
+void writeRegister8(uint8_t reg, uint8_t val);
 
 
 

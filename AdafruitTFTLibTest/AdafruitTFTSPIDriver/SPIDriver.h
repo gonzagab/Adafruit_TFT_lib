@@ -10,6 +10,8 @@
 #ifndef SPIDRIVER_H_
 #define SPIDRIVER_H_
 
+#include <avr/io.h>
+
 #include "PortRegisterStruct.h"
 
 //SPI SETUP
@@ -19,11 +21,15 @@ void SPISlaveInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, P
 
 void SPISetClkPrescalar(uint8_t prescalar);
 
+void SPIStartTransmission(PortRegisters* ss);
+
 void SPIMasterTransmit(uint8_t cData);
 
 void SPIMasterTransmit16(uint16_t cData);
 
 void SPIMasterTransmit32(uint32_t cData);
+
+void SPIEndTransmission(PortRegisters* ss);
 
 uint8_t SPISlaveReceive();
 

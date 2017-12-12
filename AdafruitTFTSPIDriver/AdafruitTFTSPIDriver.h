@@ -19,6 +19,7 @@
 #include "ColorDefinitions.h"
 #include "SPIDriver.h"
 #include "GFXFont.h"
+#include "Font5x7.h"
 
 #define TFT_WIDTH   240
 #define TFT_HEIGHT  320
@@ -57,14 +58,12 @@ void drawPixel(int16_t x, int16_t y, uint16_t color, TFT_vars* var);
 
 // Transaction API not used by GFX
 void setAddrWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h, TFT_vars* var);
-void writePixel(uint16_t color);
-void writePixels(uint16_t * colors, uint32_t len);
-void writeColor(uint16_t color, uint32_t len);
-void pushColor(uint16_t color);
+void writePixels(uint16_t * colors, uint32_t len, TFT_vars* var);
+void writeColor(uint16_t color, uint32_t len, TFT_vars* var);
 
 // Recommended Non-Transaction
-void drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
-void drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
+void drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color, TFT_vars* var);
+void drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color, TFT_vars* var);
 void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, TFT_vars* var);
 
 // Pass 8-bit (each) R,G,B, get back 16-bit packed color
@@ -73,17 +72,17 @@ uint16_t color565(uint8_t r, uint8_t g, uint8_t b);
 void drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, TFT_vars* var);
 void fillScreen(uint16_t color, TFT_vars* var);
 void setCursor(int16_t x, int16_t y, TFT_vars* var);
-void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, TFT_vars* var);
 
 // These exist only with Adafruit_GFX
 void drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, TFT_vars* var);
 void drawCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color, TFT_vars* var);
-void fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
-void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta, uint16_t color);
+void fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, TFT_vars* var);
+void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta, uint16_t color, TFT_vars* var);
 void drawRoundRect(int16_t x0, int16_t y0, int16_t w, int16_t h, int16_t radius, uint16_t color, TFT_vars* var);
 void fillRoundRect(int16_t x0, int16_t y0, int16_t w, int16_t h, int16_t radius, uint16_t color, TFT_vars* var);
 void drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color, TFT_vars* var);
-void fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
+void fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color, TFT_vars* var);
 void writeLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, TFT_vars* var);
 
 // BITMAP / XBITMAP / GRAYSCALE / RGB BITMAP FUNCTIONS ---------------------
