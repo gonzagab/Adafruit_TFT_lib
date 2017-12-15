@@ -14,23 +14,22 @@
 
 #include "PortRegisterStruct.h"
 
-//SPI SETUP
-void SPIMasterInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, PortRegisters* miso);
+void spiMasterInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, PortRegisters* miso);
 
-void SPISlaveInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, PortRegisters* miso);
+void spiSlaveInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, PortRegisters* miso);
 
-void SPISetClkPrescalar(uint8_t prescalar);
+void spiSetClkPrescalar(uint8_t prescalar);
 
-void SPIStartTransmission(PortRegisters* ss);
+void spiStartTransmission(PortRegisters* ss);
 
-void SPIMasterTransmit(uint8_t cData);
+void spiMasterTransmit(uint8_t cData);
 
-void SPIMasterTransmit16(uint16_t cData);
+void spiMasterTransmit16(uint16_t cData);
 
-void SPIMasterTransmit32(uint32_t cData);
+void spiMasterTransmit32(uint32_t cData);
 
-void SPIEndTransmission(PortRegisters* ss);
+void spiEndTransmission(PortRegisters* ss);
 
-uint8_t SPISlaveReceive();
+uint8_t spiSlaveReceive();
 
 #endif /* SPIDRIVER_H_ */

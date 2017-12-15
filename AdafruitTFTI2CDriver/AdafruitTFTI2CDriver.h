@@ -1,9 +1,11 @@
-/*
- * AdafruitTFTI2CDriver.h
- *
- * Created: 12/4/2017 5:42:04 PM
- *  Author: Bryant Gonzaga
- */ 
+//*****************************************************************
+//* Author  :   Bryant Gonzaga
+//* Created :   12/4/2017 5:42:04 PM
+//* Name    :   AdafruitTFTI2CDriver.h
+//* Modified:   12/15/2017
+//* Description:
+//*
+//********************************************************************
 
 
 #ifndef ADAFRUITTFTI2CDRIVER_H_
@@ -12,31 +14,25 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define FT6206_ADDR           0x38
-#define FT6206_G_FT5201ID     0xA8
-#define FT6206_REG_NUMTOUCHES 0x02
+#include "AdafruitTFTRegAddrs.h"
+#include "AdafruitTSPoint.h"
 
-#define FT6206_NUM_X             0x33
-#define FT6206_NUM_Y             0x34
-
-#define FT6206_REG_MODE 0x00
-#define FT6206_REG_CALIBRATE 0x02
-#define FT6206_REG_WORKMODE 0x00
-#define FT6206_REG_FACTORYMODE 0x40
-#define FT6206_REG_THRESHHOLD 0x80
-#define FT6206_REG_POINTRATE 0x88
-#define FT6206_REG_FIRMVERS 0xA6
-#define FT6206_REG_CHIPID 0xA3
-#define FT6206_REG_VENDID 0xA8
-
-// calibrated for Adafruit 2.8" ctp screen
-#define FT6206_DEFAULT_THRESSHOLD 128
-
+typedef struct TSVars 
+{
+    uint8_t touches;
+    uint16_t touchX[2], touchY[2], touchID[2];
+} TSVars;
 
 bool begin(uint8_t thresh = FT6206_DEFAULT_THRESSHOLD);
 
 void writeRegister8(uint8_t reg, uint8_t val);
 
+uint8_t readRegister8(uint8_t reg);
 
+void readData(uint16_t* x, uint16_t* y, TSVars* var);
+
+bool touched();
+
+TS_Point getPoint(void);
 
 #endif /* ADAFRUITTFTI2CDRIVER_H_ */

@@ -10,7 +10,7 @@
 
 #include "SPIDriver.h"
 
-void SPIMasterInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, PortRegisters* miso)
+void spiMasterInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, PortRegisters* miso)
 {
     //setup DDRx register for SPI
     *(ss->DDRx) |= ss->mask;
@@ -31,7 +31,7 @@ void SPIMasterInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, 
 /**
 TODO: check miso mosi direction correctness
 **/
-void SPISlaveInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, PortRegisters* miso)
+void spiSlaveInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, PortRegisters* miso)
 {
     //setup DDRx register for SPI
     *(ss->DDRx) &= ~ss->mask;
@@ -42,16 +42,16 @@ void SPISlaveInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, P
     SPCR0 = _BV(SPE0);
 }
 
-void SPISetClkPrescalar(uint8_t prescalar)
+void spiSetClkPrescalar(uint8_t prescalar)
 {
 }
 
-void SPIStartTransmission(PortRegisters* ss)
+void spiStartTransmission(PortRegisters* ss)
 {
     *(ss->PORTx) &= ~(ss->mask);
 }
 
-void SPIMasterTransmit(uint8_t cData)
+void spiMasterTransmit(uint8_t cData)
 {
     //start transmission
     SPDR0 = cData;
@@ -61,24 +61,24 @@ void SPIMasterTransmit(uint8_t cData)
     }
 }
 
-void SPIMasterTransmit16(uint16_t cData)
+void spiMasterTransmit16(uint16_t cData)
 {
-    SPIMasterTransmit(cData >> 8);
-    SPIMasterTransmit(cData);
+    spiMasterTransmit(cData >> 8);
+    spiMasterTransmit(cData);
 }
 
-void SPIMasterTransmit32(uint32_t cData)
+void spiMasterTransmit32(uint32_t cData)
 {
-    SPIMasterTransmit16(cData >> 16);
-    SPIMasterTransmit16(cData);
+    spiMasterTransmit16(cData >> 16);
+    spiMasterTransmit16(cData);
 }
 
-void SPIEndTransmission(PortRegisters* ss)
+void spiEndTransmission(PortRegisters* ss)
 {
     *(ss->PORTx) |= ss->mask;
 }
 
-uint8_t SPISlaveReceive()
+uint8_t spiSlaveReceive()
 {
     while (!(SPSR0 & _BV(SPIF0))) {
         //wait for reception complete

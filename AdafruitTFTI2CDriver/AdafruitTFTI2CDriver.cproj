@@ -126,6 +126,12 @@
     <Compile Include="AdafruitTFTI2CDriver.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="AdafruitTFTRegAddrs.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTSPoint.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="I2CDriver.c">
       <SubType>compile</SubType>
     </Compile>

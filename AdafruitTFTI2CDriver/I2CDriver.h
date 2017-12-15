@@ -1,9 +1,11 @@
-/*
- * I2CDriver.h
- *
- * Created: 12/4/2017 6:42:38 PM
- *  Author: Bryant Gonzaga
- */ 
+//*****************************************************************
+//* Author  :   Bryant Gonzaga
+//* Created :   12/4/2017 6:42:38 PM
+//* Name    :   I2CDriver.h
+//* Modified:   12/13/2017
+//* Description:
+//*
+//********************************************************************
 
 
 #ifndef I2CDRIVER_H_
@@ -13,14 +15,16 @@
 #include <stdint.h>
 #include <avr/io.h>
 
-bool I2CStartCondition();
+bool i2cStartCondition();
 
-bool I2CBeginWrite(uint8_t addr);
+bool i2cBeginWrite(uint8_t addr);
 
-bool I2CBeginRead(uint8_t addr);
+bool i2cBeginRead(uint8_t addr);
 
-bool I2CTransmitData(uint8_t data);
+bool i2cTransmit(uint8_t data);
 
-void I2CEndTransmission();
+bool i2cReadData(uint8_t* dataAddr, uint8_t numOfBytes);
+
+void i2cStopCondition();
 
 #endif /* I2CDRIVER_H_ */
