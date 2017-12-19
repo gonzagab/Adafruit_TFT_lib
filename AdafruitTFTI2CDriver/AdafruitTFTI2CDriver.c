@@ -9,7 +9,7 @@
 
 #include "AdafruitTFTI2CDriver.h"
 
-bool begin(uint8_t threshhold)
+bool initCPTTS(uint8_t threshhold)
 {
     // change threshhold to be higher/lower
     writeRegister8(FT6206_REG_THRESHHOLD, threshhold);
@@ -134,10 +134,14 @@ bool touched()
     return false;
 }
 
-TS_Point getPoint()
+TS_Point getPoint(TSVars* var)
 {
     uint16_t x, y;
     uint8_t z;
-    readData(&x, &y);
-    return TS_Point(x, y, 1);
+    readData(&x, &y, var);
+    TS_Point point;
+    point.x = x;
+    point.y = y;
+    point.z = 1;
+    return point;
 }

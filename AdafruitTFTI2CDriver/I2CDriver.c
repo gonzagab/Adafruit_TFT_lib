@@ -72,12 +72,12 @@ bool i2cReadData(uint8_t* dataAddr, uint8_t numOfBytes)
             TWCR = _BV(TWINT) | _BV(TWEN) | _BV(TWEA);
         }
             
-        while (!(TWCR & _BV(TWINT))) {
+        while ( !(TWCR & _BV(TWINT)) ) {
             //wait to receive data
         }
         //check status register
-        if ((TWSR & 0xF8) != 0x58) {
-            return false
+        if ( (TWSR & 0xF8) != 0x58 && (TWSR & 0xF8) != 0x50 ) {
+            return false;
         }
         //read data
         *(dataAddr++) = TWDR;    

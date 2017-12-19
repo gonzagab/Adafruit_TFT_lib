@@ -118,9 +118,58 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AdafruitTFTI2CDriver\AdafruitTFTI2CDriver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTI2CDriver\AdafruitTFTI2CDriver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTI2CDriver\AdafruitTFTRegAddrs.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTI2CDriver\AdafruitTSPoint.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTI2CDriver\I2CDriver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTI2CDriver\I2CDriver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\AdafruitTFTSPIDriver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\AdafruitTFTSPIDriver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\ColorDefinitions.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\CommandDefinitions.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\Font5x7.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\GFXFont.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\PortRegisterStruct.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\SPIDriver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\SPIDriver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AdafruitTFTSPIDriver" />
+    <Folder Include="AdafruitTFTI2CDriver" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
