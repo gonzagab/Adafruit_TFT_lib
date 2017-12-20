@@ -1,11 +1,15 @@
 //*******************************************************************
-//* PortRegisterStruct.h
+//* File Name       :  PortRegisterStruct.h
 //*
-//* Created:    11/30/2017 5:49:54 PM
-//* Author:     Bryant Gonzaga
+//* Author          :   Bryant Gonzaga
+//* Created         :   11/30/2017 5:49:54 PM
+//* Modified        :   12/20/2017
+//* Target Device   :   ATmega324A
 //* Description:
+//*     Defines a structure with pointers to the three registers
+//* associated with a PORT. and it also has a bit mask for specific
+//* pin.
 //*******************************************************************
-
 #ifndef PORTREGISTERSTRUCT_H_
 #define PORTREGISTERSTRUCT_H_
 

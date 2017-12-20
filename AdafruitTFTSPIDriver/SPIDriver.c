@@ -1,8 +1,10 @@
 //*******************************************************************
-//* SPIDriver.c
-//* Author:         Bryant Gonzaga
-//* Date:           11/30/2017
-//* Target Device:  ATmega324A
+//* File Name       :  SPIDriver.c
+//*
+//* Author          :   Bryant Gonzaga
+//* Created         :   11/30/2017
+//* Modified        :   12/20/2017
+//* Target Device   :   ATmega324A
 //* Description:
 //*     This is a c file that defines functions for hardware SPI
 //* initialization and transmissions. As well as for slave mode.
@@ -28,9 +30,6 @@ void spiMasterInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, 
 	SPSR0 = _BV(SPI2X0);
 }
 
-/**
-TODO: check miso mosi direction correctness
-**/
 void spiSlaveInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, PortRegisters* miso)
 {
     //setup DDRx register for SPI

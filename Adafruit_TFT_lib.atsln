@@ -11,6 +11,8 @@ Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "AdafruitTFTLibTest", "Adafr
 EndProject
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "AdafruitTFTPaint", "AdafruitTFTPaint\AdafruitTFTPaint.cproj", "{0DD1121F-9E0A-4AC4-8D57-FF1C37DEC63B}"
 EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "AdafruitTFTKeyPad", "AdafruitTFTKeyPad\AdafruitTFTKeyPad.cproj", "{03E288EB-BA14-44C6-9EC6-84AED79DDD45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -33,6 +35,10 @@ Global
 		{0DD1121F-9E0A-4AC4-8D57-FF1C37DEC63B}.Debug|AVR.Build.0 = Debug|AVR
 		{0DD1121F-9E0A-4AC4-8D57-FF1C37DEC63B}.Release|AVR.ActiveCfg = Release|AVR
 		{0DD1121F-9E0A-4AC4-8D57-FF1C37DEC63B}.Release|AVR.Build.0 = Release|AVR
+		{03E288EB-BA14-44C6-9EC6-84AED79DDD45}.Debug|AVR.ActiveCfg = Debug|AVR
+		{03E288EB-BA14-44C6-9EC6-84AED79DDD45}.Debug|AVR.Build.0 = Debug|AVR
+		{03E288EB-BA14-44C6-9EC6-84AED79DDD45}.Release|AVR.ActiveCfg = Release|AVR
+		{03E288EB-BA14-44C6-9EC6-84AED79DDD45}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

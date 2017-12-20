@@ -1,13 +1,15 @@
-//*****************************************************************
-//* Author:         Bryant Gonzaga
-//* Modified:       11/27/2017
-//* Name:           CommandDefinitions.c
-//* Description:
+//*******************************************************************
+//* File Name       :  AdafruitTFTCommands.h
 //*
-//********************************************************************
-
-#ifndef COMMANDDEFINITIONS_H_
-#define COMMANDDEFINITIONS_H_
+//* Author          :   Bryant Gonzaga
+//* Created         :   11/27/2017
+//* Modified        :   12/20/2017
+//* Target Device   :   ATmega324A
+//* Description:
+//*     Defines commands provided by Adafruit for their touch screen
+//*******************************************************************
+#ifndef ADAFRUITTFTCOMMANDS_H_
+#define ADAFRUITTFTCOMMANDS_H_
 
 #define ILI9341_NOP        0x00
 #define ILI9341_SWRESET    0x01
@@ -65,8 +67,6 @@
 
 #define ILI9341_PWCTR6     0xFC
 
-
-
 #define MADCTL_MY  0x80
 #define MADCTL_MX  0x40
 #define MADCTL_MV  0x20
@@ -75,4 +75,4 @@
 #define MADCTL_BGR 0x08
 #define MADCTL_MH  0x04
 
-#endif /* COMMANDDEFINITIONS_H_ */
+#endif /* ADAFRUITTFTCOMMANDS_H_ */

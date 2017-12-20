@@ -1,9 +1,13 @@
-// Font structures for newer Adafruit_GFX (1.1 and later).
-// Example fonts are included in 'Fonts' directory.
-// To use a font in your Arduino sketch, #include the corresponding .h
-// file and pass address of GFXfont struct to setFont().  Pass NULL to
-// revert to 'classic' fixed-space bitmap font.
-
+//*******************************************************************
+//* File Name       :  GFXFont.h
+//*
+//* Author          :   Bryant Gonzaga
+//* Created         :   11/30/2017
+//* Modified        :   12/20/2017
+//* Target Device   :   ATmega324A
+//* Description:
+//*     Font structure for font info.
+//*******************************************************************
 #ifndef GFXFONT_H_
 #define GFXFONT_H_
 

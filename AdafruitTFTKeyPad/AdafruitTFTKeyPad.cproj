@@ -4,19 +4,17 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>7.0</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8.C</ToolchainName>
-    <ProjectGuid>dce6c7e3-ee26-4d79-826b-08594b9ad897</ProjectGuid>
+    <ProjectGuid>{03e288eb-ba14-44c6-9ec6-84aed79ddd45}</ProjectGuid>
     <avrdevice>ATmega324A</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
-    <OutputType>StaticLibrary</OutputType>
+    <OutputType>Executable</OutputType>
     <Language>C</Language>
-    <OutputFileName>lib$(MSBuildProjectName)</OutputFileName>
-    <OutputFileExtension>.a</OutputFileExtension>
+    <OutputFileName>$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AvrGccProjectExtensions>
-    </AvrGccProjectExtensions>
-    <AssemblyName>AdafruitTFTSPIDriver</AssemblyName>
-    <Name>AdafruitTFTSPIDriver</Name>
-    <RootNamespace>AdafruitTFTSPIDriver</RootNamespace>
+    <AssemblyName>AdafruitTFTKeyPad</AssemblyName>
+    <Name>AdafruitTFTKeyPad</Name>
+    <RootNamespace>AdafruitTFTKeyPad</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -120,39 +118,13 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AdafruitTFTButton.c">
+    <Compile Include="TFTKeyPad.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="AdafruitTFTButton.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="AdafruitTFTSPIDriver.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="AdafruitTFTSPIDriver.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="AdafruitTFTColors.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="AdafruitTFTCommands.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Font5x7.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="GFXFont.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="PortRegisterStruct.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="SPIDriver.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="SPIDriver.h">
-      <SubType>compile</SubType>
-    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AdafruitTFTSPIDriver" />
+    <Folder Include="AdafruitTFTI2CDriver" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

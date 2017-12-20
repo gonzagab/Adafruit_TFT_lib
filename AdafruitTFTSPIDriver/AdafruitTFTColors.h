@@ -1,14 +1,15 @@
-//*****************************************************************
-//* Author:         Bryant Gonzaga
-//* Modified:       11/30/2017
-//* Name:           ColorDefinitions.h
-//* Description:
+//*******************************************************************
+//* File Name       :  AdafruitTFTColors.h
 //*
-//********************************************************************
-
-
-#ifndef COLORDEFINITIONS_H_
-#define COLORDEFINITIONS_H_
+//* Author          :   Bryant Gonzaga
+//* Created         :   11/30/2017
+//* Modified        :   12/20/2017
+//* Target Device   :   ATmega324A
+//* Description:
+//*     Colors provided by Adafruit for their touch screen
+//*******************************************************************
+#ifndef ADAFRUITTFTCOLORS_H_
+#define ADAFRUITTFTCOLORS_H_
 
 #define ILI9341_BLACK       0x0000      /*   0,   0,   0 */
 #define ILI9341_NAVY        0x000F      /*   0,   0, 128 */
@@ -30,4 +31,4 @@
 #define ILI9341_GREENYELLOW 0xAFE5      /* 173, 255,  47 */
 #define ILI9341_PINK        0xF81F
 
-#endif /* COLORDEFINITIONS_H_ */
+#endif /* ADAFRUITTFTCOLORS_H_ */

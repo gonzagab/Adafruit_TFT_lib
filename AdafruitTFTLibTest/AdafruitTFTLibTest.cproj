@@ -118,34 +118,7 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AdafruitTFTSPIDriver\AdafruitTFTSPIDriver.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="AdafruitTFTSPIDriver\AdafruitTFTSPIDriver.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="AdafruitTFTSPIDriver\ColorDefinitions.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="AdafruitTFTSPIDriver\CommandDefinitions.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="AdafruitTFTSPIDriver\Font5x7.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="AdafruitTFTSPIDriver\GFXFont.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="AdafruitTFTSPIDriver\PortRegisterStruct.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="AdafruitTFTSPIDriver\SPIDriver.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="AdafruitTFTSPIDriver\SPIDriver.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="main.c">
+    <Compile Include="TFTLibTest.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
