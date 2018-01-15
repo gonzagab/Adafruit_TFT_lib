@@ -435,6 +435,28 @@ void drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, TFTVars* var)
     }
 }
 
+void fillCircle(int16_t x, int16_t y, int16_t r, uint16_t color, TFTVars* var)
+{
+    drawVLineTFT(x, (y - r), ((2 * r) + 1), color, var);
+    fillCircleHelper(x, y, r, 3, 0, color, var);
+}
+
+
+
+//METHODS FOR ROUND RECTANGLES
+void drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color, TFTVars* var)
+{
+    // smarter version
+    drawHLineTFT((x + r)    ,  y         , (w - (2 * r)), color, var); // Top
+    drawHLineTFT((x + r)    , (y + h - 1), (w - (2 * r)), color, var); // Bottom
+    drawVLineTFT( x         , (y + r)    , (h - (2 * r)), color, var); // Left
+    drawVLineTFT((x + w - 1), (y + r )   , (h - (2 * r)), color, var); // Right
+    // draw four corners
+    drawCircleHelper((x + r)        , (y + r)        , r, 1, color, var);
+    drawCircleHelper((x + w - r - 1), (y + r)        , r, 2, color, var);
+    drawCircleHelper((x + w - r - 1), (y + h - r - 1), r, 4, color, var);
+    drawCircleHelper((x + r)        , (y + h - r - 1), r, 8, color, var);
+}
 void drawCircleHelper( int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color, TFTVars* var) {
     int16_t f     = 1 - r;
     int16_t ddF_x = 1;
@@ -470,12 +492,14 @@ void drawCircleHelper( int16_t x0, int16_t y0, int16_t r, uint8_t cornername, ui
     }
 }
 
-void fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, TFTVars* var)
+void fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color, TFTVars* var)
 {
-    drawVLineTFT(x0, (y0 - r), ((2 * r) + 1), color, var);
-    fillCircleHelper(x0, y0, r, 3, 0, color, var);
+    // smarter version
+    fillRect((x + r), y, (w - (2 * r)), h, color, var);
+    // draw four corners
+    fillCircleHelper((x + w - r - 1), (y + r), r, 1, (h - (2 * r) - 1), color, var);
+    fillCircleHelper((x + r)        , (y + r), r, 2, (h - (2 * r) - 1), color, var);
 }
-
 void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta, uint16_t color, TFTVars* var)
 {
     int16_t f     = 1 - r;
@@ -503,30 +527,6 @@ void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int
             drawVLineTFT((x0 - y), (y0 - x), ((2 * x) + 1 + delta), color, var);
         }
     }
-}
-
-//METHODS FOR ROUND RECTANGLES
-void drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color, TFTVars* var)
-{
-    // smarter version
-    drawHLineTFT((x + r)    ,  y         , (w - (2 * r)), color, var); // Top
-    drawHLineTFT((x + r)    , (y + h - 1), (w - (2 * r)), color, var); // Bottom
-    drawVLineTFT( x         , (y + r)    , (h - (2 * r)), color, var); // Left
-    drawVLineTFT((x + w - 1), (y + r )   , (h - (2 * r)), color, var); // Right
-    // draw four corners
-    drawCircleHelper((x + r)        , (y + r)        , r, 1, color, var);
-    drawCircleHelper((x + w - r - 1), (y + r)        , r, 2, color, var);
-    drawCircleHelper((x + w - r - 1), (y + h - r - 1), r, 4, color, var);
-    drawCircleHelper((x + r)        , (y + h - r - 1), r, 8, color, var);
-}
-
-void fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color, TFTVars* var)
-{
-    // smarter version
-    fillRect((x + r), y, (w - (2 * r)), h, color, var);
-    // draw four corners
-    fillCircleHelper((x + w - r - 1), (y + r), r, 1, (h - (2 * r) - 1), color, var);
-    fillCircleHelper((x + r)        , (y + r), r, 2, (h - (2 * r) - 1), color, var);
 }
 
 //METHODS FOR TRIANGLES

@@ -36,7 +36,7 @@ void drawButtonTFT(TSButtonVars* button, TFTVars* tftVars)
              button->label, button->textColor, button->fillColor, textSize, tftVars);
 }
 
-bool contains(int16_t x, int16_t y, TSButtonVars* button)
+bool buttonContainsPointTFT(int16_t x, int16_t y, TSButtonVars* button)
 {
     return (
                (x >= button->x) && (x < (button->x + button->w)) &&

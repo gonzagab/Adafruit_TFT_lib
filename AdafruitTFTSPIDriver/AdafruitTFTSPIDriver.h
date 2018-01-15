@@ -112,31 +112,154 @@ void writeColor(uint16_t color, uint32_t len, TFTVars* var);
 uint16_t color565(uint8_t r, uint8_t g, uint8_t b);
 
 /**
- * Fills the whole screen with the specified 
+ * Fills the whole screen with the specified color
+ * @param color Color the screen is to be filled with.
+ * @param var   Pointer to TFTVars structure.
  */
 void fillScreen(uint16_t color, TFTVars* var);
+
 //METHODS FOR LINES
+/**
+ * Draws a vertical line on the screen of length <code> h </code>
+ * starting form ( <code> x </code>, <code> y </code>).
+ * @param x     x starting position.
+ * @param y     y starting position.
+ * @param h     Height of the line.
+ * @param color Color of line.
+ * @param var   Pointer to TFTVars structure.
+ */
 void drawVLineTFT(int16_t x, int16_t y, int16_t h, uint16_t color, TFTVars* var);
+
+/**
+ * Draws a horizontal line on the screen of length <code> w </code>
+ * starting form ( <code> x </code>, <code> y </code>).
+ * @param x     x starting position.
+ * @param y     y starting position.
+ * @param w     Width of the line.
+ * @param color Color of line.
+ * @param var   Pointer to TFTVars structure.
+ */
 void drawHLineTFT(int16_t x, int16_t y, int16_t w, uint16_t color, TFTVars* var);
+
+/**
+ * Draws a line on the screen of from (x0,  y0) to (x1, y1)
+ * @param x0    x starting position.
+ * @param y0    y starting position.
+ * @param x1    x ending position.
+ * @param y1    y ending position.
+ * @param color Color of line.
+ * @param var   Pointer to TFTVars structure.
+ */
 void drawLineTFT(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, TFTVars* var);
+
 //METHODS FOR RECTANGLES
+/**
+ * Draws a filled rectangle with dimensions <code> w </code> and
+ * <code> h </code>.
+ * @param x     x starting position
+ * @param y     y starting position
+ * @param w     Width of rectangle
+ * @param h     Height of rectangle
+ * @param color Color of rectangle
+ * @param var   Pointer to TFTVars structure
+ */
 void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, TFTVars* var);
+
+/**
+ * Draws a hollow rectangle with dimensions <code> w </code> and
+ * <code> h </code>.
+ * @param x     x starting position
+ * @param y     y starting position
+ * @param w     Width of rectangle
+ * @param h     Height of rectangle
+ * @param color Color of rectangle
+ * @param var   Pointer to TFTVars structure
+ */
 void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, TFTVars* var);
+
 //METHODS FOR CIRCLES
+/**
+ * Draws a hollow circle with radius <code> r </code>.
+ * @param x0    x center position.
+ * @param y0    y center position.
+ * @param r     Circle radius.
+ * @param color Circle color
+ * @param var   Pointer to TFTVars structure
+ */
 void drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, TFTVars* var);
-void drawCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color, TFTVars* var);
-void fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, TFTVars* var);
-void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta, uint16_t color, TFTVars* var);
+
+/**
+ * Draws a filled circle with radius <code> r </code>
+ * @param x     x center position.
+ * @param y     y center position.
+ * @param r     Circle radius.
+ * @param color Circle color
+ * @param var   Pointer to TFTVars structure
+ */
+void fillCircle(int16_t x, int16_t y, int16_t r, uint16_t color, TFTVars* var);
+
 //METHODS FOR ROUND RECTANGLES
-void drawRoundRect(int16_t x0, int16_t y0, int16_t w, int16_t h, int16_t radius, uint16_t color, TFTVars* var);
-void fillRoundRect(int16_t x0, int16_t y0, int16_t w, int16_t h, int16_t radius, uint16_t color, TFTVars* var);
+/**
+ * Draws a hollow rectangle with dimensions <code> w </code> and
+ * <code> h </code> and rounded corners.
+ * @param x         x starting position
+ * @param y         y starting position
+ * @param w         Width of rectangle
+ * @param h         Height of rectangle
+ * @param radius    How rounded out corners should be
+ * @param color     Color of rectangle
+ * @param var       Pointer to TFTVars structure
+ */
+void drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t radius, uint16_t color, TFTVars* var);
+void drawCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color, TFTVars* var);
+
+/**
+ * Draws a filled rectangle with dimensions <code> w </code> and
+ * <code> h </code> and rounded corners.
+ * @param x         x starting position
+ * @param y         y starting position
+ * @param w         Width of rectangle
+ * @param h         Height of rectangle
+ * @param radius    How rounded out corners should be
+ * @param color     Color of rectangle
+ * @param var       Pointer to TFTVars structure
+ */
+void fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t radius, uint16_t color, TFTVars* var);
+void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta, uint16_t color, TFTVars* var);
+
 //METHODS FOR TRIANGLES
+/**
+ * Draws a hollow triangle with the three specified corners.
+ * @param x0    x-position of corner 0.
+ * @param y0    y-position of corner 0.
+ * @param x1    x-position of corner 1.
+ * @param y1    y-position of corner 1.
+ * @param x2    x-position of corner 2.
+ * @param y2    y-position of corner 2.
+ * @param color Color of triangle.
+ * @param var   Pointer to TFTVars structure.
+ */
 void drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color, TFTVars* var);
+
+/**
+ * Draws a filled triangle with the three specified corners.
+ * @param x0    x-position of corner 0.
+ * @param y0    y-position of corner 0.
+ * @param x1    x-position of corner 1.
+ * @param y1    y-position of corner 1.
+ * @param x2    x-position of corner 2.
+ * @param y2    y-position of corner 2.
+ * @param color Color of triangle.
+ * @param var   Pointer to TFTVars structure.
+ */
 void fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color, TFTVars* var);
 //BITMAP / XBITMAP / GRAYSCALE / RGB BITMAP FUNCTIONS
 void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, TFTVars* var);
 void drawBitmap1(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, uint16_t bg, TFTVars* var);
 //METHODS FOR TEXT
+/**
+ *
+ */
 void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size, TFTVars* var);
 void write(uint8_t c, TFTVars* var);
 void charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy, TFTVars* var);

@@ -103,7 +103,7 @@ ISR(INT0_vect)
     //flip to match rotation
 	uint16_t x = 320 - p.y;
 	p.y = p.x;
-    if (contains(x, p.y, &button)) {
+    if (buttonContainsPointTFT(x, p.y, &button)) {
         tftVars.gfxFont = NULL;
         tftVars.textColor = ILI9341_BLUE;
         tftVars.textBGColor = ILI9341_BLACK;
