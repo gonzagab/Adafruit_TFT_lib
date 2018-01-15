@@ -37,39 +37,83 @@
 #define TFT_WIDTH   240
 #define TFT_HEIGHT  320
 
+/**
+ * Contains all the variables associated with the touchscreen.
+ */
 typedef struct TFTVars
 {
-    uint16_t width;
+    uint16_t width; /**<  >*/
     uint16_t height;
-    uint16_t cursor_x;
-    uint16_t cursor_y;
-    uint8_t rotation; 
-    uint8_t textSize;
+    uint16_t cursor_x; /**<  >*/
+    uint16_t cursor_y; /**<  >*/
+    uint8_t rotation; /**<  >*/
+    uint8_t textSize; /**<  >*/
     uint16_t textColor;
-    uint16_t textBGColor;    
-    bool wrap;      // If set, 'wrap' text at right edge of display
-    bool cp437;    // If set, use correct CP437 char set (default is off)
-    GFXfont *gfxFont;
+    uint16_t textBGColor;
+    bool wrap;      /**<  >*/// If set, 'wrap' text at right edge of display
+    bool cp437;    /**<  >*/// If set, use correct CP437 char set (default is off)
+    GFXfont *gfxFont; /**<  >*/
     
-    PortRegisters* cs;
-    PortRegisters* dc;
-    PortRegisters* rst;
-    PortRegisters* mosi;
-    PortRegisters* miso;
-    PortRegisters* sclk;
+    AVRPin* cs; /**<  >*/
+    AVRPin* dc;/**<  >*/
+    AVRPin* rst;/**<  >*/
+    AVRPin* mosi;/**<  >*/
+    AVRPin* miso;/**<  >*/
+    AVRPin* sclk;/**<  >*/
 } TFTVars;
 
 //METHODS TO CONTROL TFT
+/**
+ * Initializes the SPI hardware with SUCH PARAMETERS. As well as
+ * initiating the touchscreen.
+ */
 void initTFT(TFTVars* var);
+
+/**
+ * Sends a command to the touchscreen through SPI.
+ * @param cmd   8-bit command
+ * @param var   pointer to TFTVars structure.
+ */
 void writeCommandTFT(uint8_t cmd, TFTVars* var);
-void setRotation(uint8_t r, TFTVars* var);
+
+/**
+ * Sets the rotation of the screen. The screen can have four
+ * different rotations. Updates the width and height according to
+ * rotation.
+ * Rotation 0 has 0 for x and y at the bottom left corner. Where x
+ * is height and y is width. Each subsequent rotation turns the axes
+ * clock wise. Where rotation 1 has the 0 at the upper left corner
+ * and the x-axis as width and y-axis as height.
+ * @param r     rotation can be from 0 to 3.
+ * @param var   pointer to TFTVars structure
+ */
+void setRotationTFT(uint8_t r, TFTVars* var);
+
+/**
+ * Invert display according to the boolean value of <code> i </code>
+ * @param i     boolean value; true to invert display.
+ * @param var   pointer to TFTVars structure.
+ */
 void invertDisplay(bool i, TFTVars* var);
+
 void scrollTo(uint16_t y, TFTVars* var);
+
+/**
+ * Colors a specified pixel to the specified color
+ * @param x     x location of pixel
+ * @param y     y location of pixel
+ * @param color color of pixel
+ * @param var   pointer to TFTVars structure
+ */
 void drawPixel(int16_t x, int16_t y, uint16_t color, TFTVars* var);
 void setAddrWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h, TFTVars* var);
 void writePixels(uint16_t * colors, uint32_t len, TFTVars* var);
 void writeColor(uint16_t color, uint32_t len, TFTVars* var);
 uint16_t color565(uint8_t r, uint8_t g, uint8_t b);
+
+/**
+ * Fills the whole screen with the specified 
+ */
 void fillScreen(uint16_t color, TFTVars* var);
 //METHODS FOR LINES
 void drawVLineTFT(int16_t x, int16_t y, int16_t h, uint16_t color, TFTVars* var);

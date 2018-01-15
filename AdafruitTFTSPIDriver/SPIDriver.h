@@ -16,22 +16,76 @@
 
 #include "PortRegisterStruct.h"
 
-void spiMasterInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, PortRegisters* miso);
+/**
+ * Initializes the SPI hardware to operate in the Master mode, to
+ * send the most significant bit first, and to have slave clock
+ * frequency of SOME Hz.
+ * Initializes the ss, sclk, and mosi pins as outputs
+ * and the miso pin as input. It also drives the mosi and sclk pins
+ * low and the ss pin high.
+ * @param ss    Slave Select. Pointer to AVRPin struct
+ * @param sclk  Slave Clock. Pointer to AVRPin struct
+ * @param mosi  Master Out Slave In. Pointer to AVRPin struct
+ * @param miso  Master In Slave Out. Pointer to AVRPin struct
+ * @see AVRPin
+ */
+void spiMasterInit(AVRPin* ss, AVRPin* sclk, AVRPin* mosi, AVRPin* miso);
 
-void spiSlaveInit(PortRegisters* ss, PortRegisters* sclk, PortRegisters* mosi, PortRegisters* miso);
+/**
+ * Initializes the SPI hardware to operate in the Slave mode.
+ * Firstly, it initializes the ss, sclk, and mosi pins as inputs and
+ * the miso pin as output.
+ * @param ss    Slave Select. Pointer to AVRPin struct
+ * @param sclk  Slave Clock. Pointer to AVRPin struct
+ * @param mosi  Master Out Slave In. Pointer to AVRPin struct
+ * @param miso  Master In Slave Out. Pointer to AVRPin struct
+ * @see AVRPin
+ */
+void spiSlaveInit(AVRPin* ss, AVRPin* sclk, AVRPin* mosi, AVRPin* miso);
 
+/**
+ * Empty for now.
+ */
 void spiSetClkPrescalar(uint8_t prescalar);
 
-void spiStartTransmission(PortRegisters* ss);
+/**
+ * Initializes the SPI transaction by driving the slave select pin
+ * low.
+ * @param ss    AVRPin structure for the slave select pin.
+ */
+void spiStartTransmission(AVRPin* ss);
 
-void spiMasterTransmit(uint8_t cData);
+/**
+ * Transmits a single byte of data through hardware SPI.
+ * Will return once data has been transmitted
+ * @param data  byte of data to be transmitted.
+ */
+void spiMasterTransmit(uint8_t data);
 
-void spiMasterTransmit16(uint16_t cData);
+/**
+ * Transmits a two bytes of data through hardware SPI.
+ * Will return once data has been transmitted
+ * @param data  16-bit data to be transmitted.
+ */
+void spiMasterTransmit16(uint16_t data);
 
-void spiMasterTransmit32(uint32_t cData);
+/**
+ * Transmits a four bytes of data through hardware SPI.
+ * Will return once data has been transmitted
+ * @param data  32-bit data to be transmitted.
+ */
+void spiMasterTransmit32(uint32_t data);
 
-void spiEndTransmission(PortRegisters* ss);
+/**
+ * Ends the SPI transaction by driving the slave select pin high.
+ * @param ss    AVRPin structure for the slave select pin.
+ */
+void spiEndTransmission(AVRPin* ss);
 
+/**
+ * Used to read data from a master through SPI.
+ * @return a byte of data received from master.
+ */
 uint8_t spiSlaveReceive();
 
 #endif /* SPIDRIVER_H_ */

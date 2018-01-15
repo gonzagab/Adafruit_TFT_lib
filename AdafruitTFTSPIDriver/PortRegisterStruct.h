@@ -7,7 +7,7 @@
 //* Target Device   :   ATmega324A
 //* Description:
 //*     Defines a structure with pointers to the three registers
-//* associated with a PORT. and it also has a bit mask for specific
+//* associated with a PORT. and it also has a bit mask for a specific
 //* pin.
 //*******************************************************************
 #ifndef PORTREGISTERSTRUCT_H_
@@ -15,12 +15,12 @@
 
 #include <stdint.h>
 
-typedef struct PortRegisters
+typedef struct AVRPin
 {
     uint8_t* DDRx;
     uint8_t* PORTx;
     uint8_t* PINx;
     uint8_t mask;
-} PortRegisters;
+} AVRPin;
 
 #endif /* PORTREGISTERSTRUCT_H_ */

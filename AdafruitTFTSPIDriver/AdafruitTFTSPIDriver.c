@@ -172,7 +172,7 @@ void writeCommandTFT(uint8_t cmd, TFTVars* var)
     *(var->dc->PORTx) |= var->dc->mask;
 }
 
-void setRotation(uint8_t m, TFTVars* var)
+void setRotationTFT(uint8_t m, TFTVars* var)
 {
     var->rotation = m % 4; // can't be higher than 3
     switch (var->rotation) {

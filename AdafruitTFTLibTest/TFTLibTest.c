@@ -17,42 +17,42 @@ int main(void)
     //INITIALIZE VARIABLES FOR TFT
     TFTVars tftVars;
     //INITIALIZE PORTS FOR TFT
-    PortRegisters cs;
+    AVRPin cs;
     cs.DDRx = &DDRB;
     cs.PORTx = &PORTB;
     cs.PINx = &PINB;
     cs.mask = 0x10;
     tftVars.cs = &cs;
 
-    PortRegisters dc;
+    AVRPin dc;
     dc.DDRx = &DDRB;
     dc.PORTx = &PORTB;
     dc.PINx = &PINB;
     dc.mask = 0x08;
     tftVars.dc = &dc;
 
-    PortRegisters rst;
+    AVRPin rst;
     rst.DDRx = &DDRB;
     rst.PORTx = &PORTB;
     rst.PINx = &PINB;
     rst.mask = 0x10;
     tftVars.rst = &rst;
 
-    PortRegisters sclk;
+    AVRPin sclk;
     sclk.DDRx = &DDRB;
     sclk.PORTx = &PORTB;
     sclk.PINx = &PINB;
     sclk.mask = 0x80;
     tftVars.sclk = &sclk;
 
-    PortRegisters mosi;
+    AVRPin mosi;
     mosi.DDRx = &DDRB;
     mosi.PORTx = &PORTB;
     mosi.PINx = &PINB;
     mosi.mask = 0x20;
     tftVars.mosi = &mosi;
 
-    PortRegisters miso;
+    AVRPin miso;
     miso.DDRx = &DDRB;
     miso.PORTx = &PORTB;
     miso.PINx = &PINB;
@@ -78,7 +78,7 @@ int main(void)
 	
     while (1) {
 		for (uint8_t rotation = 0; rotation < 4; rotation++) {
-			setRotation(rotation, &tftVars);
+			setRotationTFT(rotation, &tftVars);
 			testText(&tftVars);
 			_delay_ms(5000);
 		}
