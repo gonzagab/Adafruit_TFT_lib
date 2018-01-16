@@ -1,17 +1,23 @@
-//*****************************************************************
-//* Author  :   Bryant Gonzaga
-//* Created :   12/4/2017 6:42:58 PM
-//* Name    :   I2CDriver.c
-//* Modified:   12/13/2017
-//* Description:
+//*******************************************************************
+//* File Name       :  I2CDriver.c
 //*
+//* Author          :   Bryant Gonzaga
+//* Created         :   12/4/2017 6:42:38 PM
+//* Modified        :   1/13/2018
+//* Target Device   :   ATmega324A
+//* Description:
+//*     Contains several functions to implement the I2C communication
+//* in hardware of the Atmega324A. To implement I2C follow these
+//* steps:
+//* 1) Start Condition.
+//* 2) Begin write by sending address of slave.
+//* 3) Send register address to write to.
+//* 4) Send data.
+//* 5) Stop Condition.
 //*******************************************************************
 
 #include "I2CDriver.h"
 
-/**
- *
- */
 bool i2cStartCondition()
 {
     //send a start condition

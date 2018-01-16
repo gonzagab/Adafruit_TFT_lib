@@ -1,11 +1,14 @@
-//*****************************************************************
-//* Author  :   Bryant Gonzaga
-//* Created :   12/13/2017 9:19:26 PM
-//* Name    :   AdafruitTFTRegAddrs.h
-//* Modified:   12/13/2017
-//* Description:
+//*******************************************************************
+//* File Name       :  AdafruitTFTRegAddrs.h
 //*
-//********************************************************************
+//* Author          :   Bryant Gonzaga
+//* Created         :   12/13/2017 9:19:26 PM
+//* Modified        :   12/13/2017
+//* Target Device   :   ATmega324A
+//* Description:
+//*     Addresses provided by Adafruit for their capacitive TFT
+//* touchscreen.
+//*******************************************************************
 
 #ifndef ADAFRUITTFTREGADDRS_H_
 #define ADAFRUITTFTREGADDRS_H_

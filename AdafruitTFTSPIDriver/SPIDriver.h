@@ -14,7 +14,7 @@
 
 #include <avr/io.h>
 
-#include "PortRegisterStruct.h"
+#include "AVRPin.h"
 
 /**
  * Initializes the SPI hardware to operate in the Master mode, to

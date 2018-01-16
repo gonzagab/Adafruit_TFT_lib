@@ -4,12 +4,11 @@
 //* Author          :   Bryant Gonzaga
 //* Created         :   12/19/2017 11:59:15 AM
 //* Modified        :   12/20/2017
-//* Target Device   :   ATmega324A
+//* Target Device   :   
 //* Description:
 //*     Structure for the variables need for a button. Also has two
 //* methods needed for button.
 //*******************************************************************
-
 
 #ifndef ADAFRUITTFTBUTTON_H_
 #define ADAFRUITTFTBUTTON_H_
@@ -18,13 +17,20 @@
 
 #include "AdafruitTFTSPIDriver.h"
 
+/**
+ * A collection of variables needed to create a button.
+ */
 typedef struct TSButtonVars
 {
-     int16_t    x;
-     int16_t    y;
-     uint16_t      w, h;
-     uint16_t      outlineColor, fillColor, textColor;
-     char          label;
+     int16_t    x;              /**< x-coordinate of button >*/
+     int16_t    y;              /**< y-coordinate of button >*/
+     uint16_t   w;              /**< Button width. >*/
+     uint16_t   h;              /**< Button height >*/
+     uint16_t   outlineColor;   /**< Outline of button >*/
+     uint16_t   fillColor;      /**< Button color >*/
+     uint16_t   textColor;      /**< Color of the button label >*/
+     char       label;          /**< Single ASCII character to be
+                                     displayed on button >*/
 } TSButtonVars;
 
 /**

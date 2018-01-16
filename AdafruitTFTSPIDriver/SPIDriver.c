@@ -3,7 +3,7 @@
 //*
 //* Author          :   Bryant Gonzaga
 //* Created         :   11/30/2017
-//* Modified        :   12/20/2017
+//* Modified        :   1/13/2018
 //* Target Device   :   ATmega324A
 //* Description:
 //*     This is a c file that defines functions for hardware SPI
@@ -12,9 +12,6 @@
 
 #include "SPIDriver.h"
 
-/**
-
-*/
 void spiMasterInit(AVRPin* ss, AVRPin* sclk, AVRPin* mosi, AVRPin* miso)
 {
     //setup DDRx register for SPI

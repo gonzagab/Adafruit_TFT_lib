@@ -1,10 +1,10 @@
 //*******************************************************************
-//* File Name       :  AdafruitTFTButton.h
+//* File Name       :  AdafruitTFTButton.c
 //*
 //* Author          :   Bryant Gonzaga
 //* Created         :   12/19/2017 12:10:04 PM
 //* Modified        :   12/20/2017
-//* Target Device   :   ATmega324A
+//* Target Device   :   
 //* Description:
 //*     Structure for the variables need for a button. Also has two
 //* methods needed for button.
@@ -31,8 +31,8 @@ void drawButtonTFT(TSButtonVars* button, TFTVars* tftVars)
     //FILL ROUND RECTANGLE
     fillRoundRect(button->x, button->y, button->w, button->h, r, button->fillColor, tftVars);
     //DRAW BUTTON LABEL
-    drawChar(button->x + (button->w - (textSize * 5)) / 2, 
-             button->y + (button->h - (textSize * 7)) / 2, 
+    drawChar(button->x + (button->w - (textSize * 5)) / 2,
+             button->y + (button->h - (textSize * 7)) / 2,
              button->label, button->textColor, button->fillColor, textSize, tftVars);
 }
 
@@ -43,4 +43,3 @@ bool buttonContainsPointTFT(int16_t x, int16_t y, TSButtonVars* button)
                (y >= button->y) && (y < (button->y + button->h))
            );
 }
-

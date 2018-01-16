@@ -1,11 +1,14 @@
-//*****************************************************************
-//* Author  :   Bryant Gonzaga
-//* Created :   12/15/2017 2:04:12 PM
-//* Name    :   AdafruitTSPoint.h
-//* Modified:   12/15/2017
-//* Description:
+//*******************************************************************
+//* File Name       :  AdafruitTSPoint.h
 //*
-//********************************************************************
+//* Author          :   Bryant Gonzaga
+//* Created         :   12/15/2017 2:04:12 PM
+//* Modified        :   12/15/2017
+//* Target Device   :
+//* Description:
+//*     A point on the touch screen described in three planes: x, y,
+//* z.
+//*******************************************************************
 
 
 #ifndef ADAFRUITTSPOINT_H_

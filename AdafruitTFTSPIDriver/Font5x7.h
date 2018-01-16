@@ -1,10 +1,10 @@
 //*******************************************************************
-//* File Name       :  Font5x7.h
+//* File Name       :   Font5x7.h
 //*
 //* Author          :   Bryant Gonzaga
-//* Created: 12/12/2017 4:54:19 PM
+//* Created         :   12/12/2017 4:54:19 PM
 //* Modified        :   12/20/2017
-//* Target Device   :   ATmega324A
+//* Target Device   :
 //* Description:
 //*     Font structure define by Adafruit. This is the default font
 //* used in the SPI TFT drive class.

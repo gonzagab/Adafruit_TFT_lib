@@ -1,11 +1,15 @@
-//*****************************************************************
-//* Author  :   Bryant Gonzaga
-//* Created :   12/4/2017 5:36:45 PM
-//* Name    :   AdafruitTFTI2CDriver.c
-//* Modified:   12/15/2017
-//* Description:
+//*******************************************************************
+//* File Name       :  AdafruitTFTI2CDriver.c
 //*
-//********************************************************************
+//* Author          :   Bryant Gonzaga
+//* Created         :   12/4/2017 5:36:45 PM
+//* Modified        :   12/15/2017
+//* Target Device   :   ATmega324A
+//* Description:
+//*     Contains functions to interact with Adafruit's capacitive TFT
+//* touchscreen through I2C. Also contains TSVars structure for
+//* variables needed about touch.
+//*******************************************************************
 
 #include "AdafruitTFTI2CDriver.h"
 
@@ -14,12 +18,8 @@ bool initCPTTS(uint8_t threshhold)
     // change threshhold to be higher/lower
     writeRegister8(FT6206_REG_THRESHHOLD, threshhold);
 
-    if ((readRegister8(FT6206_REG_VENDID) != 17) ||
-        (readRegister8(FT6206_REG_CHIPID) != 6)) {
-        return false;
-    }
-
-    return true;
+    return ( (readRegister8(FT6206_REG_VENDID) != 17) || 
+             (readRegister8(FT6206_REG_CHIPID) != 6)  ); 
 }
 
 bool writeRegister8(uint8_t reg, uint8_t val)

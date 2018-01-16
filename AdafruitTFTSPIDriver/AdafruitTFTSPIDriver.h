@@ -28,7 +28,7 @@
 #include <stdbool.h>
 
 #include "AdafruitTFTCommands.h"
-#include "PortRegisterStruct.h"
+#include "AVRPin.h"
 #include "AdafruitTFTColors.h"
 #include "SPIDriver.h"
 #include "GFXFont.h"

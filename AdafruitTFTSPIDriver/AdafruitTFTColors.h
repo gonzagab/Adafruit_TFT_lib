@@ -4,7 +4,7 @@
 //* Author          :   Bryant Gonzaga
 //* Created         :   11/30/2017
 //* Modified        :   12/20/2017
-//* Target Device   :   ATmega324A
+//* Target Device   :   
 //* Description:
 //*     Colors provided by Adafruit for their touch screen
 //*******************************************************************
