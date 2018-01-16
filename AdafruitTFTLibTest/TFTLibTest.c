@@ -87,25 +87,25 @@ int main(void)
 
 void testFillScreen(TFTVars* tftVars)
 {
-    fillScreen(ILI9341_BLACK       , tftVars);
-    fillScreen(ILI9341_NAVY        , tftVars);
-    fillScreen(ILI9341_DARKGREEN   , tftVars);
-    fillScreen(ILI9341_DARKCYAN    , tftVars);
-    fillScreen(ILI9341_MAROON      , tftVars);
-    fillScreen(ILI9341_PURPLE      , tftVars);
-    fillScreen(ILI9341_OLIVE       , tftVars);
-    fillScreen(ILI9341_LIGHTGREY   , tftVars);
-    fillScreen(ILI9341_DARKGREY    , tftVars);
-    fillScreen(ILI9341_BLUE        , tftVars);
-    fillScreen(ILI9341_GREEN       , tftVars);
-    fillScreen(ILI9341_CYAN        , tftVars);
-    fillScreen(ILI9341_RED         , tftVars);
-    fillScreen(ILI9341_MAGENTA     , tftVars);
-    fillScreen(ILI9341_YELLOW      , tftVars);
-    fillScreen(ILI9341_WHITE       , tftVars);
-    fillScreen(ILI9341_ORANGE      , tftVars);
-    fillScreen(ILI9341_GREENYELLOW , tftVars);
-    fillScreen(ILI9341_PINK        , tftVars);
+    fillScreenTFT(ILI9341_BLACK       , tftVars);
+    fillScreenTFT(ILI9341_NAVY        , tftVars);
+    fillScreenTFT(ILI9341_DARKGREEN   , tftVars);
+    fillScreenTFT(ILI9341_DARKCYAN    , tftVars);
+    fillScreenTFT(ILI9341_MAROON      , tftVars);
+    fillScreenTFT(ILI9341_PURPLE      , tftVars);
+    fillScreenTFT(ILI9341_OLIVE       , tftVars);
+    fillScreenTFT(ILI9341_LIGHTGREY   , tftVars);
+    fillScreenTFT(ILI9341_DARKGREY    , tftVars);
+    fillScreenTFT(ILI9341_BLUE        , tftVars);
+    fillScreenTFT(ILI9341_GREEN       , tftVars);
+    fillScreenTFT(ILI9341_CYAN        , tftVars);
+    fillScreenTFT(ILI9341_RED         , tftVars);
+    fillScreenTFT(ILI9341_MAGENTA     , tftVars);
+    fillScreenTFT(ILI9341_YELLOW      , tftVars);
+    fillScreenTFT(ILI9341_WHITE       , tftVars);
+    fillScreenTFT(ILI9341_ORANGE      , tftVars);
+    fillScreenTFT(ILI9341_GREENYELLOW , tftVars);
+    fillScreenTFT(ILI9341_PINK        , tftVars);
 }
 
 void testLines(uint16_t color, TFTVars* tftVars)
@@ -117,7 +117,7 @@ void testLines(uint16_t color, TFTVars* tftVars)
     int w = tftVars->width;
     int h = tftVars->height;
 
-    fillScreen(ILI9341_BLACK, tftVars);
+    fillScreenTFT(ILI9341_BLACK, tftVars);
     x1 = y1 = 0;
     y2 = h - 1;
     for (x2 = 0; x2 < w; x2 += 6) {
@@ -128,7 +128,7 @@ void testLines(uint16_t color, TFTVars* tftVars)
         drawLineTFT(x1, y1, x2, y2, color, tftVars);
     }
 
-    fillScreen(ILI9341_BLACK, tftVars);
+    fillScreenTFT(ILI9341_BLACK, tftVars);
     x1 = w - 1;
     y1 = 0;
     y2 = h - 1;
@@ -140,7 +140,7 @@ void testLines(uint16_t color, TFTVars* tftVars)
         drawLineTFT(x1, y1, x2, y2, color, tftVars);
     }
 
-    fillScreen(ILI9341_BLACK, tftVars);
+    fillScreenTFT(ILI9341_BLACK, tftVars);
     x1    = 0;
     y1    = h - 1;
     y2    = 0;
@@ -152,7 +152,7 @@ void testLines(uint16_t color, TFTVars* tftVars)
         drawLineTFT(x1, y1, x2, y2, color, tftVars);
     }
 
-    fillScreen(ILI9341_BLACK, tftVars);
+    fillScreenTFT(ILI9341_BLACK, tftVars);
     x1    = w - 1;
     y1    = h - 1;
     y2    = 0;
@@ -173,7 +173,7 @@ void testRects(uint16_t color, TFTVars* tftVars)
 	cx = tftVars->width  / 2,
 	cy = tftVars->height / 2;
 
-	fillScreen(ILI9341_BLACK, tftVars);
+	fillScreenTFT(ILI9341_BLACK, tftVars);
 	if (tftVars->width < tftVars->height) {
 		n = tftVars->width;
 	} else {
@@ -190,7 +190,7 @@ void testFastLines(uint16_t color1, uint16_t color2, TFTVars* tftVars)
 {
 	int  x, y, w = tftVars->width, h = tftVars->height;
 
-	fillScreen(ILI9341_BLACK, tftVars);
+	fillScreenTFT(ILI9341_BLACK, tftVars);
 	
 	for(y=0; y<h; y+=5) drawHLineTFT(0, y, w, color1, tftVars);
 	for(x=0; x<w; x+=5) drawVLineTFT(x, 0, h, color2, tftVars);
@@ -203,7 +203,7 @@ void testFilledRects(uint16_t color1, uint16_t color2, TFTVars* tftVars)
 	cx = tftVars->width  / 2 - 1,
 	cy = tftVars->height / 2 - 1;
 
-	fillScreen(ILI9341_BLACK, tftVars);
+	fillScreenTFT(ILI9341_BLACK, tftVars);
 	
 	if (tftVars->width < tftVars->height) {
 		n = tftVars->width;
@@ -225,7 +225,7 @@ void testCircles(uint8_t radius, uint16_t color, TFTVars* tftVars)
 	w = tftVars->width + radius,
 	h = tftVars->height + radius;
 	
-	fillScreen(ILI9341_BLACK, tftVars);
+	fillScreenTFT(ILI9341_BLACK, tftVars);
 
 	for (x = 0; x < w; x += r2) {
 		for(y = 0; y < h; y += r2) {
@@ -238,7 +238,7 @@ void testFilledCircles(uint8_t radius, uint16_t color, TFTVars* tftVars)
 {
 	int x, y, w = tftVars->width, h = tftVars->height, r2 = radius * 2;
 
-	fillScreen(ILI9341_BLACK, tftVars);
+	fillScreenTFT(ILI9341_BLACK, tftVars);
 	
 	for(x=radius; x<w; x+=r2) {
 		for(y=radius; y<h; y+=r2) {
@@ -252,7 +252,7 @@ void testTriangles(TFTVars* tftVars)
 	int n, i, cx = tftVars->width / 2 - 1,
 	cy = tftVars->height / 2 - 1;
 
-	fillScreen(ILI9341_BLACK, tftVars);
+	fillScreenTFT(ILI9341_BLACK, tftVars);
 	
 	if (cx < cy) {
 		n = cx;
@@ -274,7 +274,7 @@ void testFilledTriangles(TFTVars* tftVars)
 	int i, cx = tftVars->width  / 2 - 1,
 	cy = tftVars->height / 2 - 1;
 
-	fillScreen(ILI9341_BLACK, tftVars);
+	fillScreenTFT(ILI9341_BLACK, tftVars);
 	
 	if (cx < cy) {
 		i = cx;
@@ -296,7 +296,7 @@ void testRoundRects(TFTVars* tftVars)
 	cx = tftVars->width  / 2 - 1,
 	cy = tftVars->height / 2 - 1;
 
-	fillScreen(ILI9341_BLACK, tftVars);
+	fillScreenTFT(ILI9341_BLACK, tftVars);
 	
 	if (tftVars->width < tftVars->height) {
 		w = tftVars->width;
@@ -315,7 +315,7 @@ void testFilledRoundRects(TFTVars* tftVars)
 	cx = tftVars->width  / 2 - 1,
 	cy = tftVars->height / 2 - 1;
 
-	fillScreen(ILI9341_BLACK, tftVars);
+	fillScreenTFT(ILI9341_BLACK, tftVars);
 	
 	if (tftVars->width < tftVars->height) {
 		i = tftVars->width;
@@ -330,7 +330,7 @@ void testFilledRoundRects(TFTVars* tftVars)
 
 void testText(TFTVars* tftVars)
 {
-    fillScreen(ILI9341_BLACK, tftVars);
+    fillScreenTFT(ILI9341_BLACK, tftVars);
 
 	tftVars->gfxFont = NULL;
     tftVars->textColor = ILI9341_BLUE;

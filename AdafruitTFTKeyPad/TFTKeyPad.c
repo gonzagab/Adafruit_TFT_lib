@@ -70,7 +70,7 @@ int main(void)
     //INITIALIZE TOUCH SCREEN
     initTFT(&tftVars);
     initCPTTS(FT6206_DEFAULT_THRESSHOLD);
-    fillScreen(ILI9341_BLACK, &tftVars);
+    fillScreenTFT(ILI9341_BLACK, &tftVars);
     
     //BUTTON 'T'
     button.fillColor = ILI9341_WHITE;

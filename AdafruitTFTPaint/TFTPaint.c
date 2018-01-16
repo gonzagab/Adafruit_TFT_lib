@@ -69,7 +69,7 @@ int main(void)
     initTFT(&tftVars);
     initCPTTS(FT6206_DEFAULT_THRESSHOLD);
       
-    fillScreen(ILI9341_BLACK, &tftVars);
+    fillScreenTFT(ILI9341_BLACK, &tftVars);
       
     // make the color selection boxes
     fillRect(0, 0, BOXSIZE, BOXSIZE, ILI9341_RED, &tftVars);

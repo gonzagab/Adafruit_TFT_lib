@@ -26,7 +26,6 @@
 #define _swap_int16_t(a, b) { int16_t t = a; a = b; b = t; }
 #endif
 
-//METHODS TO CONTROL TFT
 void initTFT(TFTVars* var)
 {
     //DATA DIRECTION REGISTERS
@@ -278,20 +277,16 @@ void writeColor(uint16_t color, uint32_t len, TFTVars* var)
     spiEndTransmission(var->cs);
 }
 
-/**
- * Pass 8-bit (each) R,G,B, get back 16-bit packed color
- */
 uint16_t color565(uint8_t r, uint8_t g, uint8_t b)
 {
     return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | ((b & 0xF8) >> 3);
 }
 
-void fillScreen(uint16_t color, TFTVars* var)
+void fillScreenTFT(uint16_t color, TFTVars* var)
 {
     fillRect(0, 0, var->width, var->height, color, var);
 }
 
-//METHODS FOR LINES
 void drawVLineTFT(int16_t x, int16_t y, int16_t h, uint16_t color, TFTVars* var)
 {
     fillRect(x, y, 1, h, color, var);
@@ -355,7 +350,6 @@ void drawLineTFT(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color,
     }
 }
 
-//METHODS FOR RECTANGLES
 void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, TFTVars* var)
 {
     if ((x >= var->width) || (y >= var->height)) {
@@ -400,7 +394,6 @@ void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, TFTVar
     drawVLineTFT((x + w - 1), y, h, color, var);
 }
 
-//METHODS FOR CIRCLES
 void drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, TFTVars* var)
 {
     int16_t f = 1 - r;
@@ -441,9 +434,6 @@ void fillCircle(int16_t x, int16_t y, int16_t r, uint16_t color, TFTVars* var)
     fillCircleHelper(x, y, r, 3, 0, color, var);
 }
 
-
-
-//METHODS FOR ROUND RECTANGLES
 void drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color, TFTVars* var)
 {
     // smarter version
@@ -457,6 +447,7 @@ void drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16
     drawCircleHelper((x + w - r - 1), (y + h - r - 1), r, 4, color, var);
     drawCircleHelper((x + r)        , (y + h - r - 1), r, 8, color, var);
 }
+
 void drawCircleHelper( int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color, TFTVars* var) {
     int16_t f     = 1 - r;
     int16_t ddF_x = 1;
@@ -500,6 +491,7 @@ void fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16
     fillCircleHelper((x + w - r - 1), (y + r), r, 1, (h - (2 * r) - 1), color, var);
     fillCircleHelper((x + r)        , (y + r), r, 2, (h - (2 * r) - 1), color, var);
 }
+
 void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta, uint16_t color, TFTVars* var)
 {
     int16_t f     = 1 - r;
@@ -529,7 +521,6 @@ void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int
     }
 }
 
-//METHODS FOR TRIANGLES
 void drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color, TFTVars* var)
 {
     drawLineTFT(x0, y0, x1, y1, color, var);
@@ -616,49 +607,6 @@ void fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, in
     }
 }
 
-// BITMAP / XBITMAP / GRAYSCALE / RGB BITMAP FUNCTIONS
-// Draw a PROGMEM-resident 1-bit image at the specified (x,y) position,
-// using the specified foreground color (unset bits are transparent).
-void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, TFTVars* var)
-{
-    int16_t byteWidth = (w + 7) / 8; // Bitmap scan line pad = whole byte
-    uint8_t byte = 0;
-
-    for (int16_t j=0; j<h; j++, y++) {
-        for (int16_t i=0; i<w; i++) {
-            if (i & 7) {
-                byte <<= 1;
-            } else {
-                byte = pgm_read_byte(&bitmap[((j * byteWidth) + i) / 8]);
-            }
-            if (byte & 0x80) {
-                drawPixel(x+i, y, color, var);
-            }
-        }
-    }
-}
-
-// Draw a PROGMEM-resident 1-bit image at the specified (x,y) position,
-// using the specified foreground (for set bits) and background (unset
-// bits) colors.
-void drawBitmap1(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, uint16_t bg, TFTVars* var)
-{
-    int16_t byteWidth = (w + 7) / 8; // Bitmap scan line pad = whole byte
-    uint8_t byte = 0;
-
-    for (int16_t j=0; j<h; j++, y++) {
-        for (int16_t i=0; i<w; i++ ) {
-            if (i & 7) {
-                byte <<= 1;
-            } else {
-                byte = pgm_read_byte(&bitmap[((j * byteWidth) + i) / 8]);
-            }
-            drawPixel((x + i), y, (byte & 0x80) ? color : bg, var);
-        }
-    }
-}
-
-//METHODS FOR TEXT
 void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size, TFTVars* var)
 {
     if (!(var->gfxFont)) { // 'Classic' built-in font
@@ -764,7 +712,7 @@ void write(uint8_t c, TFTVars* var)
         if (c == '\n') {                       // Newline?
             var->cursor_x  = 0;                     // Reset x to zero,
             var->cursor_y += var->textSize * 8;          // advance y one line
-            } else if (c != '\r') {                // Ignore carriage returns
+        } else if (c != '\r') {                // Ignore carriage returns
             if (var->wrap && ((var->cursor_x + var->textSize * 6) > var->width)) { // Off right?
                 var->cursor_x  = 0;                 // Reset x to zero,
                 var->cursor_y += var->textSize * 8;      // advance y one line
@@ -772,9 +720,7 @@ void write(uint8_t c, TFTVars* var)
             drawChar(var->cursor_x, var->cursor_y, c, var->textColor, var->textBGColor, var->textSize, var);
             var->cursor_x += var->textSize * 6;          // Advance x one char
         }
-
-        } else { // Custom font
-
+    } else { // Custom font
         if (c == '\n') {
             var->cursor_x  = 0;
             var->cursor_y += (int16_t)var->textSize *
@@ -803,8 +749,6 @@ void write(uint8_t c, TFTVars* var)
 
 }
 
-// Broke this out as it's used by both the PROGMEM- and RAM-resident
-// getTextBounds() functions.
 void charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy, TFTVars* var)
 {
 
@@ -862,9 +806,6 @@ void charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, in
     }
 }
 
-/** 
- *  Pass string and a cursor position, returns UL corner and W,H.
- */
 void getTextBounds(char *str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h, TFTVars* var)
 {
     uint8_t c; // Current character
@@ -903,4 +844,40 @@ void setFont(const GFXfont* f, TFTVars* var)
         var->cursor_y -= 6;
     }
     var->gfxFont = (GFXfont*) f;
+}
+
+void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, TFTVars* var)
+{
+    int16_t byteWidth = (w + 7) / 8; // Bitmap scan line pad = whole byte
+    uint8_t byte = 0;
+
+    for (int16_t j=0; j<h; j++, y++) {
+        for (int16_t i=0; i<w; i++) {
+            if (i & 7) {
+                byte <<= 1;
+                } else {
+                byte = pgm_read_byte(&bitmap[((j * byteWidth) + i) / 8]);
+            }
+            if (byte & 0x80) {
+                drawPixel(x+i, y, color, var);
+            }
+        }
+    }
+}
+
+void drawBitmap1(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, uint16_t bg, TFTVars* var)
+{
+    int16_t byteWidth = (w + 7) / 8; // Bitmap scan line pad = whole byte
+    uint8_t byte = 0;
+
+    for (int16_t j=0; j<h; j++, y++) {
+        for (int16_t i=0; i<w; i++ ) {
+            if (i & 7) {
+                byte <<= 1;
+                } else {
+                byte = pgm_read_byte(&bitmap[((j * byteWidth) + i) / 8]);
+            }
+            drawPixel((x + i), y, (byte & 0x80) ? color : bg, var);
+        }
+    }
 }

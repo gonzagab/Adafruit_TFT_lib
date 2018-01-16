@@ -42,30 +42,36 @@
  */
 typedef struct TFTVars
 {
-    uint16_t width; /**<  >*/
-    uint16_t height;
-    uint16_t cursor_x; /**<  >*/
-    uint16_t cursor_y; /**<  >*/
-    uint8_t rotation; /**<  >*/
-    uint8_t textSize; /**<  >*/
-    uint16_t textColor;
+    uint16_t width;     /**< Screen width according to rotation. >*/
+    uint16_t height;    /**< Screen height according to rotation. >*/
+    uint16_t cursor_x;  /**< Cursor x-position used in some methods
+                             to specify where to display. >*/
+    uint16_t cursor_y;  /**< Cursor y-position used in some methods
+                             to specify where to display. >*/
+    uint8_t rotation;   /**< Current orientation of the screen >*/
+    uint8_t textSize;   /**< Multiplier for the font >*/
+    uint16_t textColor; /**< Color of text >*/
     uint16_t textBGColor;
-    bool wrap;      /**<  >*/// If set, 'wrap' text at right edge of display
-    bool cp437;    /**<  >*/// If set, use correct CP437 char set (default is off)
-    GFXfont *gfxFont; /**<  >*/
-    
-    AVRPin* cs; /**<  >*/
-    AVRPin* dc;/**<  >*/
-    AVRPin* rst;/**<  >*/
-    AVRPin* mosi;/**<  >*/
-    AVRPin* miso;/**<  >*/
-    AVRPin* sclk;/**<  >*/
+    bool wrap;          /**< If set, 'wrap' text at right edge of
+                             display >*/
+    bool cp437;         /**< If set, use correct CP437 char set
+                             (default is off) >*/
+    GFXfont *gfxFont;   /**< Pointer to a GFXfont structure for
+                             custom fonts. >*/  
+    AVRPin* cs;         /**< Chip Select. >*/
+    AVRPin* dc;         /**< Data or Command. Low indicates command
+                             and high indicates data. >*/
+    AVRPin* rst;        /**< Reset. TFT has a active low reset. >*/
+    AVRPin* mosi;       /**< Master Out Slave In SPI Pin. >*/
+    AVRPin* miso;       /**< Master In Slave Out SPI Pin. >*/
+    AVRPin* sclk;       /**< Slave Clock SPI Pin. >*/
 } TFTVars;
 
-//METHODS TO CONTROL TFT
 /**
  * Initializes the SPI hardware with SUCH PARAMETERS. As well as
  * initiating the touchscreen.
+ * @param var   Pointer to TFTVars structure that contains the
+ *              current variables used for the touchscreen.
  */
 void initTFT(TFTVars* var);
 
@@ -109,6 +115,14 @@ void drawPixel(int16_t x, int16_t y, uint16_t color, TFTVars* var);
 void setAddrWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h, TFTVars* var);
 void writePixels(uint16_t * colors, uint32_t len, TFTVars* var);
 void writeColor(uint16_t color, uint32_t len, TFTVars* var);
+
+/**
+ * Pass 8-bit (each) r, g, and b and get back 16-bit packed color.
+ * @param r 8-bit r.
+ * @param g 8-bit g.
+ * @param b 8-bit b.
+ * @return 16-bit packed color
+ */
 uint16_t color565(uint8_t r, uint8_t g, uint8_t b);
 
 /**
@@ -116,9 +130,8 @@ uint16_t color565(uint8_t r, uint8_t g, uint8_t b);
  * @param color Color the screen is to be filled with.
  * @param var   Pointer to TFTVars structure.
  */
-void fillScreen(uint16_t color, TFTVars* var);
+void fillScreenTFT(uint16_t color, TFTVars* var);
 
-//METHODS FOR LINES
 /**
  * Draws a vertical line on the screen of length <code> h </code>
  * starting form ( <code> x </code>, <code> y </code>).
@@ -152,7 +165,6 @@ void drawHLineTFT(int16_t x, int16_t y, int16_t w, uint16_t color, TFTVars* var)
  */
 void drawLineTFT(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, TFTVars* var);
 
-//METHODS FOR RECTANGLES
 /**
  * Draws a filled rectangle with dimensions <code> w </code> and
  * <code> h </code>.
@@ -177,7 +189,6 @@ void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, TFTVar
  */
 void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, TFTVars* var);
 
-//METHODS FOR CIRCLES
 /**
  * Draws a hollow circle with radius <code> r </code>.
  * @param x0    x center position.
@@ -198,7 +209,6 @@ void drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, TFTVars* var)
  */
 void fillCircle(int16_t x, int16_t y, int16_t r, uint16_t color, TFTVars* var);
 
-//METHODS FOR ROUND RECTANGLES
 /**
  * Draws a hollow rectangle with dimensions <code> w </code> and
  * <code> h </code> and rounded corners.
@@ -211,6 +221,11 @@ void fillCircle(int16_t x, int16_t y, int16_t r, uint16_t color, TFTVars* var);
  * @param var       Pointer to TFTVars structure
  */
 void drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t radius, uint16_t color, TFTVars* var);
+
+/**
+ * Helper method to help with drawing circles. Used for round
+ * rectangles.
+ */
 void drawCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color, TFTVars* var);
 
 /**
@@ -225,9 +240,13 @@ void drawCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uin
  * @param var       Pointer to TFTVars structure
  */
 void fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t radius, uint16_t color, TFTVars* var);
+
+/**
+ * Helper method to help with drawing circles. Used for round
+ * rectangles.
+ */
 void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta, uint16_t color, TFTVars* var);
 
-//METHODS FOR TRIANGLES
 /**
  * Draws a hollow triangle with the three specified corners.
  * @param x0    x-position of corner 0.
@@ -253,17 +272,59 @@ void drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, in
  * @param var   Pointer to TFTVars structure.
  */
 void fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color, TFTVars* var);
-//BITMAP / XBITMAP / GRAYSCALE / RGB BITMAP FUNCTIONS
-void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, TFTVars* var);
-void drawBitmap1(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, uint16_t bg, TFTVars* var);
-//METHODS FOR TEXT
+
 /**
- *
+ * Draws the specified character onto the screen
+ * @param x     x coordinate for where to place character.
+ * @param y     y coordinate for where to place character.
+ * @param c     Character to be place. ASCII char.
+ * @param color Color of character.
+ * @param bg    Background color for character.
+ * @param size  Size of character to be displayed on screen.
+ * @param var   Pointer to TFTVars data structure.
  */
 void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size, TFTVars* var);
+
+/**
+ * Draws the specified character onto the screen. This method uses
+ * the values stored in the TFTVars structure to format the character
+ * accordingly. Users should pass a pointer that points to a
+ * structure with already set values for <code> cursor_x </code>,
+ * <code> cursor_y </code>, <code> textSize </code>, <code> textColor
+ * </code>, and <code> textBGColor </code>.
+ * @param c     Character to be place. ASCII char.
+ * @param var   Pointer to TFTVars data structure.
+ */
 void write(uint8_t c, TFTVars* var);
+
+/**
+ * Used by both the PROGMEM- and RAM-resident
+ * getTextBounds() functions.
+ */
 void charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy, TFTVars* var);
+
+/** 
+ * Pass string and a cursor position, returns UL corner and W, H.
+ */
 void getTextBounds(char *string, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h, TFTVars* var);
+
+/**
+ * 
+ */
 void setFont(const GFXfont* f, TFTVars* var);
+
+/**
+ * Draw a PROGMEM-resident 1-bit image at the specified (x,y)
+ * position, using the specified foreground color (unset bits are
+ * transparent).
+ */
+void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, TFTVars* var);
+
+/**
+ * Draw a PROGMEM-resident 1-bit image at the specified (x,y)
+ * position, using the specified foreground (for set bits) and
+ * background (unset bits) colors.
+ */
+void drawBitmap1(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, uint16_t bg, TFTVars* var);
 
 #endif /* ADAFRUITTFTSPIDRIVER_H_ */
