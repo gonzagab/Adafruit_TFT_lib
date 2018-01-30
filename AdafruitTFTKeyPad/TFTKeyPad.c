@@ -21,11 +21,15 @@
 TFTVars tftVars;
 TSVars tsVars;
 
+
+TSButtonVars buttons[16];
+/*
 TSButtonVars buttonA;
 TSButtonVars buttonB;
 TSButtonVars buttonC;
 TSButtonVars buttonD;
 TSButtonVars buttonE;
+*/
 
 int main(void)
 {
@@ -87,6 +91,28 @@ int main(void)
     tftVars.cursor_x = 0;
     tftVars.cursor_y = 0;
 
+	setRotationTFT(1, &tftVars);
+
+    for (uint8_t i = 0; i < 16; i++) {
+        buttons[i].fillColor = ILI9341_WHITE;
+        buttons[i].outlineColor = ILI9341_GREEN;
+        buttons[i].textColor = ILI9341_BLACK;
+        if (i > 9) {
+            buttons[i].label = i + 55;
+        } else {
+            buttons[i].label = i + 48;
+        }
+        if (i > 7) {
+            buttons[i].y = 196;
+        } else {
+            buttons[i].y = 150;
+        }
+        buttons[i].x = (i % 8) * 40;
+        buttons[i].size = 4;
+        drawButtonTFT(&buttons[i], &tftVars);
+    }
+
+/*    
     //BUTTON 'A'
     buttonA.fillColor = ILI9341_WHITE;
     buttonA.outlineColor = ILI9341_GREEN;
@@ -132,13 +158,12 @@ int main(void)
     buttonE.y = 196;
     buttonE.size = 4;
 
-	setRotationTFT(1, &tftVars);
     drawButtonTFT(&buttonA, &tftVars);
     drawButtonTFT(&buttonB, &tftVars);
     drawButtonTFT(&buttonC, &tftVars);
     drawButtonTFT(&buttonD, &tftVars);
     drawButtonTFT(&buttonE, &tftVars);
-
+*/
     //SET UP INTERRUPT
     DDRD &= 0xFB;
     EICRA |= 0x02;
@@ -157,7 +182,16 @@ ISR(INT0_vect)
     //flip to match rotation
 	uint16_t x = 320 - p.y;
 	p.y = p.x;
-    if (buttonContainsPointTFT(x, p.y, &buttonA)) {
+    
+    for (uint8_t i = 0; i < 16; i++) {
+        if (buttonContainsPointTFT(x, p.y, &buttons[i])) {
+            write(buttons[i].label, &tftVars);
+            break;
+        }
+    }
+    
+/*
+    if (buttonContainsPointTFT(x, p.y, &buttons[0])) {
         write('A', &tftVars);
     } else if (buttonContainsPointTFT(x, p.y, &buttonB)) {
         write('B', &tftVars);
@@ -170,6 +204,6 @@ ISR(INT0_vect)
     } else {
         //do nothing
     }
-    
+*/
     _delay_ms(500);
 }
