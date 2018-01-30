@@ -291,7 +291,8 @@ void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg
  * accordingly. Users should pass a pointer that points to a
  * structure with already set values for <code> cursor_x </code>,
  * <code> cursor_y </code>, <code> textSize </code>, <code> textColor
- * </code>, and <code> textBGColor </code>.
+ * </code>, and <code> textBGColor </code>. Furthermore, this
+ * function advances the cursor one character after its been written.
  * @param c     Character to be place. ASCII char.
  * @param var   Pointer to TFTVars data structure.
  */

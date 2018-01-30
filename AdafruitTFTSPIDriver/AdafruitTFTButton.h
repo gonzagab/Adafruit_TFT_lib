@@ -26,6 +26,7 @@ typedef struct TSButtonVars
      int16_t    y;              /**< y-coordinate of button >*/
      uint16_t   w;              /**< Button width. >*/
      uint16_t   h;              /**< Button height >*/
+     uint8_t    size;           /** Size of button */
      uint16_t   outlineColor;   /**< Outline of button >*/
      uint16_t   fillColor;      /**< Button color >*/
      uint16_t   textColor;      /**< Color of the button label >*/

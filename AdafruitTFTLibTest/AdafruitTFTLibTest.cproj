@@ -20,10 +20,10 @@
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
-    <RamSnippetAddress />
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue />
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
     <eraseonlaunchrule>0</eraseonlaunchrule>
     <AsfFrameworkConfig>
@@ -38,6 +38,22 @@
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
+    <avrtool>com.atmel.avrdbg.tool.jtagice3plus</avrtool>
+    <avrtoolserialnumber>J30200031446</avrtoolserialnumber>
+    <avrdeviceexpectedsignature>0x1E9515</avrdeviceexpectedsignature>
+    <com_atmel_avrdbg_tool_jtagice3plus>
+      <ToolOptions>
+        <InterfaceProperties>
+          <JtagDbgClock>200000</JtagDbgClock>
+        </InterfaceProperties>
+        <InterfaceName>JTAG</InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.jtagice3plus</ToolType>
+      <ToolNumber>J30200031446</ToolNumber>
+      <ToolName>JTAGICE3</ToolName>
+    </com_atmel_avrdbg_tool_jtagice3plus>
+    <avrtoolinterface>JTAG</avrtoolinterface>
+    <avrtoolinterfaceclock>200000</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -118,6 +134,39 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AdafruitTFTSPIDriver\AdafruitTFTButton.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\AdafruitTFTButton.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\AdafruitTFTColors.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\AdafruitTFTCommands.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\AdafruitTFTSPIDriver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\AdafruitTFTSPIDriver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\AVRPin.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\Font5x7.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\GFXFont.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\SPIDriver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="AdafruitTFTSPIDriver\SPIDriver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="TFTLibTest.c">
       <SubType>compile</SubType>
     </Compile>

@@ -14,18 +14,16 @@
 
 void drawButtonTFT(TSButtonVars* button, TFTVars* tftVars)
 {
-    if (button->w < 7 || button->h < 7) {
+    if (button->size < 1) {
         return;
     }
-    uint8_t r;
-    uint8_t textSize;
-    if (button->w < button->h) {
-        r = button->w / 4;
-        textSize = button->w / 7;
-    } else {
-        r = button->h / 4;
-        textSize = button->h/7;
-    }
+    
+    uint8_t textSize = button->size;
+    button->w = (button->size * 5) + (button->size * 4);
+    button->h = (button->size * 7) + (button->size * 4);
+    uint8_t r = button->w / 4;
+    
+    
     //DRAW OUTLINE
     drawRoundRect(button->x, button->y, button->w, button->h, r, button->outlineColor, tftVars);
     //FILL ROUND RECTANGLE
