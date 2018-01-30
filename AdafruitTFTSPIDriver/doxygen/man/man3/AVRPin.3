@@ -1,0 +1,38 @@
+.TH "AVRPin" 3 "Mon Jan 15 2018" "AdafruitTFTSPIDriver" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+AVRPin
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "uint8_t * \fBDDRx\fP"
+.br
+.ti -1c
+.RI "uint8_t * \fBPORTx\fP"
+.br
+.ti -1c
+.RI "uint8_t * \fBPINx\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBmask\fP"
+.br
+.in -1c
+.SH "Field Documentation"
+.PP 
+.SS "uint8_t* AVRPin::DDRx"
+Pointer to Data Direction Register > 
+.SS "uint8_t AVRPin::mask"
+8-bit mask\&. 1 in position of desired pin > 
+.SS "uint8_t* AVRPin::PINx"
+Pointer to PIN Register > 
+.SS "uint8_t* AVRPin::PORTx"
+Pointer to PORT Register > 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for AdafruitTFTSPIDriver from the source code\&.

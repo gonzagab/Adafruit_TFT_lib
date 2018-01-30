@@ -1,0 +1,137 @@
+\hypertarget{_s_p_i_driver_8c}{}\section{S\+P\+I\+Driver.\+c File Reference}
+\label{_s_p_i_driver_8c}\index{S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}}
+{\ttfamily \#include \char`\"{}S\+P\+I\+Driver.\+h\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_s_p_i_driver_8c_a26c7f5d0d803c8b1813d1b456cd3ec61}{spi\+Master\+Init}} (\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$ss, \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$sclk, \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$mosi, \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$miso)
+\item 
+void \mbox{\hyperlink{_s_p_i_driver_8c_a97d520d263a78688a1afb04c0497fcca}{spi\+Slave\+Init}} (\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$ss, \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$sclk, \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$mosi, \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$miso)
+\item 
+void \mbox{\hyperlink{_s_p_i_driver_8c_a56eee71659deecbaa9e074cdd9ce1de1}{spi\+Set\+Clk\+Prescalar}} (uint8\+\_\+t prescalar)
+\item 
+void \mbox{\hyperlink{_s_p_i_driver_8c_a795d367cb0eae4433bd980de8cd321e5}{spi\+Start\+Transmission}} (\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$ss)
+\item 
+void \mbox{\hyperlink{_s_p_i_driver_8c_ab09c90bc61e29d54fb7b21498d48b7fa}{spi\+Master\+Transmit}} (uint8\+\_\+t data)
+\item 
+void \mbox{\hyperlink{_s_p_i_driver_8c_a760ebaf79ead3a8c26692fd652000141}{spi\+Master\+Transmit16}} (uint16\+\_\+t data)
+\item 
+void \mbox{\hyperlink{_s_p_i_driver_8c_ac7324022008fc172cff8242bd716261d}{spi\+Master\+Transmit32}} (uint32\+\_\+t data)
+\item 
+void \mbox{\hyperlink{_s_p_i_driver_8c_acfabeb3b8150ba9fd2ba3eeee7a5106b}{spi\+End\+Transmission}} (\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$ss)
+\item 
+uint8\+\_\+t \mbox{\hyperlink{_s_p_i_driver_8c_a2570570f20fa22abf1def26f486df364}{spi\+Slave\+Receive}} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{_s_p_i_driver_8c_acfabeb3b8150ba9fd2ba3eeee7a5106b}\label{_s_p_i_driver_8c_acfabeb3b8150ba9fd2ba3eeee7a5106b}} 
+\index{S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}!spi\+End\+Transmission@{spi\+End\+Transmission}}
+\index{spi\+End\+Transmission@{spi\+End\+Transmission}!S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}}
+\subsubsection{\texorpdfstring{spi\+End\+Transmission()}{spiEndTransmission()}}
+{\footnotesize\ttfamily void spi\+End\+Transmission (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$}]{ss }\end{DoxyParamCaption})}
+
+Ends the S\+PI transaction by driving the slave select pin high. 
+\begin{DoxyParams}{Parameters}
+{\em ss} & \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} structure for the slave select pin. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_s_p_i_driver_8c_a26c7f5d0d803c8b1813d1b456cd3ec61}\label{_s_p_i_driver_8c_a26c7f5d0d803c8b1813d1b456cd3ec61}} 
+\index{S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}!spi\+Master\+Init@{spi\+Master\+Init}}
+\index{spi\+Master\+Init@{spi\+Master\+Init}!S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}}
+\subsubsection{\texorpdfstring{spi\+Master\+Init()}{spiMasterInit()}}
+{\footnotesize\ttfamily void spi\+Master\+Init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$}]{ss,  }\item[{\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$}]{sclk,  }\item[{\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$}]{mosi,  }\item[{\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$}]{miso }\end{DoxyParamCaption})}
+
+Initializes the S\+PI hardware to operate in the Master mode, to send the most significant bit first, and to have slave clock frequency of S\+O\+ME Hz. Initializes the ss, sclk, and mosi pins as outputs and the miso pin as input. It also drives the mosi and sclk pins low and the ss pin high. 
+\begin{DoxyParams}{Parameters}
+{\em ss} & Slave Select. Pointer to \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} struct \\
+\hline
+{\em sclk} & Slave Clock. Pointer to \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} struct \\
+\hline
+{\em mosi} & Master Out Slave In. Pointer to \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} struct \\
+\hline
+{\em miso} & Master In Slave Out. Pointer to \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} struct \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{_s_p_i_driver_8c_ab09c90bc61e29d54fb7b21498d48b7fa}\label{_s_p_i_driver_8c_ab09c90bc61e29d54fb7b21498d48b7fa}} 
+\index{S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}!spi\+Master\+Transmit@{spi\+Master\+Transmit}}
+\index{spi\+Master\+Transmit@{spi\+Master\+Transmit}!S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}}
+\subsubsection{\texorpdfstring{spi\+Master\+Transmit()}{spiMasterTransmit()}}
+{\footnotesize\ttfamily void spi\+Master\+Transmit (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{data }\end{DoxyParamCaption})}
+
+Transmits a single byte of data through hardware S\+PI. Will return once data has been transmitted 
+\begin{DoxyParams}{Parameters}
+{\em data} & byte of data to be transmitted. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_s_p_i_driver_8c_a760ebaf79ead3a8c26692fd652000141}\label{_s_p_i_driver_8c_a760ebaf79ead3a8c26692fd652000141}} 
+\index{S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}!spi\+Master\+Transmit16@{spi\+Master\+Transmit16}}
+\index{spi\+Master\+Transmit16@{spi\+Master\+Transmit16}!S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}}
+\subsubsection{\texorpdfstring{spi\+Master\+Transmit16()}{spiMasterTransmit16()}}
+{\footnotesize\ttfamily void spi\+Master\+Transmit16 (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{data }\end{DoxyParamCaption})}
+
+Transmits a two bytes of data through hardware S\+PI. Will return once data has been transmitted 
+\begin{DoxyParams}{Parameters}
+{\em data} & 16-\/bit data to be transmitted. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_s_p_i_driver_8c_ac7324022008fc172cff8242bd716261d}\label{_s_p_i_driver_8c_ac7324022008fc172cff8242bd716261d}} 
+\index{S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}!spi\+Master\+Transmit32@{spi\+Master\+Transmit32}}
+\index{spi\+Master\+Transmit32@{spi\+Master\+Transmit32}!S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}}
+\subsubsection{\texorpdfstring{spi\+Master\+Transmit32()}{spiMasterTransmit32()}}
+{\footnotesize\ttfamily void spi\+Master\+Transmit32 (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{data }\end{DoxyParamCaption})}
+
+Transmits a four bytes of data through hardware S\+PI. Will return once data has been transmitted 
+\begin{DoxyParams}{Parameters}
+{\em data} & 32-\/bit data to be transmitted. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_s_p_i_driver_8c_a56eee71659deecbaa9e074cdd9ce1de1}\label{_s_p_i_driver_8c_a56eee71659deecbaa9e074cdd9ce1de1}} 
+\index{S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}!spi\+Set\+Clk\+Prescalar@{spi\+Set\+Clk\+Prescalar}}
+\index{spi\+Set\+Clk\+Prescalar@{spi\+Set\+Clk\+Prescalar}!S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}}
+\subsubsection{\texorpdfstring{spi\+Set\+Clk\+Prescalar()}{spiSetClkPrescalar()}}
+{\footnotesize\ttfamily void spi\+Set\+Clk\+Prescalar (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{prescalar }\end{DoxyParamCaption})}
+
+Empty for now. \mbox{\Hypertarget{_s_p_i_driver_8c_a97d520d263a78688a1afb04c0497fcca}\label{_s_p_i_driver_8c_a97d520d263a78688a1afb04c0497fcca}} 
+\index{S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}!spi\+Slave\+Init@{spi\+Slave\+Init}}
+\index{spi\+Slave\+Init@{spi\+Slave\+Init}!S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}}
+\subsubsection{\texorpdfstring{spi\+Slave\+Init()}{spiSlaveInit()}}
+{\footnotesize\ttfamily void spi\+Slave\+Init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$}]{ss,  }\item[{\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$}]{sclk,  }\item[{\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$}]{mosi,  }\item[{\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$}]{miso }\end{DoxyParamCaption})}
+
+Initializes the S\+PI hardware to operate in the Slave mode. Firstly, it initializes the ss, sclk, and mosi pins as inputs and the miso pin as output. 
+\begin{DoxyParams}{Parameters}
+{\em ss} & Slave Select. Pointer to \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} struct \\
+\hline
+{\em sclk} & Slave Clock. Pointer to \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} struct \\
+\hline
+{\em mosi} & Master Out Slave In. Pointer to \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} struct \\
+\hline
+{\em miso} & Master In Slave Out. Pointer to \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} struct \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{_s_p_i_driver_8c_a2570570f20fa22abf1def26f486df364}\label{_s_p_i_driver_8c_a2570570f20fa22abf1def26f486df364}} 
+\index{S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}!spi\+Slave\+Receive@{spi\+Slave\+Receive}}
+\index{spi\+Slave\+Receive@{spi\+Slave\+Receive}!S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}}
+\subsubsection{\texorpdfstring{spi\+Slave\+Receive()}{spiSlaveReceive()}}
+{\footnotesize\ttfamily uint8\+\_\+t spi\+Slave\+Receive (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Used to read data from a master through S\+PI. \begin{DoxyReturn}{Returns}
+a byte of data received from master. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_s_p_i_driver_8c_a795d367cb0eae4433bd980de8cd321e5}\label{_s_p_i_driver_8c_a795d367cb0eae4433bd980de8cd321e5}} 
+\index{S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}!spi\+Start\+Transmission@{spi\+Start\+Transmission}}
+\index{spi\+Start\+Transmission@{spi\+Start\+Transmission}!S\+P\+I\+Driver.\+c@{S\+P\+I\+Driver.\+c}}
+\subsubsection{\texorpdfstring{spi\+Start\+Transmission()}{spiStartTransmission()}}
+{\footnotesize\ttfamily void spi\+Start\+Transmission (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} $\ast$}]{ss }\end{DoxyParamCaption})}
+
+Initializes the S\+PI transaction by driving the slave select pin low. 
+\begin{DoxyParams}{Parameters}
+{\em ss} & \mbox{\hyperlink{struct_a_v_r_pin}{A\+V\+R\+Pin}} structure for the slave select pin. \\
+\hline
+\end{DoxyParams}

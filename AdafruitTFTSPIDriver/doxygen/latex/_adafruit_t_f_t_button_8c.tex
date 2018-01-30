@@ -1,0 +1,44 @@
+\hypertarget{_adafruit_t_f_t_button_8c}{}\section{Adafruit\+T\+F\+T\+Button.\+c File Reference}
+\label{_adafruit_t_f_t_button_8c}\index{Adafruit\+T\+F\+T\+Button.\+c@{Adafruit\+T\+F\+T\+Button.\+c}}
+{\ttfamily \#include \char`\"{}Adafruit\+T\+F\+T\+Button.\+h\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_adafruit_t_f_t_button_8c_a75e02faa4493c05d391f9da81e6ba992}{draw\+Button\+T\+FT}} (\mbox{\hyperlink{struct_t_s_button_vars}{T\+S\+Button\+Vars}} $\ast$button, \mbox{\hyperlink{struct_t_f_t_vars}{T\+F\+T\+Vars}} $\ast$tft\+Vars)
+\item 
+bool \mbox{\hyperlink{_adafruit_t_f_t_button_8c_ae257208e45427c9a5c1f143fd4235720}{button\+Contains\+Point\+T\+FT}} (int16\+\_\+t x, int16\+\_\+t y, \mbox{\hyperlink{struct_t_s_button_vars}{T\+S\+Button\+Vars}} $\ast$button)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{_adafruit_t_f_t_button_8c_ae257208e45427c9a5c1f143fd4235720}\label{_adafruit_t_f_t_button_8c_ae257208e45427c9a5c1f143fd4235720}} 
+\index{Adafruit\+T\+F\+T\+Button.\+c@{Adafruit\+T\+F\+T\+Button.\+c}!button\+Contains\+Point\+T\+FT@{button\+Contains\+Point\+T\+FT}}
+\index{button\+Contains\+Point\+T\+FT@{button\+Contains\+Point\+T\+FT}!Adafruit\+T\+F\+T\+Button.\+c@{Adafruit\+T\+F\+T\+Button.\+c}}
+\subsubsection{\texorpdfstring{button\+Contains\+Point\+T\+F\+T()}{buttonContainsPointTFT()}}
+{\footnotesize\ttfamily bool button\+Contains\+Point\+T\+FT (\begin{DoxyParamCaption}\item[{int16\+\_\+t}]{x,  }\item[{int16\+\_\+t}]{y,  }\item[{\mbox{\hyperlink{struct_t_s_button_vars}{T\+S\+Button\+Vars}} $\ast$}]{button }\end{DoxyParamCaption})}
+
+Is used to check if a point is within a given button 
+\begin{DoxyParams}{Parameters}
+{\em x} & x-\/position. \\
+\hline
+{\em y} & y-\/position. \\
+\hline
+{\em button} & Pointer to button in question. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if (x, y) are within the button\textquotesingle{}s bounds. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_adafruit_t_f_t_button_8c_a75e02faa4493c05d391f9da81e6ba992}\label{_adafruit_t_f_t_button_8c_a75e02faa4493c05d391f9da81e6ba992}} 
+\index{Adafruit\+T\+F\+T\+Button.\+c@{Adafruit\+T\+F\+T\+Button.\+c}!draw\+Button\+T\+FT@{draw\+Button\+T\+FT}}
+\index{draw\+Button\+T\+FT@{draw\+Button\+T\+FT}!Adafruit\+T\+F\+T\+Button.\+c@{Adafruit\+T\+F\+T\+Button.\+c}}
+\subsubsection{\texorpdfstring{draw\+Button\+T\+F\+T()}{drawButtonTFT()}}
+{\footnotesize\ttfamily void draw\+Button\+T\+FT (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_t_s_button_vars}{T\+S\+Button\+Vars}} $\ast$}]{button,  }\item[{\mbox{\hyperlink{struct_t_f_t_vars}{T\+F\+T\+Vars}} $\ast$}]{tft\+Vars }\end{DoxyParamCaption})}
+
+Draws the button specified by the \mbox{\hyperlink{struct_t_s_button_vars}{T\+S\+Button\+Vars}} structure. 
+\begin{DoxyParams}{Parameters}
+{\em button} & Pointer to button variable used to draw button. \\
+\hline
+{\em tft\+Vars} & Pointer to T\+FT variables structure. \\
+\hline
+\end{DoxyParams}

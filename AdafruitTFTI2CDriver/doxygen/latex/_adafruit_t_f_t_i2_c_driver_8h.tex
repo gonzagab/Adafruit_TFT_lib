@@ -1,0 +1,111 @@
+\hypertarget{_adafruit_t_f_t_i2_c_driver_8h}{}\section{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h File Reference}
+\label{_adafruit_t_f_t_i2_c_driver_8h}\index{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}Adafruit\+T\+F\+T\+Reg\+Addrs.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Adafruit\+T\+S\+Point.\+h\char`\"{}}\newline
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_t_s_vars}{T\+S\+Vars}}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{struct_t_s_vars}{T\+S\+Vars}} \mbox{\hyperlink{_adafruit_t_f_t_i2_c_driver_8h_ae72aeeeed77f062bbdff4fc5495ecaa7}{T\+S\+Vars}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{_adafruit_t_f_t_i2_c_driver_8h_a9a476c58c693d99338472b043a0d69c0}{init\+C\+P\+T\+TS}} (uint8\+\_\+t thresh)
+\item 
+bool \mbox{\hyperlink{_adafruit_t_f_t_i2_c_driver_8h_a6c5e0ff4618d3855d53e446dd5b90618}{write\+Register8}} (uint8\+\_\+t reg, uint8\+\_\+t val)
+\item 
+uint8\+\_\+t \mbox{\hyperlink{_adafruit_t_f_t_i2_c_driver_8h_a8061018a8acd7cce9315a71dbec8eaac}{read\+Register8}} (uint8\+\_\+t reg)
+\item 
+void \mbox{\hyperlink{_adafruit_t_f_t_i2_c_driver_8h_a7a56ca5f679fb95b7bc3e0b42a565b78}{read\+Data}} (uint16\+\_\+t $\ast$x, uint16\+\_\+t $\ast$y, \mbox{\hyperlink{struct_t_s_vars}{T\+S\+Vars}} $\ast$var)
+\item 
+bool \mbox{\hyperlink{_adafruit_t_f_t_i2_c_driver_8h_a7218d80782d9f42cdd4afb1adb505a05}{touched}} ()
+\item 
+\mbox{\hyperlink{struct_t_s___point}{T\+S\+\_\+\+Point}} \mbox{\hyperlink{_adafruit_t_f_t_i2_c_driver_8h_aef07d60f80889c1c77f51ade2ccf9d75}{get\+Point}} (\mbox{\hyperlink{struct_t_s_vars}{T\+S\+Vars}} $\ast$var)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\mbox{\Hypertarget{_adafruit_t_f_t_i2_c_driver_8h_ae72aeeeed77f062bbdff4fc5495ecaa7}\label{_adafruit_t_f_t_i2_c_driver_8h_ae72aeeeed77f062bbdff4fc5495ecaa7}} 
+\index{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}!T\+S\+Vars@{T\+S\+Vars}}
+\index{T\+S\+Vars@{T\+S\+Vars}!Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}}
+\subsubsection{\texorpdfstring{T\+S\+Vars}{TSVars}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct_t_s_vars}{T\+S\+Vars}}  \mbox{\hyperlink{struct_t_s_vars}{T\+S\+Vars}}}
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{_adafruit_t_f_t_i2_c_driver_8h_aef07d60f80889c1c77f51ade2ccf9d75}\label{_adafruit_t_f_t_i2_c_driver_8h_aef07d60f80889c1c77f51ade2ccf9d75}} 
+\index{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}!get\+Point@{get\+Point}}
+\index{get\+Point@{get\+Point}!Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}}
+\subsubsection{\texorpdfstring{get\+Point()}{getPoint()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_t_s___point}{T\+S\+\_\+\+Point}} get\+Point (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_t_s_vars}{T\+S\+Vars}} $\ast$}]{var }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+The last touched point in form of \mbox{\hyperlink{struct_t_s___point}{T\+S\+\_\+\+Point}} structure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_adafruit_t_f_t_i2_c_driver_8h_a9a476c58c693d99338472b043a0d69c0}\label{_adafruit_t_f_t_i2_c_driver_8h_a9a476c58c693d99338472b043a0d69c0}} 
+\index{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}!init\+C\+P\+T\+TS@{init\+C\+P\+T\+TS}}
+\index{init\+C\+P\+T\+TS@{init\+C\+P\+T\+TS}!Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}}
+\subsubsection{\texorpdfstring{init\+C\+P\+T\+T\+S()}{initCPTTS()}}
+{\footnotesize\ttfamily bool init\+C\+P\+T\+TS (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{thresh }\end{DoxyParamCaption})}
+
+Initialize capacitive touchscreen with specified threshold 
+\begin{DoxyParams}{Parameters}
+{\em thresh} & Threshold for capacitive touchscreen \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if touchscreen is initialized properly. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_adafruit_t_f_t_i2_c_driver_8h_a7a56ca5f679fb95b7bc3e0b42a565b78}\label{_adafruit_t_f_t_i2_c_driver_8h_a7a56ca5f679fb95b7bc3e0b42a565b78}} 
+\index{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}!read\+Data@{read\+Data}}
+\index{read\+Data@{read\+Data}!Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}}
+\subsubsection{\texorpdfstring{read\+Data()}{readData()}}
+{\footnotesize\ttfamily void read\+Data (\begin{DoxyParamCaption}\item[{uint16\+\_\+t $\ast$}]{x,  }\item[{uint16\+\_\+t $\ast$}]{y,  }\item[{\mbox{\hyperlink{struct_t_s_vars}{T\+S\+Vars}} $\ast$}]{var }\end{DoxyParamCaption})}
+
+Reads all data from the touchscreen. \mbox{\Hypertarget{_adafruit_t_f_t_i2_c_driver_8h_a8061018a8acd7cce9315a71dbec8eaac}\label{_adafruit_t_f_t_i2_c_driver_8h_a8061018a8acd7cce9315a71dbec8eaac}} 
+\index{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}!read\+Register8@{read\+Register8}}
+\index{read\+Register8@{read\+Register8}!Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}}
+\subsubsection{\texorpdfstring{read\+Register8()}{readRegister8()}}
+{\footnotesize\ttfamily uint8\+\_\+t read\+Register8 (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{reg }\end{DoxyParamCaption})}
+
+Reads a byte from the specified register on the touchscreen. 
+\begin{DoxyParams}{Parameters}
+{\em reg} & Address of register to be read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A byte of data. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_adafruit_t_f_t_i2_c_driver_8h_a7218d80782d9f42cdd4afb1adb505a05}\label{_adafruit_t_f_t_i2_c_driver_8h_a7218d80782d9f42cdd4afb1adb505a05}} 
+\index{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}!touched@{touched}}
+\index{touched@{touched}!Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}}
+\subsubsection{\texorpdfstring{touched()}{touched()}}
+{\footnotesize\ttfamily bool touched (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+True if the screen was touched. False otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_adafruit_t_f_t_i2_c_driver_8h_a6c5e0ff4618d3855d53e446dd5b90618}\label{_adafruit_t_f_t_i2_c_driver_8h_a6c5e0ff4618d3855d53e446dd5b90618}} 
+\index{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}!write\+Register8@{write\+Register8}}
+\index{write\+Register8@{write\+Register8}!Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h@{Adafruit\+T\+F\+T\+I2\+C\+Driver.\+h}}
+\subsubsection{\texorpdfstring{write\+Register8()}{writeRegister8()}}
+{\footnotesize\ttfamily bool write\+Register8 (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{reg,  }\item[{uint8\+\_\+t}]{val }\end{DoxyParamCaption})}
+
+Using I2C, this function writes to the specified register, a byte of data, on the touchscreen. 
+\begin{DoxyParams}{Parameters}
+{\em reg} & Register Address on the touchscreen. \\
+\hline
+{\em val} & Value to be written to that register. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if data is properly transferred to register. 
+\end{DoxyReturn}
