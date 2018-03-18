@@ -77,11 +77,12 @@ void spiEndTransmission(AVRPin* ss)
     *(ss->PORTx) |= ss->mask;
 }
 
-uint8_t spiSlaveReceive()
+uint8_t spiSlaveReceive(void)
 {
     while (!(SPSR0 & _BV(SPIF0))) {
         //wait for reception complete
     }
     //return data register
-    return SPDR0;
+    uint8_t temp = SPDR0;
+    return temp;
 }

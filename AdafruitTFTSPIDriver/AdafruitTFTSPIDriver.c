@@ -22,10 +22,6 @@
 
 #include "AdafruitTFTSPIDriver.h"
 
-#ifndef _swap_int16_t
-#define _swap_int16_t(a, b) { int16_t t = a; a = b; b = t; }
-#endif
-
 void initTFT(TFTVars* var)
 {
     //DATA DIRECTION REGISTERS
@@ -34,11 +30,11 @@ void initTFT(TFTVars* var)
 
     // toggle RST low to reset
     *(var->rst->PORTx) |= var->rst->mask;
-    _delay_ms(100);
+    DELAY_MS(100);
     *(var->rst->PORTx) &= ~(var->rst->mask);
-    _delay_ms(100);
+    DELAY_MS(100);
     *(var->rst->PORTx) |= var->rst->mask;
-    _delay_ms(100);
+    DELAY_MS(100);
 
     //INITIALIZE SPI
     spiMasterInit(var->cs, var->sclk, var->mosi, var->miso);
@@ -151,9 +147,9 @@ void initTFT(TFTVars* var)
     spiMasterTransmit(0x0F);
 
     writeCommandTFT(ILI9341_SLPOUT, var);    //Exit Sleep
-    _delay_ms(120);
+    DELAY_MS(120);
     writeCommandTFT(ILI9341_DISPON, var);    //Display on
-    _delay_ms(120);
+    DELAY_MS(120);
 
     spiEndTransmission(var->cs);
 
@@ -621,7 +617,7 @@ void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg
         }
 
         for (int8_t i = 0; i < 5; i++) { // Char bitmap = 5 columns
-            uint8_t line = pgm_read_byte(&font[c * 5 + i]);
+            uint8_t line = READ_FLASH_BYTE( &font[c * 5 + i] );
             for (int8_t j = 0; j < 8; j++, line >>= 1) {
                 if (line & 1) {
                     if (size == 1) {
@@ -651,15 +647,15 @@ void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg
         // newlines, returns, non-printable characters, etc.  Calling
         // drawChar() directly with 'bad' characters of font may cause mayhem!
 
-        c -= (uint8_t)pgm_read_byte(&(var->gfxFont->first));
-        GFXglyph *glyph  = &(((GFXglyph *)pgm_read_ptr(&var->gfxFont->glyph))[c]);
-        uint8_t  *bitmap = (uint8_t *)pgm_read_ptr(&var->gfxFont->bitmap);
+        c -= (uint8_t)READ_FLASH_BYTE(&(var->gfxFont->first));
+        GFXglyph *glyph  = &(((GFXglyph *)READ_FLASH_PTR(&var->gfxFont->glyph))[c]);
+        uint8_t  *bitmap = (uint8_t *)READ_FLASH_PTR(&var->gfxFont->bitmap);
 
-        uint16_t bo = pgm_read_word(&glyph->bitmapOffset);
-        uint8_t  w  = pgm_read_byte(&glyph->width),
-                 h  = pgm_read_byte(&glyph->height);
-        int8_t   xo = pgm_read_byte(&glyph->xOffset),
-                 yo = pgm_read_byte(&glyph->yOffset);
+        uint16_t bo = READ_FLASH_WORD(&glyph->bitmapOffset);
+        uint8_t  w  = READ_FLASH_BYTE(&glyph->width),
+                 h  = READ_FLASH_BYTE(&glyph->height);
+        int8_t   xo = READ_FLASH_BYTE(&glyph->xOffset),
+                 yo = READ_FLASH_BYTE(&glyph->yOffset);
         uint8_t  xx, yy, bits = 0, bit = 0;
         int16_t  xo16 = 0, yo16 = 0;
 
@@ -689,7 +685,7 @@ void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg
         for (yy=0; yy<h; yy++) {
             for (xx=0; xx<w; xx++) {
                 if (!(bit++ & 7)) {
-                    bits = pgm_read_byte(&bitmap[bo++]);
+                    bits = READ_FLASH_BYTE(&bitmap[bo++]);
                 }
                 if (bits & 0x80) {
                     if (size == 1) {
@@ -724,24 +720,24 @@ void write(uint8_t c, TFTVars* var)
         if (c == '\n') {
             var->cursor_x  = 0;
             var->cursor_y += (int16_t)var->textSize *
-            (uint8_t)pgm_read_byte(&var->gfxFont->yAdvance);
+            (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
             } else if (c != '\r') {
-            uint8_t first = pgm_read_byte(&var->gfxFont->first);
-            if ((c >= first) && (c <= (uint8_t)pgm_read_byte(&var->gfxFont->last))) {
-                GFXglyph *glyph = &(((GFXglyph*)pgm_read_ptr(
+            uint8_t first = READ_FLASH_BYTE(&var->gfxFont->first);
+            if ((c >= first) && (c <= (uint8_t)READ_FLASH_BYTE(&var->gfxFont->last))) {
+                GFXglyph *glyph = &(((GFXglyph*)READ_FLASH_PTR(
                 &var->gfxFont->glyph))[c - first]);
-                uint8_t w = pgm_read_byte(&glyph->width);
-                uint8_t h = pgm_read_byte(&glyph->height);
+                uint8_t w = READ_FLASH_BYTE(&glyph->width);
+                uint8_t h = READ_FLASH_BYTE(&glyph->height);
                 if ((w > 0) && (h > 0)) { // Is there an associated bitmap?
-                    int16_t xo = (int8_t)pgm_read_byte(&glyph->xOffset); // sic
+                    int16_t xo = (int8_t)READ_FLASH_BYTE(&glyph->xOffset); // sic
                     if (var->wrap && ((var->cursor_x + var->textSize * (xo + w)) > var->width)) {
                         var->cursor_x  = 0;
                         var->cursor_y += (int16_t)var->textSize *
-                        (uint8_t)pgm_read_byte(&var->gfxFont->yAdvance);
+                        (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
                     }
                     drawChar(var->cursor_x, var->cursor_y, c, var->textColor, var->textBGColor, var->textSize, var);
                 }
-                var->cursor_x += (uint8_t)pgm_read_byte(&glyph->xAdvance) * (int16_t)var->textSize;
+                var->cursor_x += (uint8_t)READ_FLASH_BYTE(&glyph->xAdvance) * (int16_t)var->textSize;
             }
         }
 
@@ -755,21 +751,21 @@ void charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, in
     if (var->gfxFont) {
         if (c == '\n') { // Newline?
             *x  = 0;    // Reset x to zero, advance y by one line
-            *y += var->textSize * (uint8_t)pgm_read_byte(&var->gfxFont->yAdvance);
+            *y += var->textSize * (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
         } else if (c != '\r') { // Not a carriage return; is normal char
-            uint8_t first = pgm_read_byte(&var->gfxFont->first);
-            uint8_t last  = pgm_read_byte(&var->gfxFont->last);
+            uint8_t first = READ_FLASH_BYTE(&var->gfxFont->first);
+            uint8_t last  = READ_FLASH_BYTE(&var->gfxFont->last);
             if ((c >= first) && (c <= last)) { // Char present in this font?
-                GFXglyph *glyph = &(((GFXglyph *)pgm_read_ptr(
+                GFXglyph *glyph = &(((GFXglyph *)READ_FLASH_PTR(
                                          &var->gfxFont->glyph))[c - first]);
-                uint8_t gw = pgm_read_byte(&glyph->width),
-                        gh = pgm_read_byte(&glyph->height),
-                        xa = pgm_read_byte(&glyph->xAdvance);
-                int8_t  xo = pgm_read_byte(&glyph->xOffset),
-                        yo = pgm_read_byte(&glyph->yOffset);
+                uint8_t gw = READ_FLASH_BYTE(&glyph->width),
+                        gh = READ_FLASH_BYTE(&glyph->height),
+                        xa = READ_FLASH_BYTE(&glyph->xAdvance);
+                int8_t  xo = READ_FLASH_BYTE(&glyph->xOffset),
+                        yo = READ_FLASH_BYTE(&glyph->yOffset);
                 if (var->wrap && ((*x+(((int16_t)xo+gw)*var->textSize)) > var->width)) {
                     *x  = 0; // Reset x to zero, advance y by one line
-                    *y += var->textSize * (uint8_t)pgm_read_byte(&var->gfxFont->yAdvance);
+                    *y += var->textSize * (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
                 }
                 int16_t ts = (int16_t)var->textSize,
                         x1 = *x + xo * ts,
@@ -856,7 +852,7 @@ void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t
             if (i & 7) {
                 byte <<= 1;
                 } else {
-                byte = pgm_read_byte(&bitmap[((j * byteWidth) + i) / 8]);
+                byte = READ_FLASH_BYTE(&bitmap[((j * byteWidth) + i) / 8]);
             }
             if (byte & 0x80) {
                 drawPixel(x+i, y, color, var);
@@ -875,7 +871,7 @@ void drawBitmap1(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_
             if (i & 7) {
                 byte <<= 1;
                 } else {
-                byte = pgm_read_byte(&bitmap[((j * byteWidth) + i) / 8]);
+                byte = READ_FLASH_BYTE(&bitmap[((j * byteWidth) + i) / 8]);
             }
             drawPixel((x + i), y, (byte & 0x80) ? color : bg, var);
         }

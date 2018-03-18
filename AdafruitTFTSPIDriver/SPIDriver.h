@@ -12,8 +12,7 @@
 #ifndef SPIDRIVER_H_
 #define SPIDRIVER_H_
 
-#include <avr/io.h>
-
+#include "system_config.h"
 #include "AVRPin.h"
 
 /**
@@ -86,6 +85,6 @@ void spiEndTransmission(AVRPin* ss);
  * Used to read data from a master through SPI.
  * @return a byte of data received from master.
  */
-uint8_t spiSlaveReceive();
+uint8_t spiSlaveReceive(void);
 
 #endif /* SPIDRIVER_H_ */

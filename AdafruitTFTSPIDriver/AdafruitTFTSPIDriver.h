@@ -22,20 +22,19 @@
 #ifndef ADAFRUITTFTSPIDRIVER_H_
 #define ADAFRUITTFTSPIDRIVER_H_
 
-#include <avr/pgmspace.h>
-#include <util/delay.h>
-#include <inttypes.h>
-#include <stdbool.h>
-
 #include "AdafruitTFTCommands.h"
-#include "AVRPin.h"
 #include "AdafruitTFTColors.h"
+#include "system_config.h"
 #include "SPIDriver.h"
 #include "GFXFont.h"
 #include "Font5x7.h"
 
 #define TFT_WIDTH   240
 #define TFT_HEIGHT  320
+
+#ifndef _swap_int16_t
+    #define _swap_int16_t(a, b) { int16_t t = a; a = b; b = t; }
+#endif
 
 /**
  * Contains all the variables associated with the touchscreen.
