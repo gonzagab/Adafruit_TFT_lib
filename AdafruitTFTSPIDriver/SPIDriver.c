@@ -25,9 +25,9 @@ void spiMasterInit(AVRPin* ss, AVRPin* sclk, AVRPin* mosi, AVRPin* miso)
     *(mosi->PORTx) &= ~mosi->mask;
     *(sclk->PORTx) &= ~sclk->mask;
 	//Enable SPI, Master, MSB first
-	SPCR0 = _BV(SPE0) | _BV(MSTR0);
+	SPCR = _BV(SPE) | _BV(MSTR);
 	//SPI clock x2
-	SPSR0 = _BV(SPI2X0);
+	SPSR = _BV(SPI2X);
 }
 
 void spiSlaveInit(AVRPin* ss, AVRPin* sclk, AVRPin* mosi, AVRPin* miso)
@@ -38,7 +38,7 @@ void spiSlaveInit(AVRPin* ss, AVRPin* sclk, AVRPin* mosi, AVRPin* miso)
     *(mosi->DDRx) &= ~mosi->mask;
     *(miso->DDRx) |= miso->mask;
     /* Enable SPI */
-    SPCR0 = _BV(SPE0);
+    SPCR = _BV(SPE);
 }
 
 void spiSetClkPrescalar(uint8_t prescalar)
@@ -53,9 +53,9 @@ void spiStartTransmission(AVRPin* ss)
 void spiMasterTransmit(uint8_t data)
 {
     //start transmission
-    SPDR0 = data;
+    SPDR = data;
     //Wait for transmission complete
-    while (!(SPSR0 & _BV(SPIF0))) {
+    while (!(SPSR & _BV(SPIF))) {
         //do nothing
     }
 }
@@ -79,10 +79,10 @@ void spiEndTransmission(AVRPin* ss)
 
 uint8_t spiSlaveReceive(void)
 {
-    while (!(SPSR0 & _BV(SPIF0))) {
+    while (!(SPSR & _BV(SPIF))) {
         //wait for reception complete
     }
     //return data register
-    uint8_t temp = SPDR0;
+    uint8_t temp = SPDR;
     return temp;
 }

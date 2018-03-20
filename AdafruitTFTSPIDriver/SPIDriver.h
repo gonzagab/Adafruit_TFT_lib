@@ -15,10 +15,31 @@
 #include "system_config.h"
 #include "AVRPin.h"
 
+#if defined(ATMEGA324)
+    #define  SPCR   SPCR0
+    #define  SPDR   SPDR0
+    #define  SPSR   SPSR0
+    
+    /* SPI Status Register - SPSR */
+    #define SPIF    SPIF0
+    #define WCOL    WCOL0
+    #define SPI2X   SPI2X0
+
+    /* SPI Control Register - SPCR */
+    #define SPIE    SPIE0
+    #define SPE     SPE0
+    #define DORD    DORD0
+    #define MSTR    MSTR0
+    #define CPOL    CPOL0
+    #define CPHA    CPHA0
+    #define SPR1    SPR10
+    #define SPR0    SPR00
+#endif
+
 /**
  * Initializes the SPI hardware to operate in the Master mode, to
  * send the most significant bit first, and to have slave clock
- * frequency of SOME Hz.
+ * frequency at half the system clock.
  * Initializes the ss, sclk, and mosi pins as outputs
  * and the miso pin as input. It also drives the mosi and sclk pins
  * low and the ss pin high.
