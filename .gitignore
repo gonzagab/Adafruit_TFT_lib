@@ -1,8 +1,5 @@
 */Debug
+*/doxygen
 *.xml
 *.vs
-AdafruitTFTLibTest/AdafruitTFTSPIDriver
-AdafruitTFTPaint/AdafruitTFTSPIDriver
-AdafruitTFTPaint/AdafruitTFTI2CDriver
-AdafruitTFTKeyPad/AdafruitTFTSPIDriver
-AdafruitTFTKeyPad/AdafruitTFTI2CDriver
+doxyfile
