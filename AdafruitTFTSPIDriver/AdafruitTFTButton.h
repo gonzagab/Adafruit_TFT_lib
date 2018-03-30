@@ -13,8 +13,6 @@
 #ifndef ADAFRUITTFTBUTTON_H_
 #define ADAFRUITTFTBUTTON_H_
 
-#include <stdbool.h>
-
 #include "AdafruitTFTSPIDriver.h"
 
 /**

@@ -67,7 +67,7 @@
 /* Compiler Common */
 #define READ_FLASH_PTR(addrs) (void*) READ_FLASH_WORD(addrs)
 
-#include <inttypes.h>
+#include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
