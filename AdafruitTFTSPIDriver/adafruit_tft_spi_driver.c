@@ -27,6 +27,43 @@
 
 #include "adafruit_tft_spi_driver.h"
 
+//===================================================================
+//                         STATIC FUNCTIONS
+//===================================================================
+
+/**
+ * Sends a command to the touchscreen through SPI.
+ * @param cmd   8-bit command
+ * @param var   pointer to TFTVars structure.
+ */
+static void write_command_tft(uint8_t cmd, tft_vars* var)
+{
+    //dc low to indicate command
+    *(var->dc->PORTx) &= ~(var->dc->mask);
+    //send command over
+    spi_master_transmit(cmd);
+    //reset dc to its default value of 1 for data transfer
+    *(var->dc->PORTx) |= var->dc->mask;
+}
+
+static void setAddrWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h, tft_vars* var)
+{
+    uint32_t xa = ((uint32_t)x << 16) | (x + w - 1);
+    uint32_t ya = ((uint32_t)y << 16) | (y + h - 1);
+
+    spi_start_transmission(var->cs);
+    write_command_tft(ILI9341_CASET, var); // Column addr set
+    spi_master_transmit32(xa);
+    write_command_tft(ILI9341_PASET, var); // Row addr set
+    spi_master_transmit32(ya);
+    write_command_tft(ILI9341_RAMWR, var); // write to RAM
+    spi_end_transmission(var->cs);
+}
+
+//===================================================================
+//                         PUBLIC FUNCTIONS
+//===================================================================
+
 void init_tft(tft_vars* var)
 {
     //DATA DIRECTION REGISTERS
@@ -45,79 +82,79 @@ void init_tft(tft_vars* var)
     spi_master_init(var->cs, var->sclk, var->mosi, var->miso);
 
     spi_start_transmission(var->cs);
-    writeCommandTFT(0xEF, var);
+    write_command_tft(0xEF, var);
     spi_master_transmit(0x03);
     spi_master_transmit(0x80);
     spi_master_transmit(0x02);
 
-    writeCommandTFT(0xCF, var);
+    write_command_tft(0xCF, var);
     spi_master_transmit(0x00);
     spi_master_transmit(0XC1);
     spi_master_transmit(0X30);
 
-    writeCommandTFT(0xED, var);
+    write_command_tft(0xED, var);
     spi_master_transmit(0x64);
     spi_master_transmit(0x03);
     spi_master_transmit(0X12);
     spi_master_transmit(0X81);
 
-    writeCommandTFT(0xE8, var);
+    write_command_tft(0xE8, var);
     spi_master_transmit(0x85);
     spi_master_transmit(0x00);
     spi_master_transmit(0x78);
 
-    writeCommandTFT(0xCB, var);
+    write_command_tft(0xCB, var);
     spi_master_transmit(0x39);
     spi_master_transmit(0x2C);
     spi_master_transmit(0x00);
     spi_master_transmit(0x34);
     spi_master_transmit(0x02);
 
-    writeCommandTFT(0xF7, var);
+    write_command_tft(0xF7, var);
     spi_master_transmit(0x20);
 
-    writeCommandTFT(0xEA, var);
+    write_command_tft(0xEA, var);
     spi_master_transmit(0x00);
     spi_master_transmit(0x00);
 
-    writeCommandTFT(ILI9341_PWCTR1, var);    //Power control
+    write_command_tft(ILI9341_PWCTR1, var);    //Power control
     spi_master_transmit(0x23);   //VRH[5:0]
 
-    writeCommandTFT(ILI9341_PWCTR2, var);    //Power control
+    write_command_tft(ILI9341_PWCTR2, var);    //Power control
     spi_master_transmit(0x10);   //SAP[2:0];BT[3:0]
 
-    writeCommandTFT(ILI9341_VMCTR1, var);    //VCM control
+    write_command_tft(ILI9341_VMCTR1, var);    //VCM control
     spi_master_transmit(0x3e);
     spi_master_transmit(0x28);
 
-    writeCommandTFT(ILI9341_VMCTR2, var);    //VCM control2
+    write_command_tft(ILI9341_VMCTR2, var);    //VCM control2
     spi_master_transmit(0x86);  //--
 
-    writeCommandTFT(ILI9341_MADCTL, var);    // Memory Access Control
+    write_command_tft(ILI9341_MADCTL, var);    // Memory Access Control
     spi_master_transmit(0x48);
 
-    writeCommandTFT(ILI9341_VSCRSADD, var); // Vertical scroll
+    write_command_tft(ILI9341_VSCRSADD, var); // Vertical scroll
     spi_master_transmit16(0);                 // Zero
 
-    writeCommandTFT(ILI9341_PIXFMT, var);
+    write_command_tft(ILI9341_PIXFMT, var);
     spi_master_transmit(0x55);
 
-    writeCommandTFT(ILI9341_FRMCTR1, var);
+    write_command_tft(ILI9341_FRMCTR1, var);
     spi_master_transmit(0x00);
     spi_master_transmit(0x18);
 
-    writeCommandTFT(ILI9341_DFUNCTR, var);    // Display Function Control
+    write_command_tft(ILI9341_DFUNCTR, var);    // Display Function Control
     spi_master_transmit(0x08);
     spi_master_transmit(0x82);
     spi_master_transmit(0x27);
 
-    writeCommandTFT(0xF2, var);    // 3Gamma Function Disable
+    write_command_tft(0xF2, var);    // 3Gamma Function Disable
     spi_master_transmit(0x00);
 
-    writeCommandTFT(ILI9341_GAMMASET, var);    //Gamma curve selected
+    write_command_tft(ILI9341_GAMMASET, var);    //Gamma curve selected
     spi_master_transmit(0x01);
 
-    writeCommandTFT(ILI9341_GMCTRP1, var);    //Set Gamma
+    write_command_tft(ILI9341_GMCTRP1, var);    //Set Gamma
     spi_master_transmit(0x0F);
     spi_master_transmit(0x31);
     spi_master_transmit(0x2B);
@@ -134,7 +171,7 @@ void init_tft(tft_vars* var)
     spi_master_transmit(0x09);
     spi_master_transmit(0x00);
 
-    writeCommandTFT(ILI9341_GMCTRN1, var);    //Set Gamma
+    write_command_tft(ILI9341_GMCTRN1, var);    //Set Gamma
     spi_master_transmit(0x00);
     spi_master_transmit(0x0E);
     spi_master_transmit(0x14);
@@ -151,9 +188,9 @@ void init_tft(tft_vars* var)
     spi_master_transmit(0x36);
     spi_master_transmit(0x0F);
 
-    writeCommandTFT(ILI9341_SLPOUT, var);    //Exit Sleep
+    write_command_tft(ILI9341_SLPOUT, var);    //Exit Sleep
     DELAY_MS(120);
-    writeCommandTFT(ILI9341_DISPON, var);    //Display on
+    write_command_tft(ILI9341_DISPON, var);    //Display on
     DELAY_MS(120);
 
     spi_end_transmission(var->cs);
@@ -189,7 +226,7 @@ void setRotationTFT(uint8_t m, tft_vars* var)
     }
 
     spi_start_transmission(var->cs);
-    writeCommandTFT(ILI9341_MADCTL, var);
+    write_command_tft(ILI9341_MADCTL, var);
     spi_master_transmit(m);
     spi_end_transmission(var->cs);
 }
@@ -197,14 +234,14 @@ void setRotationTFT(uint8_t m, tft_vars* var)
 void invertDisplay(bool i, tft_vars* var)
 {
     spi_start_transmission(var->cs);
-    writeCommandTFT(i ? ILI9341_INVON : ILI9341_INVOFF, var);
+    write_command_tft(i ? ILI9341_INVON : ILI9341_INVOFF, var);
     spi_end_transmission(var->cs);
 }
 
 void scrollTo(uint16_t y, tft_vars* var)
 {
     spi_start_transmission(var->cs);
-    writeCommandTFT(ILI9341_VSCRSADD, var);
+    write_command_tft(ILI9341_VSCRSADD, var);
     spi_master_transmit16(y);
     spi_end_transmission(var->cs);
 }
@@ -227,20 +264,6 @@ void drawPixel(int16_t x, int16_t y, uint16_t color, tft_vars* var)
     setAddrWindow(x, y, 1, 1, var);
     spi_start_transmission(var->cs);
     spi_master_transmit16(color);
-    spi_end_transmission(var->cs);
-}
-
-void setAddrWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h, tft_vars* var)
-{
-    uint32_t xa = ((uint32_t)x << 16) | (x + w - 1);
-    uint32_t ya = ((uint32_t)y << 16) | (y + h - 1);
-
-    spi_start_transmission(var->cs);
-    writeCommandTFT(ILI9341_CASET, var); // Column addr set
-    spi_master_transmit32(xa);
-    writeCommandTFT(ILI9341_PASET, var); // Row addr set
-    spi_master_transmit32(ya);
-    writeCommandTFT(ILI9341_RAMWR, var); // write to RAM
     spi_end_transmission(var->cs);
 }
 
@@ -871,18 +894,4 @@ void drawBitmap1(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_
             drawPixel((x + i), y, (byte & 0x80) ? color : bg, var);
         }
     }
-}
-
-//===================================================================
-//                         STATIC FUNCTIONS
-//===================================================================
-
-static void writeCommandTFT(uint8_t cmd, tft_vars* var)
-{
-    //dc low to indicate command
-    *(var->dc->PORTx) &= ~(var->dc->mask);
-    //send command over
-    spi_master_transmit(cmd);
-    //reset dc to its default value of 1 for data transfer
-    *(var->dc->PORTx) |= var->dc->mask;
 }

@@ -1,13 +1,29 @@
 /********************************************************************
- * File:    system_config.h
- * Author;  Bryant Gonzaga
+ * File:        system_config.h
+ * Author:      Bryant Gonzaga
+ * Created:     --/--/2018
+ * Modified:    3/30/2018
  *
+ * Notes:
+ *  This file is to be used with the AdafruitTFTSPIDriver Library.
  *
+ * Description:
+ *  In order to make the library more versitile this file is used to
+ * configure which MCU and which Compiler/IDE users would like to
+ * use. At this point the library only supports two microcontrollers
+ * and two compilers. The ATmega324 and the ATmega128 are both
+ * supported. Also, IAR's Embedded Workbench for Atmel and Atmel
+ * Studio 7 are both supported.
+ *
+ * How To:
+ *  1: Choose MCU. Uncomment you choice while leaving the rest
+ *     commented out.
+ *  2: This is all that needs to be done in this file. Make sure to
+ *     include it in your project.
  *******************************************************************/
  
 #ifndef SYSTEM_CONFIG_H_
 #define SYSTEM_CONFIG_H_
-
 
 /* Specify Microcontroller */
 // #define ATMEGA128
@@ -38,10 +54,14 @@
 
     /* Delay Function */
     #define DELAY_MS(mili_secs) __delay_cycles(mili_secs * SYS_CLK_FREQ / 1000)
-    
+
+    /* Interrupts */
+    #define INTERRUPT_HANDLER(int_vect) #pragma vector = int_vect \
+                                        __interrupt void #int_vect_handler(void)
+
     /* Include Files Needed */
     #include <intrinsics.h>
-   
+
 #elif defined(__GNUC__)     // GNU Compiler
     /* Flash Variables */
     #define FLASH_DECLARE(x) x __attribute__((__progmem__))
@@ -59,7 +79,11 @@
     /* Delay Function */
     #define DELAY_MS(mili_secs) _delay_ms(mili_secs)
    
+    /* Interrupts */
+    #define INTERRUPT_HANDLER(int_vect) ISR(int_vect)
+
     /* Include Files Needed */
+    #include <avr/interrupt.h>
     #include <util/delay.h>
     #include <avr/pgmspace.h>
 #endif

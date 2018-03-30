@@ -21,10 +21,10 @@
 
 typedef struct avr_pin
 {
-    uint8_t* DDRx;  /**< Pointer to Data Direction Register >*/
-    uint8_t* PORTx; /**< Pointer to PORT Register >*/
-    uint8_t* PINx;  /**< Pointer to PIN Register >*/
-    uint8_t mask;   /**< 8-bit mask. 1 in position of desired pin >*/
+    uint8_t* DDRx;  /**< Pointer to Data Direction Register */
+    uint8_t* PORTx; /**< Pointer to PORT Register */
+    uint8_t* PINx;  /**< Pointer to PIN Register */
+    uint8_t mask;   /**< 8-bit mask. 1 in position of desired pin */
 } avr_pin;
 
 #endif /* BG_LIB_AVR_PIN_H_ */

@@ -1,13 +1,14 @@
-//********************************************************************
-//* AdafruitTFTLibTest.cpp
-//*
-//* Created     : 12/3/2017 10:12:53 PM
-//* Author      : Bryant Gonzaga
-//* Description:
-//*     This program tests out varies functions of the SPI TFT Library
-//********************************************************************
+/********************************************************************
+ * File:        tft_lib_test.c
+ * Author:      Bryant Gonzaga
+ * Created:     12/3/2017 10:12:53 PM
+ * Modified:    3/30/2018
+ *
+ * Description:
+ *  This program tests out varies functions of the SPI TFT Library
+ *******************************************************************/
 
-#include "AdafruitTFTSPIDriver.h"
+#include "adafruit_tft_spi_driver.h"
 
 /* Function Prototypes */
 void testFillScreen(tft_vars* tftVars);
@@ -28,48 +29,48 @@ int main(void)
     //INITIALIZE VARIABLES FOR TFT
     tft_vars tftVars;
     //INITIALIZE PORTS FOR TFT
+    avr_pin rst;
+    rst.DDRx = (uint8_t*) &DDRB;
+    rst.PORTx = (uint8_t*) &PORTB;
+    rst.PINx = (uint8_t*) &PINB;
+    rst.mask = 0x04;
+    tftVars.rst = &rst;
+    
+    avr_pin dc;
+    dc.DDRx = (uint8_t*) &DDRB;
+    dc.PORTx = (uint8_t*) &PORTB;
+    dc.PINx = (uint8_t*) &PINB;
+    dc.mask = 0x08;
+    tftVars.dc = &dc;
+    
     avr_pin cs;
     cs.DDRx = (uint8_t*) &DDRB;
     cs.PORTx = (uint8_t*) &PORTB;
     cs.PINx = (uint8_t*) &PINB;
-    cs.mask = 0x01;
+    cs.mask = 0x10;
     tftVars.cs = &cs;
-
-    avr_pin sclk;
-    sclk.DDRx = (uint8_t*) &DDRB;
-    sclk.PORTx = (uint8_t*) &PORTB;
-    sclk.PINx = (uint8_t*) &PINB;
-    sclk.mask = 0x02;
-    tftVars.sclk = &sclk;
 
     avr_pin mosi;
     mosi.DDRx = (uint8_t*) &DDRB;
     mosi.PORTx = (uint8_t*) &PORTB;
     mosi.PINx = (uint8_t*) &PINB;
-    mosi.mask = 0x04;
+    mosi.mask = 0x20;
     tftVars.mosi = &mosi;
 
     avr_pin miso;
     miso.DDRx = (uint8_t*) &DDRB;
     miso.PORTx = (uint8_t*) &PORTB;
     miso.PINx = (uint8_t*) &PINB;
-    miso.mask = 0x08;
+    miso.mask = 0x40;
     tftVars.miso = &miso;
     
-    avr_pin rst;
-    rst.DDRx = (uint8_t*) &DDRB;
-    rst.PORTx = (uint8_t*) &PORTB;
-    rst.PINx = (uint8_t*) &PINB;
-    rst.mask = 0x10;
-    tftVars.rst = &rst;
+     avr_pin sclk;
+     sclk.DDRx = (uint8_t*) &DDRB;
+     sclk.PORTx = (uint8_t*) &PORTB;
+     sclk.PINx = (uint8_t*) &PINB;
+     sclk.mask = 0x80;
+     tftVars.sclk = &sclk;
 
-     avr_pin dc;
-    dc.DDRx = (uint8_t*) &DDRE;
-    dc.PORTx = (uint8_t*) &PORTE;
-    dc.PINx = (uint8_t*) &PINE;
-    dc.mask = 0x01;
-    tftVars.dc = &dc;
-    
     //INITIALIZE TOUCH SCREEN
     init_tft(&tftVars);
 
@@ -85,7 +86,6 @@ int main(void)
 	testRoundRects(&tftVars);
 	testFilledRoundRects(&tftVars);
 	testText(&tftVars);
-	
 	
     while (1) {
 		for (uint8_t rotation = 0; rotation < 4; rotation++) {
@@ -292,7 +292,7 @@ void testFilledTriangles(tft_vars* tftVars)
 	} else {
 		i = cy;
 	}
-	for (i; i > 10; i -= 5) {
+	for (;i > 10; i -= 5) {
 		fillTriangle(cx, cy - i, cx - i, cy + i, cx + i, cy + i,
 		color565(0, i*10, i*10), tftVars);
 
@@ -333,7 +333,7 @@ void testFilledRoundRects(tft_vars* tftVars)
 	} else {
 		i = tftVars->height;
 	}
-	for(i; i>20; i-=6) {
+	for(;i>20; i-=6) {
 		i2 = i / 2;
 		fillRoundRect(cx-i2, cy-i2, i, i, i/8, color565(0, i, 0), tftVars);
 	}

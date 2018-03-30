@@ -147,7 +147,7 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="TFTLibTest.c">
+    <Compile Include="tft_lib_test.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

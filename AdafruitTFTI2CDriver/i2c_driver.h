@@ -16,32 +16,30 @@
 //* 5) Stop Condition.
 //*******************************************************************
 
-#ifndef I2CDRIVER_H_
-#define I2CDRIVER_H_
+#ifndef BG_LIB_I2C_DRIVER_H_
+#define BG_LIB_I2C_DRIVER_H_
 
-#include <stdbool.h>
-#include <stdint.h>
-#include <avr/io.h>
+#include "system_config.h"
 
 /**
  * Sends a start condition.
  * @return true if slave acknowledges start condition.
  */
-bool i2cStartCondition();
+bool i2c_start_condition();
 
 /**
  * Send address of slave and write bit.
  * @param addr  7-bit slave address that is right aligned
  * @return true if slave acknowledges call.
  */
-bool i2cBeginWrite(uint8_t addr);
+bool i2c_begin_write(uint8_t addr);
 
 /**
  * Send address of slave and read bit
  * @param addr  7-bit slave address that is right aligned
  * @return true if slave acknowledges call.
  */
-bool i2cBeginRead(uint8_t addr);
+bool i2c_begin_read(uint8_t addr);
 
 /**
  * Transmits a byte of data. Start Condition, Slave Address, and
@@ -50,7 +48,7 @@ bool i2cBeginRead(uint8_t addr);
  * @param data  Byte of data or 8-bit register address
  * @return true if data was send and acknowledged by slave.
  */
-bool i2cTransmit(uint8_t data);
+bool i2c_transmit(uint8_t data);
 
 /**
  * Reads a specified number of bytes from the slave.
@@ -59,11 +57,11 @@ bool i2cTransmit(uint8_t data);
  * @param numOfBytes    Number of bytes to be read from slave.
  * @return true if data was read successfully.
  */
-bool i2cReadData(uint8_t* dataAddr, uint8_t numOfBytes);
+bool i2c_read_data(uint8_t* dataAddr, uint8_t numOfBytes);
 
 /**
  * Stop Condition is used to end transmission
  */
-void i2cStopCondition();
+void i2c_stop_condition();
 
-#endif /* I2CDRIVER_H_ */
+#endif /* BG_LIB_I2C_DRIVER_H_ */

@@ -16,9 +16,9 @@
 //* 5) Stop Condition.
 //*******************************************************************
 
-#include "I2CDriver.h"
+#include "i2c_driver.h"
 
-bool i2cStartCondition()
+bool i2c_start_condition()
 {
     //send a start condition
     TWCR = _BV(TWINT) | _BV(TWSTA) | _BV(TWEN);
@@ -28,7 +28,7 @@ bool i2cStartCondition()
     return true;
 }
 
-bool i2cBeginWrite(uint8_t addr)
+bool i2c_begin_write(uint8_t addr)
 {
     //address of slave we want to talk to + write bit
     TWDR = (addr << 1) & 0xFE;
@@ -42,7 +42,7 @@ bool i2cBeginWrite(uint8_t addr)
     return true;
 }
 
-bool i2cBeginRead(uint8_t addr)
+bool i2c_begin_read(uint8_t addr)
 {
     //address of slave we want to talk to + read bit
     TWDR = (addr << 1) | 0x01;
@@ -56,7 +56,7 @@ bool i2cBeginRead(uint8_t addr)
     return true;
 }
 
-bool i2cTransmit(uint8_t data)
+bool i2c_transmit(uint8_t data)
 {
     //put data in two wire data register
     TWDR = data;
@@ -70,7 +70,7 @@ bool i2cTransmit(uint8_t data)
     return true;
 }
 
-bool i2cReadData(uint8_t* dataAddr, uint8_t numOfBytes)
+bool i2c_read_data(uint8_t* dataAddr, uint8_t numOfBytes)
 {
     for (int i = numOfBytes; i > 0; i--) {
         if (i == 1) {
@@ -95,7 +95,7 @@ bool i2cReadData(uint8_t* dataAddr, uint8_t numOfBytes)
     return true;
 }
 
-void i2cStopCondition()
+void i2c_stop_condition()
 {
     //Transmit stop condition
     TWCR = _BV(TWINT) | _BV(TWEN) | _BV(TWSTO);

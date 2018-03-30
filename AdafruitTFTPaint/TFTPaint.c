@@ -18,7 +18,7 @@
 int oldcolor, currentcolor;
 //INITIALIZE VARIABLES FOR TFT
 tft_vars tftVars;
-TSVars tsVars;
+ts_vars tsVars;
 
 int main(void)
 {
@@ -96,7 +96,7 @@ int main(void)
 ISR(INT0_vect)
 {
     // Retrieve a point
-    TS_Point p = getPoint(&tsVars);
+    ts_point p = getPoint(&tsVars);
 
     // flip it around to match the screen.
     p.x = 240 - p.x;

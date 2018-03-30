@@ -119,7 +119,7 @@ void scrollTo(uint16_t y, tft_vars* var);
  * @param var   pointer to TFTVars structure
  */
 void drawPixel(int16_t x, int16_t y, uint16_t color, tft_vars* var);
-void setAddrWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h, tft_vars* var);
+
 void writePixels(uint16_t * colors, uint32_t len, tft_vars* var);
 void writeColor(uint16_t color, uint32_t len, tft_vars* var);
 
@@ -334,16 +334,5 @@ void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t
  * background (unset bits) colors.
  */
 void drawBitmap1(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, uint16_t bg, tft_vars* var);
-
-//===================================================================
-//                         STATIC FUNCTIONS
-//===================================================================
-
-/**
- * Sends a command to the touchscreen through SPI.
- * @param cmd   8-bit command
- * @param var   pointer to TFTVars structure.
- */
-static void writeCommandTFT(uint8_t cmd, tft_vars* var);
 
 #endif /* ADAFRUITTFTSPIDRIVER_H_ */

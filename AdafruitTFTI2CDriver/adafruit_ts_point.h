@@ -14,11 +14,13 @@
 #ifndef ADAFRUITTSPOINT_H_
 #define ADAFRUITTSPOINT_H_
 
-typedef struct TS_Point
+#include "system_config.h"
+
+typedef struct ts_point
 {
     int16_t x;
     int16_t y;
     int16_t z;
-} TS_Point;
+} ts_point;
 
 #endif /* ADAFRUITTSPOINT_H_ */

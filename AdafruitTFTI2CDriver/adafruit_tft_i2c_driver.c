@@ -11,7 +11,7 @@
 //* variables needed about touch.
 //*******************************************************************
 
-#include "AdafruitTFTI2CDriver.h"
+#include "adafruit_tft_i2c_driver.h"
 
 bool initCPTTS(uint8_t threshhold)
 {
@@ -25,23 +25,23 @@ bool initCPTTS(uint8_t threshhold)
 bool writeRegister8(uint8_t reg, uint8_t val)
 {
     //START CONDITION
-    if (!i2cStartCondition()) {
+    if (!i2c_start_condition()) {
         return false;
     }
     //CALL SPECIFIC SLAVE
-    if (!i2cBeginWrite(FT6206_ADDR)) {
+    if (!i2c_begin_write(FT6206_ADDR)) {
         return false;
     }
     //WRITE TO SPECIFIC REGISTER
-    if (!i2cTransmit(reg)) {
+    if (!i2c_transmit(reg)) {
         return false;  
     }
     //WRITE DATA TO REGISTER
-    if (!i2cTransmit(val)) {
+    if (!i2c_transmit(val)) {
         return false;
     }
     //STOP CONDITION
-    i2cStopCondition();
+    i2c_stop_condition();
     return true;
 }
 
@@ -49,58 +49,58 @@ uint8_t readRegister8(uint8_t reg)
 {
     uint8_t data;
     //START CONDITION
-    if (!i2cStartCondition()) {
+    if (!i2c_start_condition()) {
         return false;
     }
     //SEND SLAVE ADDRESS FOR WRITE
-    if (!i2cBeginWrite(FT6206_ADDR)) {
+    if (!i2c_begin_write(FT6206_ADDR)) {
         return false;
     }
     //SEND REGISTER ADDRESS TO BE READ
-    if (!i2cTransmit(reg)) {
+    if (!i2c_transmit(reg)) {
         return false;
     }
     //SEND STOP CONDITION
-    i2cStopCondition();
+    i2c_stop_condition();
     //START CONDITION
-    if (!i2cStartCondition()) {
+    if (!i2c_start_condition()) {
         return false;
     }
     //SEND SLAVE ADDRESS FOR READ
-    if (!i2cBeginRead(FT6206_ADDR)) {
+    if (!i2c_begin_read(FT6206_ADDR)) {
         return false;
     }
     //READ DATA
-    if (!i2cReadData(&data, 1)) {
+    if (!i2c_read_data(&data, 1)) {
         return false;
     }
     //SEND STOP CONDITION
-    i2cStopCondition();
+    i2c_stop_condition();
 
     return data;
 }
 
-void readData(uint16_t* x, uint16_t* y, TSVars* var)
+void readData(uint16_t* x, uint16_t* y, ts_vars* var)
 {
     uint8_t i2cdat[16];
     
     //START CONDITION
-    i2cStartCondition();
+    i2c_start_condition();
     //SEND SLAVE ADDRESS FOR WRITE
-    i2cBeginWrite(FT6206_ADDR);
+    i2c_begin_write(FT6206_ADDR);
     //SEND 0 FOR REGISTER
-    i2cTransmit(0);
+    i2c_transmit(0);
     //STOP CONDITION
-    i2cStopCondition();
+    i2c_stop_condition();
     
     //START CONDITION
-    i2cStartCondition();
+    i2c_start_condition();
     //SEND SLAVE ADDRESS FOR READ
-    i2cBeginRead(FT6206_ADDR);
+    i2c_begin_read(FT6206_ADDR);
     //READ FROM REGISTERS
-    i2cReadData(i2cdat, 16);
+    i2c_read_data(i2cdat, 16);
     //STOP CONDITION
-    i2cStopCondition();
+    i2c_stop_condition();
 
     var->touches = i2cdat[2];
 
@@ -134,12 +134,11 @@ bool touched()
     return false;
 }
 
-TS_Point getPoint(TSVars* var)
+ts_point getPoint(ts_vars* var)
 {
     uint16_t x, y;
-    uint8_t z;
     readData(&x, &y, var);
-    TS_Point point;
+    ts_point point;
     point.x = x;
     point.y = y;
     point.z = 1;
