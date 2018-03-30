@@ -18,11 +18,11 @@
 #include "AdafruitTFTSPIDriver/AdafruitTFTButton.h"
 
 //INITIALIZE VARIABLES FOR TFT
-TFTVars tftVars;
+tft_vars tftVars;
 TSVars tsVars;
 
 
-TSButtonVars buttons[16];
+ts_button_vars buttons[16];
 /*
 TSButtonVars buttonA;
 TSButtonVars buttonB;
@@ -34,42 +34,42 @@ TSButtonVars buttonE;
 int main(void)
 {
     //INITIALIZE PORTS FOR TFT
-    AVRPin cs;
+    avr_pin cs;
     cs.DDRx = &DDRB;
     cs.PORTx = &PORTB;
     cs.PINx = &PINB;
     cs.mask = 0x10;
     tftVars.cs = &cs;
 
-    AVRPin dc;
+    avr_pin dc;
     dc.DDRx = &DDRB;
     dc.PORTx = &PORTB;
     dc.PINx = &PINB;
     dc.mask = 0x08;
     tftVars.dc = &dc;
 
-    AVRPin rst;
+    avr_pin rst;
     rst.DDRx = &DDRB;
     rst.PORTx = &PORTB;
     rst.PINx = &PINB;
     rst.mask = 0x10;
     tftVars.rst = &rst;
 
-    AVRPin sclk;
+    avr_pin sclk;
     sclk.DDRx = &DDRB;
     sclk.PORTx = &PORTB;
     sclk.PINx = &PINB;
     sclk.mask = 0x80;
     tftVars.sclk = &sclk;
 
-    AVRPin mosi;
+    avr_pin mosi;
     mosi.DDRx = &DDRB;
     mosi.PORTx = &PORTB;
     mosi.PINx = &PINB;
     mosi.mask = 0x20;
     tftVars.mosi = &mosi;
 
-    AVRPin miso;
+    avr_pin miso;
     miso.DDRx = &DDRB;
     miso.PORTx = &PORTB;
     miso.PINx = &PINB;
@@ -77,7 +77,7 @@ int main(void)
     tftVars.miso = &miso;
 
     //INITIALIZE TOUCH SCREEN
-    initTFT(&tftVars);
+    init_tft(&tftVars);
     initCPTTS(FT6206_DEFAULT_THRESSHOLD);
     fillScreenTFT(ILI9341_BLACK, &tftVars);
     
@@ -109,7 +109,7 @@ int main(void)
         }
         buttons[i].x = (i % 8) * 40;
         buttons[i].size = 4;
-        drawButtonTFT(&buttons[i], &tftVars);
+        draw_button_tft(&buttons[i], &tftVars);
     }
 
 /*    
@@ -184,7 +184,7 @@ ISR(INT0_vect)
 	p.y = p.x;
     
     for (uint8_t i = 0; i < 16; i++) {
-        if (buttonContainsPointTFT(x, p.y, &buttons[i])) {
+        if (button_contains_point_tft(x, p.y, &buttons[i])) {
             write(buttons[i].label, &tftVars);
             break;
         }

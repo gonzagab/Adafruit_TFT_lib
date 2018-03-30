@@ -17,48 +17,48 @@
 
 int oldcolor, currentcolor;
 //INITIALIZE VARIABLES FOR TFT
-TFTVars tftVars;
+tft_vars tftVars;
 TSVars tsVars;
 
 int main(void)
 {
     //INITIALIZE PORTS FOR TFT
-    AVRPin cs;
+    avr_pin cs;
     cs.DDRx = &DDRB;
     cs.PORTx = &PORTB;
     cs.PINx = &PINB;
     cs.mask = 0x10;
     tftVars.cs = &cs;
 
-    AVRPin dc;
+    avr_pin dc;
     dc.DDRx = &DDRB;
     dc.PORTx = &PORTB;
     dc.PINx = &PINB;
     dc.mask = 0x08;
     tftVars.dc = &dc;
 
-    AVRPin rst;
+    avr_pin rst;
     rst.DDRx = &DDRB;
     rst.PORTx = &PORTB;
     rst.PINx = &PINB;
     rst.mask = 0x10;
     tftVars.rst = &rst;
 
-    AVRPin sclk;
+    avr_pin sclk;
     sclk.DDRx = &DDRB;
     sclk.PORTx = &PORTB;
     sclk.PINx = &PINB;
     sclk.mask = 0x80;
     tftVars.sclk = &sclk;
 
-    AVRPin mosi;
+    avr_pin mosi;
     mosi.DDRx = &DDRB;
     mosi.PORTx = &PORTB;
     mosi.PINx = &PINB;
     mosi.mask = 0x20;
     tftVars.mosi = &mosi;
 
-    AVRPin miso;
+    avr_pin miso;
     miso.DDRx = &DDRB;
     miso.PORTx = &PORTB;
     miso.PINx = &PINB;
@@ -66,7 +66,7 @@ int main(void)
     tftVars.miso = &miso;
 
     //INITIALIZE TOUCH SCREEN
-    initTFT(&tftVars);
+    init_tft(&tftVars);
     initCPTTS(FT6206_DEFAULT_THRESSHOLD);
       
     fillScreenTFT(ILI9341_BLACK, &tftVars);

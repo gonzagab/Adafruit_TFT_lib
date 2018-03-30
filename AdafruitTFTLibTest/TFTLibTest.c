@@ -10,60 +10,60 @@
 #include "AdafruitTFTSPIDriver.h"
 
 /* Function Prototypes */
-void testFillScreen(TFTVars* tftVars);
-void testLines(uint16_t color, TFTVars* tftVars);
-void testRects(uint16_t color, TFTVars* tftVars);
-void testFastLines(uint16_t color1, uint16_t color2, TFTVars* tftVars);
-void testFilledRects(uint16_t color1, uint16_t color2, TFTVars* tftVars);
-void testCircles(uint8_t radius, uint16_t color, TFTVars* tftVars);
-void testFilledCircles(uint8_t radius, uint16_t color, TFTVars* tftVars);
-void testTriangles(TFTVars* tftVars);
-void testFilledTriangles(TFTVars* tftVars);
-void testRoundRects(TFTVars* tftVars);
-void testFilledRoundRects(TFTVars* tftVars);
-void testText(TFTVars* tftVars);
+void testFillScreen(tft_vars* tftVars);
+void testLines(uint16_t color, tft_vars* tftVars);
+void testRects(uint16_t color, tft_vars* tftVars);
+void testFastLines(uint16_t color1, uint16_t color2, tft_vars* tftVars);
+void testFilledRects(uint16_t color1, uint16_t color2, tft_vars* tftVars);
+void testCircles(uint8_t radius, uint16_t color, tft_vars* tftVars);
+void testFilledCircles(uint8_t radius, uint16_t color, tft_vars* tftVars);
+void testTriangles(tft_vars* tftVars);
+void testFilledTriangles(tft_vars* tftVars);
+void testRoundRects(tft_vars* tftVars);
+void testFilledRoundRects(tft_vars* tftVars);
+void testText(tft_vars* tftVars);
 
 int main(void)
 {
     //INITIALIZE VARIABLES FOR TFT
-    TFTVars tftVars;
+    tft_vars tftVars;
     //INITIALIZE PORTS FOR TFT
-    AVRPin cs;
+    avr_pin cs;
     cs.DDRx = (uint8_t*) &DDRB;
     cs.PORTx = (uint8_t*) &PORTB;
     cs.PINx = (uint8_t*) &PINB;
     cs.mask = 0x01;
     tftVars.cs = &cs;
 
-    AVRPin sclk;
+    avr_pin sclk;
     sclk.DDRx = (uint8_t*) &DDRB;
     sclk.PORTx = (uint8_t*) &PORTB;
     sclk.PINx = (uint8_t*) &PINB;
     sclk.mask = 0x02;
     tftVars.sclk = &sclk;
 
-    AVRPin mosi;
+    avr_pin mosi;
     mosi.DDRx = (uint8_t*) &DDRB;
     mosi.PORTx = (uint8_t*) &PORTB;
     mosi.PINx = (uint8_t*) &PINB;
     mosi.mask = 0x04;
     tftVars.mosi = &mosi;
 
-    AVRPin miso;
+    avr_pin miso;
     miso.DDRx = (uint8_t*) &DDRB;
     miso.PORTx = (uint8_t*) &PORTB;
     miso.PINx = (uint8_t*) &PINB;
     miso.mask = 0x08;
     tftVars.miso = &miso;
     
-    AVRPin rst;
+    avr_pin rst;
     rst.DDRx = (uint8_t*) &DDRB;
     rst.PORTx = (uint8_t*) &PORTB;
     rst.PINx = (uint8_t*) &PINB;
     rst.mask = 0x10;
     tftVars.rst = &rst;
 
-     AVRPin dc;
+     avr_pin dc;
     dc.DDRx = (uint8_t*) &DDRE;
     dc.PORTx = (uint8_t*) &PORTE;
     dc.PINx = (uint8_t*) &PINE;
@@ -71,7 +71,7 @@ int main(void)
     tftVars.dc = &dc;
     
     //INITIALIZE TOUCH SCREEN
-    initTFT(&tftVars);
+    init_tft(&tftVars);
 
 	testFillScreen(&tftVars);
 	testLines(ILI9341_BLUE, &tftVars);
@@ -96,7 +96,7 @@ int main(void)
     }
 }
 
-void testFillScreen(TFTVars* tftVars)
+void testFillScreen(tft_vars* tftVars)
 {
     fillScreenTFT(ILI9341_BLACK       , tftVars);
     fillScreenTFT(ILI9341_NAVY        , tftVars);
@@ -119,7 +119,7 @@ void testFillScreen(TFTVars* tftVars)
     fillScreenTFT(ILI9341_PINK        , tftVars);
 }
 
-void testLines(uint16_t color, TFTVars* tftVars)
+void testLines(uint16_t color, tft_vars* tftVars)
 {
     int x1;
     int y1;
@@ -178,7 +178,7 @@ void testLines(uint16_t color, TFTVars* tftVars)
     }
 }
 
-void testRects(uint16_t color, TFTVars* tftVars)
+void testRects(uint16_t color, tft_vars* tftVars)
 {
 	int           n, i, i2,
 	cx = tftVars->width  / 2,
@@ -197,7 +197,7 @@ void testRects(uint16_t color, TFTVars* tftVars)
 	}
 }
 
-void testFastLines(uint16_t color1, uint16_t color2, TFTVars* tftVars)
+void testFastLines(uint16_t color1, uint16_t color2, tft_vars* tftVars)
 {
 	int  x, y, w = tftVars->width, h = tftVars->height;
 
@@ -207,7 +207,7 @@ void testFastLines(uint16_t color1, uint16_t color2, TFTVars* tftVars)
 	for(x=0; x<w; x+=5) drawVLineTFT(x, 0, h, color2, tftVars);
 }
 
-void testFilledRects(uint16_t color1, uint16_t color2, TFTVars* tftVars)
+void testFilledRects(uint16_t color1, uint16_t color2, tft_vars* tftVars)
 {
 	int n, i, i2,
 	
@@ -230,7 +230,7 @@ void testFilledRects(uint16_t color1, uint16_t color2, TFTVars* tftVars)
 	}
 }
 
-void testCircles(uint8_t radius, uint16_t color, TFTVars* tftVars)
+void testCircles(uint8_t radius, uint16_t color, tft_vars* tftVars)
 {
 	int x, y, r2 = radius * 2,
 	w = tftVars->width + radius,
@@ -245,7 +245,7 @@ void testCircles(uint8_t radius, uint16_t color, TFTVars* tftVars)
 	}
 }
 
-void testFilledCircles(uint8_t radius, uint16_t color, TFTVars* tftVars)
+void testFilledCircles(uint8_t radius, uint16_t color, tft_vars* tftVars)
 {
 	int x, y, w = tftVars->width, h = tftVars->height, r2 = radius * 2;
 
@@ -258,7 +258,7 @@ void testFilledCircles(uint8_t radius, uint16_t color, TFTVars* tftVars)
 	}
 }
 
-void testTriangles(TFTVars* tftVars)
+void testTriangles(tft_vars* tftVars)
 {
 	int n, i, cx = tftVars->width / 2 - 1,
 	cy = tftVars->height / 2 - 1;
@@ -280,7 +280,7 @@ void testTriangles(TFTVars* tftVars)
 	}
 }
 
-void testFilledTriangles(TFTVars* tftVars)
+void testFilledTriangles(tft_vars* tftVars)
 {
 	int i, cx = tftVars->width  / 2 - 1,
 	cy = tftVars->height / 2 - 1;
@@ -301,7 +301,7 @@ void testFilledTriangles(TFTVars* tftVars)
 	}
 }
 
-void testRoundRects(TFTVars* tftVars)
+void testRoundRects(tft_vars* tftVars)
 {
 	int w, i, i2,
 	cx = tftVars->width  / 2 - 1,
@@ -320,7 +320,7 @@ void testRoundRects(TFTVars* tftVars)
 	}
 }
 
-void testFilledRoundRects(TFTVars* tftVars)
+void testFilledRoundRects(tft_vars* tftVars)
 {
 	int i, i2,
 	cx = tftVars->width  / 2 - 1,
@@ -339,7 +339,7 @@ void testFilledRoundRects(TFTVars* tftVars)
 	}
 }
 
-void testText(TFTVars* tftVars)
+void testText(tft_vars* tftVars)
 {
     fillScreenTFT(ILI9341_BLACK, tftVars);
 

@@ -1,19 +1,21 @@
-//*******************************************************************
-//* File Name       :   Font5x7.h
-//*
-//* Author          :   Bryant Gonzaga
-//* Created         :   12/12/2017 4:54:19 PM
-//* Modified        :   12/20/2017
-//* Target Device   :
-//* Description:
-//*     Font structure define by Adafruit. This is the default font
-//* used in the SPI TFT drive class.
-//*******************************************************************
-
+/********************************************************************
+ * File:        font_5x7.h
+ * Author:      Bryant Gonzaga
+ * Created:     12/12/2017 4:54:19 PM
+ * Modified:    3/29/2018
+ *
+ * Notes:
+ *  This was originally provided by Adafruit.
+ *
+ * Description:
+ *  Font structure defined by Adafruit. This is the default font
+ * used in by SPI TFT Driver.
+ *******************************************************************/
 
 #ifndef FONT5X7_H_
 #define FONT5X7_H_
 
+#include "system_config.h"
 
 // Standard ASCII 5x7 font
 FLASH_DECLARE(static const unsigned char font[]) = {

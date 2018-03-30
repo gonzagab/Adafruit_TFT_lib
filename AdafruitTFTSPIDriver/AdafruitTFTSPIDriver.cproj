@@ -134,37 +134,37 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AdafruitTFTButton.c">
+    <Compile Include="adafruit_tft_button.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="AdafruitTFTButton.h">
+    <Compile Include="adafruit_tft_button.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="AdafruitTFTSPIDriver.c">
+    <Compile Include="adafruit_tft_spi_driver.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="AdafruitTFTSPIDriver.h">
+    <Compile Include="adafruit_tft_spi_driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="AdafruitTFTColors.h">
+    <Compile Include="adafruit_tft_colors.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="AdafruitTFTCommands.h">
+    <Compile Include="adafruit_tft_commands.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Font5x7.h">
+    <Compile Include="font_5x7.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="GFXFont.h">
+    <Compile Include="gfx_font.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="AVRPin.h">
+    <Compile Include="avr_pin.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SPIDriver.c">
+    <Compile Include="spi_driver.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SPIDriver.h">
+    <Compile Include="spi_driver.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="system_config.h">

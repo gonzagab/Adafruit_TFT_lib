@@ -1,13 +1,16 @@
-//*******************************************************************
-//* File Name       :  GFXFont.h
-//*
-//* Author          :   Bryant Gonzaga
-//* Created         :   11/30/2017
-//* Modified        :   12/20/2017
-//* Target Device   :   ATmega324A
-//* Description:
-//*     Font structure for font info.
-//*******************************************************************
+/********************************************************************
+ * File:        gfx_font.h
+ * Author:      Bryant Gonzaga
+ * Created:     11/30/2017
+ * Modified:    3/29/2018
+ *
+ * Notes:
+ *  This was originally provided by Adafruit.
+ *
+ * Description:
+ *  Font Structure for font info.
+ *******************************************************************/
+
 #ifndef GFXFONT_H_
 #define GFXFONT_H_
 

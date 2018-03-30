@@ -1,28 +1,33 @@
-//*******************************************************************
-//* File Name       :  AdafruitTFTSPIDriver.c
-//*
-//* Author          :   Bryant Gonzaga
-//* Created         :   11/27/2017
-//* Modified        :   12/20/2017
-//* Target Device   :   ATmega324A
-//* Description:
-//*     Contains all the methods used to communicate with the
-//* Adafruit touch screen. This file specifically contains
-//* methods to send data or commands to the touch screen. All methods
-//* use SPI to send data.
-//* Notes:
-//*     Enable (or disable) Code Page 437-compatible char set.
-//* There was an error in glcdfont.c for the longest time -- one character
-//* (#176, the 'light shade' block) was missing -- this threw off the index
-//* of every character that followed it.  But a TON of code has been written
-//* with the erroneous character indices.  By default, the library uses the
-//* original 'wrong' behavior and old sketches will still work.  Pass 'true'
-//* to this function to use correct CP437 character values in your code.
-//*******************************************************************
+/********************************************************************
+ * File:        adafruit_tft_spi_driver.c
+ * Author:      Bryant Gonzaga
+ * Created:     11/27/2017
+ * Modified:    3/29/2018
+ *
+ * Notes:
+ *  This was originally provided my Adafruit. This is the modified
+ * version that is expected to run on an MCU. The SPI Firmware Driver
+ * used in this version only has support for the ATmega324 and
+ * ATmega128.
+ *
+ * Description:
+ *  Contains methods to communicate with Adafruit's "2.8" TFT LCD
+ * with Capacitive Touch Breakout Board w/MicroSD Socket". All
+ * communication through these functions are done with SPI. This file
+ * has functions for users to draw lines and shapes onto the screen.
+ * It also contains functions for writing text to the screen.
+ * 
+ * How To:
+ *  1: Users should first initialize a tft_vars structure.
+ *  2: Then users can call the init_tft() function, passing it a
+ *     pointer to the tft_vars struct created in 1.
+ *  3: Finally users can call the functions for drawing onto the
+ *     screen.
+ *******************************************************************/
 
-#include "AdafruitTFTSPIDriver.h"
+#include "adafruit_tft_spi_driver.h"
 
-void initTFT(TFTVars* var)
+void init_tft(tft_vars* var)
 {
     //DATA DIRECTION REGISTERS
     *(var->dc->DDRx) |= var->dc->mask;
@@ -37,137 +42,127 @@ void initTFT(TFTVars* var)
     DELAY_MS(100);
 
     //INITIALIZE SPI
-    spiMasterInit(var->cs, var->sclk, var->mosi, var->miso);
+    spi_master_init(var->cs, var->sclk, var->mosi, var->miso);
 
-    spiStartTransmission(var->cs);
+    spi_start_transmission(var->cs);
     writeCommandTFT(0xEF, var);
-    spiMasterTransmit(0x03);
-    spiMasterTransmit(0x80);
-    spiMasterTransmit(0x02);
+    spi_master_transmit(0x03);
+    spi_master_transmit(0x80);
+    spi_master_transmit(0x02);
 
     writeCommandTFT(0xCF, var);
-    spiMasterTransmit(0x00);
-    spiMasterTransmit(0XC1);
-    spiMasterTransmit(0X30);
+    spi_master_transmit(0x00);
+    spi_master_transmit(0XC1);
+    spi_master_transmit(0X30);
 
     writeCommandTFT(0xED, var);
-    spiMasterTransmit(0x64);
-    spiMasterTransmit(0x03);
-    spiMasterTransmit(0X12);
-    spiMasterTransmit(0X81);
+    spi_master_transmit(0x64);
+    spi_master_transmit(0x03);
+    spi_master_transmit(0X12);
+    spi_master_transmit(0X81);
 
     writeCommandTFT(0xE8, var);
-    spiMasterTransmit(0x85);
-    spiMasterTransmit(0x00);
-    spiMasterTransmit(0x78);
+    spi_master_transmit(0x85);
+    spi_master_transmit(0x00);
+    spi_master_transmit(0x78);
 
     writeCommandTFT(0xCB, var);
-    spiMasterTransmit(0x39);
-    spiMasterTransmit(0x2C);
-    spiMasterTransmit(0x00);
-    spiMasterTransmit(0x34);
-    spiMasterTransmit(0x02);
+    spi_master_transmit(0x39);
+    spi_master_transmit(0x2C);
+    spi_master_transmit(0x00);
+    spi_master_transmit(0x34);
+    spi_master_transmit(0x02);
 
     writeCommandTFT(0xF7, var);
-    spiMasterTransmit(0x20);
+    spi_master_transmit(0x20);
 
     writeCommandTFT(0xEA, var);
-    spiMasterTransmit(0x00);
-    spiMasterTransmit(0x00);
+    spi_master_transmit(0x00);
+    spi_master_transmit(0x00);
 
     writeCommandTFT(ILI9341_PWCTR1, var);    //Power control
-    spiMasterTransmit(0x23);   //VRH[5:0]
+    spi_master_transmit(0x23);   //VRH[5:0]
 
     writeCommandTFT(ILI9341_PWCTR2, var);    //Power control
-    spiMasterTransmit(0x10);   //SAP[2:0];BT[3:0]
+    spi_master_transmit(0x10);   //SAP[2:0];BT[3:0]
 
     writeCommandTFT(ILI9341_VMCTR1, var);    //VCM control
-    spiMasterTransmit(0x3e);
-    spiMasterTransmit(0x28);
+    spi_master_transmit(0x3e);
+    spi_master_transmit(0x28);
 
     writeCommandTFT(ILI9341_VMCTR2, var);    //VCM control2
-    spiMasterTransmit(0x86);  //--
+    spi_master_transmit(0x86);  //--
 
     writeCommandTFT(ILI9341_MADCTL, var);    // Memory Access Control
-    spiMasterTransmit(0x48);
+    spi_master_transmit(0x48);
 
     writeCommandTFT(ILI9341_VSCRSADD, var); // Vertical scroll
-    spiMasterTransmit16(0);                 // Zero
+    spi_master_transmit16(0);                 // Zero
 
     writeCommandTFT(ILI9341_PIXFMT, var);
-    spiMasterTransmit(0x55);
+    spi_master_transmit(0x55);
 
     writeCommandTFT(ILI9341_FRMCTR1, var);
-    spiMasterTransmit(0x00);
-    spiMasterTransmit(0x18);
+    spi_master_transmit(0x00);
+    spi_master_transmit(0x18);
 
     writeCommandTFT(ILI9341_DFUNCTR, var);    // Display Function Control
-    spiMasterTransmit(0x08);
-    spiMasterTransmit(0x82);
-    spiMasterTransmit(0x27);
+    spi_master_transmit(0x08);
+    spi_master_transmit(0x82);
+    spi_master_transmit(0x27);
 
     writeCommandTFT(0xF2, var);    // 3Gamma Function Disable
-    spiMasterTransmit(0x00);
+    spi_master_transmit(0x00);
 
     writeCommandTFT(ILI9341_GAMMASET, var);    //Gamma curve selected
-    spiMasterTransmit(0x01);
+    spi_master_transmit(0x01);
 
     writeCommandTFT(ILI9341_GMCTRP1, var);    //Set Gamma
-    spiMasterTransmit(0x0F);
-    spiMasterTransmit(0x31);
-    spiMasterTransmit(0x2B);
-    spiMasterTransmit(0x0C);
-    spiMasterTransmit(0x0E);
-    spiMasterTransmit(0x08);
-    spiMasterTransmit(0x4E);
-    spiMasterTransmit(0xF1);
-    spiMasterTransmit(0x37);
-    spiMasterTransmit(0x07);
-    spiMasterTransmit(0x10);
-    spiMasterTransmit(0x03);
-    spiMasterTransmit(0x0E);
-    spiMasterTransmit(0x09);
-    spiMasterTransmit(0x00);
+    spi_master_transmit(0x0F);
+    spi_master_transmit(0x31);
+    spi_master_transmit(0x2B);
+    spi_master_transmit(0x0C);
+    spi_master_transmit(0x0E);
+    spi_master_transmit(0x08);
+    spi_master_transmit(0x4E);
+    spi_master_transmit(0xF1);
+    spi_master_transmit(0x37);
+    spi_master_transmit(0x07);
+    spi_master_transmit(0x10);
+    spi_master_transmit(0x03);
+    spi_master_transmit(0x0E);
+    spi_master_transmit(0x09);
+    spi_master_transmit(0x00);
 
     writeCommandTFT(ILI9341_GMCTRN1, var);    //Set Gamma
-    spiMasterTransmit(0x00);
-    spiMasterTransmit(0x0E);
-    spiMasterTransmit(0x14);
-    spiMasterTransmit(0x03);
-    spiMasterTransmit(0x11);
-    spiMasterTransmit(0x07);
-    spiMasterTransmit(0x31);
-    spiMasterTransmit(0xC1);
-    spiMasterTransmit(0x48);
-    spiMasterTransmit(0x08);
-    spiMasterTransmit(0x0F);
-    spiMasterTransmit(0x0C);
-    spiMasterTransmit(0x31);
-    spiMasterTransmit(0x36);
-    spiMasterTransmit(0x0F);
+    spi_master_transmit(0x00);
+    spi_master_transmit(0x0E);
+    spi_master_transmit(0x14);
+    spi_master_transmit(0x03);
+    spi_master_transmit(0x11);
+    spi_master_transmit(0x07);
+    spi_master_transmit(0x31);
+    spi_master_transmit(0xC1);
+    spi_master_transmit(0x48);
+    spi_master_transmit(0x08);
+    spi_master_transmit(0x0F);
+    spi_master_transmit(0x0C);
+    spi_master_transmit(0x31);
+    spi_master_transmit(0x36);
+    spi_master_transmit(0x0F);
 
     writeCommandTFT(ILI9341_SLPOUT, var);    //Exit Sleep
     DELAY_MS(120);
     writeCommandTFT(ILI9341_DISPON, var);    //Display on
     DELAY_MS(120);
 
-    spiEndTransmission(var->cs);
+    spi_end_transmission(var->cs);
 
     var->width  = TFT_WIDTH;
     var->height = TFT_HEIGHT;
 }
 
-void writeCommandTFT(uint8_t cmd, TFTVars* var)
-{
-    //dc low to indicate command
-    *(var->dc->PORTx) &= ~(var->dc->mask);
-    //send command over
-    spiMasterTransmit(cmd);
-    //reset dc to its default value of 1 for data transfer
-    *(var->dc->PORTx) |= var->dc->mask;
-}
-
-void setRotationTFT(uint8_t m, TFTVars* var)
+void setRotationTFT(uint8_t m, tft_vars* var)
 {
     var->rotation = m % 4; // can't be higher than 3
     switch (var->rotation) {
@@ -193,28 +188,28 @@ void setRotationTFT(uint8_t m, TFTVars* var)
         break;
     }
 
-    spiStartTransmission(var->cs);
+    spi_start_transmission(var->cs);
     writeCommandTFT(ILI9341_MADCTL, var);
-    spiMasterTransmit(m);
-    spiEndTransmission(var->cs);
+    spi_master_transmit(m);
+    spi_end_transmission(var->cs);
 }
 
-void invertDisplay(bool i, TFTVars* var)
+void invertDisplay(bool i, tft_vars* var)
 {
-    spiStartTransmission(var->cs);
+    spi_start_transmission(var->cs);
     writeCommandTFT(i ? ILI9341_INVON : ILI9341_INVOFF, var);
-    spiEndTransmission(var->cs);
+    spi_end_transmission(var->cs);
 }
 
-void scrollTo(uint16_t y, TFTVars* var)
+void scrollTo(uint16_t y, tft_vars* var)
 {
-    spiStartTransmission(var->cs);
+    spi_start_transmission(var->cs);
     writeCommandTFT(ILI9341_VSCRSADD, var);
-    spiMasterTransmit16(y);
-    spiEndTransmission(var->cs);
+    spi_master_transmit16(y);
+    spi_end_transmission(var->cs);
 }
 
-void drawPixel(int16_t x, int16_t y, uint16_t color, TFTVars* var)
+void drawPixel(int16_t x, int16_t y, uint16_t color, tft_vars* var)
 {
     if (x < 0) {
         return;
@@ -230,47 +225,47 @@ void drawPixel(int16_t x, int16_t y, uint16_t color, TFTVars* var)
     }
 
     setAddrWindow(x, y, 1, 1, var);
-    spiStartTransmission(var->cs);
-    spiMasterTransmit16(color);
-    spiEndTransmission(var->cs);
+    spi_start_transmission(var->cs);
+    spi_master_transmit16(color);
+    spi_end_transmission(var->cs);
 }
 
-void setAddrWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h, TFTVars* var)
+void setAddrWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h, tft_vars* var)
 {
     uint32_t xa = ((uint32_t)x << 16) | (x + w - 1);
     uint32_t ya = ((uint32_t)y << 16) | (y + h - 1);
 
-    spiStartTransmission(var->cs);
+    spi_start_transmission(var->cs);
     writeCommandTFT(ILI9341_CASET, var); // Column addr set
-    spiMasterTransmit32(xa);
+    spi_master_transmit32(xa);
     writeCommandTFT(ILI9341_PASET, var); // Row addr set
-    spiMasterTransmit32(ya);
+    spi_master_transmit32(ya);
     writeCommandTFT(ILI9341_RAMWR, var); // write to RAM
-    spiEndTransmission(var->cs);
+    spi_end_transmission(var->cs);
 }
 
-void writePixels(uint16_t* colors, uint32_t len, TFTVars* var)
+void writePixels(uint16_t* colors, uint32_t len, tft_vars* var)
 {
     len = len * 2;
 
-    spiStartTransmission(var->cs);
+    spi_start_transmission(var->cs);
     for (uint32_t i = 0; i < len; i += 2) {
-        spiMasterTransmit(((uint8_t*)colors)[i + 1]);
-        spiMasterTransmit(((uint8_t*)colors)[i]);
+        spi_master_transmit(((uint8_t*)colors)[i + 1]);
+        spi_master_transmit(((uint8_t*)colors)[i]);
     }
-    spiEndTransmission(var->cs);
+    spi_end_transmission(var->cs);
 }
 
-void writeColor(uint16_t color, uint32_t len, TFTVars* var)
+void writeColor(uint16_t color, uint32_t len, tft_vars* var)
 {
     uint8_t hi = color >> 8, lo = color;
 
-    spiStartTransmission(var->cs);
+    spi_start_transmission(var->cs);
     for (uint32_t t = len; t; t--) {
-        spiMasterTransmit(hi);
-        spiMasterTransmit(lo);
+        spi_master_transmit(hi);
+        spi_master_transmit(lo);
     }
-    spiEndTransmission(var->cs);
+    spi_end_transmission(var->cs);
 }
 
 uint16_t color565(uint8_t r, uint8_t g, uint8_t b)
@@ -278,22 +273,22 @@ uint16_t color565(uint8_t r, uint8_t g, uint8_t b)
     return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | ((b & 0xF8) >> 3);
 }
 
-void fillScreenTFT(uint16_t color, TFTVars* var)
+void fillScreenTFT(uint16_t color, tft_vars* var)
 {
     fillRect(0, 0, var->width, var->height, color, var);
 }
 
-void drawVLineTFT(int16_t x, int16_t y, int16_t h, uint16_t color, TFTVars* var)
+void drawVLineTFT(int16_t x, int16_t y, int16_t h, uint16_t color, tft_vars* var)
 {
     fillRect(x, y, 1, h, color, var);
 }
 
-void drawHLineTFT(int16_t x, int16_t y, int16_t w, uint16_t color, TFTVars* var)
+void drawHLineTFT(int16_t x, int16_t y, int16_t w, uint16_t color, tft_vars* var)
 {
     fillRect(x, y, w, 1, color, var);
 }
 
-void drawLineTFT(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, TFTVars* var)
+void drawLineTFT(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, tft_vars* var)
 {
     if (x0 == x1) {
         if (y0 > y1) {
@@ -346,7 +341,7 @@ void drawLineTFT(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color,
     }
 }
 
-void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, TFTVars* var)
+void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_vars* var)
 {
     if ((x >= var->width) || (y >= var->height)) {
         return;
@@ -382,7 +377,7 @@ void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, TFTVar
     writeColor(color, len, var);
 }
 
-void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, TFTVars* var)
+void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_vars* var)
 {
     drawHLineTFT(x, y, w, color, var);
     drawHLineTFT(x, (y + h - 1), w, color, var);
@@ -390,7 +385,7 @@ void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, TFTVar
     drawVLineTFT((x + w - 1), y, h, color, var);
 }
 
-void drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, TFTVars* var)
+void drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, tft_vars* var)
 {
     int16_t f = 1 - r;
     int16_t ddF_x = 1;
@@ -424,13 +419,13 @@ void drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, TFTVars* var)
     }
 }
 
-void fillCircle(int16_t x, int16_t y, int16_t r, uint16_t color, TFTVars* var)
+void fillCircle(int16_t x, int16_t y, int16_t r, uint16_t color, tft_vars* var)
 {
     drawVLineTFT(x, (y - r), ((2 * r) + 1), color, var);
     fillCircleHelper(x, y, r, 3, 0, color, var);
 }
 
-void drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color, TFTVars* var)
+void drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color, tft_vars* var)
 {
     // smarter version
     drawHLineTFT((x + r)    ,  y         , (w - (2 * r)), color, var); // Top
@@ -444,7 +439,7 @@ void drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16
     drawCircleHelper((x + r)        , (y + h - r - 1), r, 8, color, var);
 }
 
-void drawCircleHelper( int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color, TFTVars* var) {
+void drawCircleHelper( int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color, tft_vars* var) {
     int16_t f     = 1 - r;
     int16_t ddF_x = 1;
     int16_t ddF_y = -2 * r;
@@ -479,7 +474,7 @@ void drawCircleHelper( int16_t x0, int16_t y0, int16_t r, uint8_t cornername, ui
     }
 }
 
-void fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color, TFTVars* var)
+void fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color, tft_vars* var)
 {
     // smarter version
     fillRect((x + r), y, (w - (2 * r)), h, color, var);
@@ -488,7 +483,7 @@ void fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16
     fillCircleHelper((x + r)        , (y + r), r, 2, (h - (2 * r) - 1), color, var);
 }
 
-void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta, uint16_t color, TFTVars* var)
+void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta, uint16_t color, tft_vars* var)
 {
     int16_t f     = 1 - r;
     int16_t ddF_x = 1;
@@ -517,14 +512,14 @@ void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int
     }
 }
 
-void drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color, TFTVars* var)
+void drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color, tft_vars* var)
 {
     drawLineTFT(x0, y0, x1, y1, color, var);
     drawLineTFT(x1, y1, x2, y2, color, var);
     drawLineTFT(x2, y2, x0, y0, color, var);
 }
 
-void fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color, TFTVars* var)
+void fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color, tft_vars* var)
 {
     int16_t a, b, y, last;
 
@@ -603,7 +598,7 @@ void fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, in
     }
 }
 
-void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size, TFTVars* var)
+void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size, tft_vars* var)
 {
     if (!(var->gfxFont)) { // 'Classic' built-in font
         if ((x >= var->width)    || // Clip right
@@ -702,7 +697,7 @@ void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg
     } // End classic vs custom font
 }
 
-void write(uint8_t c, TFTVars* var)
+void write(uint8_t c, tft_vars* var)
 {
     if (!(var->gfxFont)) { // 'Classic' built-in font
         if (c == '\n') {                       // Newline?
@@ -745,7 +740,7 @@ void write(uint8_t c, TFTVars* var)
 
 }
 
-void charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy, TFTVars* var)
+void charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy, tft_vars* var)
 {
 
     if (var->gfxFont) {
@@ -802,7 +797,7 @@ void charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, in
     }
 }
 
-void getTextBounds(char *str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h, TFTVars* var)
+void getTextBounds(char *str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h, tft_vars* var)
 {
     uint8_t c; // Current character
 
@@ -826,7 +821,7 @@ void getTextBounds(char *str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, ui
     }
 }
 
-void setFont(const GFXfont* f, TFTVars* var)
+void setFont(const GFXfont* f, tft_vars* var)
 {
     if (f) {           // Font struct pointer passed in?
         if (!var->gfxFont) { // And no current font struct?
@@ -842,7 +837,7 @@ void setFont(const GFXfont* f, TFTVars* var)
     var->gfxFont = (GFXfont*) f;
 }
 
-void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, TFTVars* var)
+void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, tft_vars* var)
 {
     int16_t byteWidth = (w + 7) / 8; // Bitmap scan line pad = whole byte
     uint8_t byte = 0;
@@ -861,7 +856,7 @@ void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t
     }
 }
 
-void drawBitmap1(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, uint16_t bg, TFTVars* var)
+void drawBitmap1(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, uint16_t bg, tft_vars* var)
 {
     int16_t byteWidth = (w + 7) / 8; // Bitmap scan line pad = whole byte
     uint8_t byte = 0;
@@ -876,4 +871,18 @@ void drawBitmap1(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_
             drawPixel((x + i), y, (byte & 0x80) ? color : bg, var);
         }
     }
+}
+
+//===================================================================
+//                         STATIC FUNCTIONS
+//===================================================================
+
+static void writeCommandTFT(uint8_t cmd, tft_vars* var)
+{
+    //dc low to indicate command
+    *(var->dc->PORTx) &= ~(var->dc->mask);
+    //send command over
+    spi_master_transmit(cmd);
+    //reset dc to its default value of 1 for data transfer
+    *(var->dc->PORTx) |= var->dc->mask;
 }

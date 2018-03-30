@@ -1,13 +1,13 @@
-//*******************************************************************
-//* File Name       :  AdafruitTFTColors.h
-//*
-//* Author          :   Bryant Gonzaga
-//* Created         :   11/30/2017
-//* Modified        :   12/20/2017
-//* Target Device   :   
-//* Description:
-//*     Colors provided by Adafruit for their touch screen
-//*******************************************************************
+/********************************************************************
+ * File:        adafruit_tft_colors.h
+ * Author:      Bryant Gonzaga
+ * Created:     11/30/2017
+ * Modified:    3/30/2018
+ *
+ * Description:
+ *  Colors provided by Adafruit for their touch screen
+ *******************************************************************/
+
 #ifndef ADAFRUITTFTCOLORS_H_
 #define ADAFRUITTFTCOLORS_H_
 

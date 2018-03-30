@@ -1,13 +1,13 @@
-//*******************************************************************
-//* File Name       :  AdafruitTFTCommands.h
-//*
-//* Author          :   Bryant Gonzaga
-//* Created         :   11/27/2017
-//* Modified        :   12/20/2017
-//* Target Device   :   
-//* Description:
-//*     Defines commands provided by Adafruit for their touch screen
-//*******************************************************************
+/********************************************************************
+ * File:        adafruit_tft_commands.h
+ * Author:      Bryant Gonzaga
+ * Created:     11/27/2017
+ * Modified:    3/30/2018
+ *
+ * Description:
+ *  Defines commands provided by Adafruit for their touch screen
+ *******************************************************************/
+
 #ifndef ADAFRUITTFTCOMMANDS_H_
 #define ADAFRUITTFTCOMMANDS_H_
 
