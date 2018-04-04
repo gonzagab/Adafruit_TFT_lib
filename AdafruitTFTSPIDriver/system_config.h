@@ -8,7 +8,7 @@
  *  This file is to be used with the AdafruitTFTSPIDriver Library.
  *
  * Description:
- *  In order to make the library more versitile this file is used to
+ *  In order to make the library more versatile this file is used to
  * configure which MCU and which Compiler/IDE users would like to
  * use. At this point the library only supports two microcontrollers
  * and two compilers. The ATmega324 and the ATmega128 are both
@@ -26,8 +26,8 @@
 #define SYSTEM_CONFIG_H_
 
 /* Specify Microcontroller */
-// #define ATMEGA128
-#define ATMEGA324
+#define ATMEGA128
+// #define ATMEGA324
 
 /* Specify Clock Frequency */
 #define SYS_CLK_FREQ 16000000
@@ -56,8 +56,7 @@
     #define DELAY_MS(mili_secs) __delay_cycles(mili_secs * SYS_CLK_FREQ / 1000)
 
     /* Interrupts */
-    #define INTERRUPT_HANDLER(int_vect) #pragma vector = int_vect \
-                                        __interrupt void #int_vect_handler(void)
+    #define ENABLE_INTERRUPTS()       __enable_interrupt()
 
     /* Include Files Needed */
     #include <intrinsics.h>
@@ -80,7 +79,7 @@
     #define DELAY_MS(mili_secs) _delay_ms(mili_secs)
    
     /* Interrupts */
-    #define INTERRUPT_HANDLER(int_vect) ISR(int_vect)
+    #define ENABLE_INTERRUPTS()           sei()
 
     /* Include Files Needed */
     #include <avr/interrupt.h>
@@ -96,4 +95,3 @@
 #include <stdlib.h>
 
 #endif /* SYSTEM_CONFIG_H_ */
-   
