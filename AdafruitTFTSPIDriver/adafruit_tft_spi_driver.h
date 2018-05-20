@@ -54,7 +54,7 @@
 /**
  * Contains all the variables associated with the touchscreen.
  */
-typedef struct tft_vars
+typedef struct
 {
     uint16_t width;     /**< Screen width according to rotation. >*/
     uint16_t height;    /**< Screen height according to rotation. >*/
@@ -88,6 +88,11 @@ typedef struct tft_vars
  *              current variables used for a touchscreen.
  */
 void init_tft(tft_vars* var);
+
+/**
+ *
+ */
+void init_spi_tft(tft_vars* var);
 
 /**
  * Sets the rotation of the screen. The screen can have four

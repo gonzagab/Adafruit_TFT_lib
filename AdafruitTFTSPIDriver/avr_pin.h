@@ -19,7 +19,7 @@
 
 #include <stdint.h>
 
-typedef struct avr_pin
+typedef struct
 {
     uint8_t* DDRx;  /**< Pointer to Data Direction Register */
     uint8_t* PORTx; /**< Pointer to PORT Register */

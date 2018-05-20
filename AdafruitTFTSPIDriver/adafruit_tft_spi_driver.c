@@ -60,9 +60,9 @@ static void setAddrWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h, tft_va
     spi_end_transmission(var->cs);
 }
 
-//===================================================================
-//                         PUBLIC FUNCTIONS
-//===================================================================
+//=================================================================//
+//                         PUBLIC FUNCTIONS                        //
+//=================================================================//
 
 void init_tft(tft_vars* var)
 {
@@ -197,6 +197,11 @@ void init_tft(tft_vars* var)
 
     var->width  = TFT_WIDTH;
     var->height = TFT_HEIGHT;
+}
+
+void init_spi_tft(tft_vars* var)
+{
+    spi_master_init(var->cs, var->sclk, var->mosi, var->miso);
 }
 
 void setRotationTFT(uint8_t m, tft_vars* var)

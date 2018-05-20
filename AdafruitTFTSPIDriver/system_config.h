@@ -26,8 +26,8 @@
 #define SYSTEM_CONFIG_H_
 
 /* Specify Microcontroller */
-#define ATMEGA128
-// #define ATMEGA324
+// #define ATMEGA128
+#define ATMEGA324
 
 /* Specify Clock Frequency */
 #define SYS_CLK_FREQ 16000000
