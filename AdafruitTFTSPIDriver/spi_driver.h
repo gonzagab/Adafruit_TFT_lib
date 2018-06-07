@@ -22,6 +22,27 @@
 #include "system_config.h"
 #include "avr_pin.h"
 
+
+//=================================================================//
+//                  SPI Pin Definition - ATmega16A                 //
+//=================================================================//
+#define BG_SPI_SCLK_DDR DDRB
+#define BG_SPI_MOSI_DDR DDRB
+#define BG_SPI_MISO_DDR DDRB
+
+#define BG_SPI_SCLK_PIN PINB
+#define BG_SPI_MOSI_PIN PINB
+#define BG_SPI_MISO_PIN PINB
+
+#define BG_SPI_SCLK_PORT PORTB
+#define BG_SPI_MOSI_PORT PORTB
+#define BG_SPI_MISO_PORT PORTB
+
+#define BG_SPI_SCLK_MASK 0x80
+#define BG_SPI_MOSI_MASK 0x20
+#define BG_SPI_MISO_MASK 0x40
+
+
 #if defined(ATMEGA324)
     #define  SPCR   SPCR0
     #define  SPDR   SPDR0
@@ -49,6 +70,21 @@
               system_config.h file"
 #endif
 
+//=================================================================//
+//                     SPI Flags                 //
+//=================================================================//
+#define BG_SPI_LSB_FIRST        0x01
+#define BG_SPI_SCLK_IDLE_HIGH   0x02
+#define BG_SPI_SAMPLE_RISING    0x04
+#define BG_SPI_SCLK_DIV_4       0x00
+#define BG_SPI_SCLK_DIV_2       0x10
+#define BG_SPI_SCLK_DIV_16      0x20
+#define BG_SPI_SCLK_DIV_8       0x30
+#define BG_SPI_SCLK_DIV_64      0x40
+#define BG_SPI_SCLK_DIV_32      0x50
+#define BG_SPI_SCLK_DIV_128     0x60
+
+
 /**
  * Initializes the SPI hardware to operate in the Master mode, to
  * send the most significant bit first, and to have slave clock
@@ -57,12 +93,10 @@
  * and the miso pin as input. It also drives the mosi and sclk pins
  * low and the ss pin high.
  * @param ss    Slave Select. Pointer to AVRPin struct
- * @param sclk  Slave Clock. Pointer to AVRPin struct
- * @param mosi  Master Out Slave In. Pointer to AVRPin struct
- * @param miso  Master In Slave Out. Pointer to AVRPin struct
+ * @param flags Set of flags that indicate how to set up SPI
  * @see AVRPin
  */
-void spi_master_init(avr_pin* ss, avr_pin* sclk, avr_pin* mosi, avr_pin* miso);
+void spi_master_init(avr_pin* ss, uint8_t flags);
 
 /**
  * Initializes the SPI hardware to operate in the Slave mode.
