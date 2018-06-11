@@ -5,9 +5,9 @@
  * Modified:    3/29/2018
  *
  * Notes:
- *  This SPI driver was written to work with the ATmega128 and
- * ATmega324. The "system_config.h" file specifies what MCU is to be
- * used and compiler specific code. This file only needs to be edited
+ *  This SPI driver was written to work with the ATmega16, ATmega128,
+ * and ATmega324. The "system_config.h" file specifies what MCU is to
+ * be used and compiler specific code. This file only needs to be edited
  * slightly to define what MCU is used.
  *
  * Description:
@@ -22,9 +22,8 @@
 #include "system_config.h"
 #include "avr_pin.h"
 
-
 //=================================================================//
-//                  SPI Pin Definition - ATmega16A                 //
+//                SPI Port and Register Definitions                //
 //=================================================================//
 #define BG_SPI_SCLK_DDR DDRB
 #define BG_SPI_MOSI_DDR DDRB
@@ -37,11 +36,6 @@
 #define BG_SPI_SCLK_PORT PORTB
 #define BG_SPI_MOSI_PORT PORTB
 #define BG_SPI_MISO_PORT PORTB
-
-#define BG_SPI_SCLK_MASK 0x80
-#define BG_SPI_MOSI_MASK 0x20
-#define BG_SPI_MISO_MASK 0x40
-
 
 #if defined(ATMEGA324)
     #define  SPCR   SPCR0
@@ -62,16 +56,30 @@
     #define CPHA    CPHA0
     #define SPR1    SPR10
     #define SPR0    SPR00
+    
+    /* SPI Pin Masks */
+    #define BG_SPI_MOSI_MASK 0x20
+    #define BG_SPI_MISO_MASK 0x40
+    #define BG_SPI_SCLK_MASK 0x80
 #elif defined(ATMEGA128)
     // Names are already set
+    /* SPI Pin Masks */
+    #define BG_SPI_SCLK_MASK 0x02
+    #define BG_SPI_MOSI_MASK 0x04
+    #define BG_SPI_MISO_MASK 0x08
+#elif defined(ATMEGA16)
+    /* SPI Pin Masks */
+    #define BG_SPI_MOSI_MASK 0x20
+    #define BG_SPI_MISO_MASK 0x40
+    #define BG_SPI_SCLK_MASK 0x80
 #else
-    #warning "This SPI Driver is only guaranteed to work with the \
+    #error "This SPI Driver is only guaranteed to work with the \
               ATmeg324 and ATmega128. Please define one in the    \
               system_config.h file"
 #endif
 
 //=================================================================//
-//                     SPI Flags                 //
+//                         SPI Flags                               //
 //=================================================================//
 #define BG_SPI_LSB_FIRST        0x01
 #define BG_SPI_SCLK_IDLE_HIGH   0x02
@@ -84,17 +92,17 @@
 #define BG_SPI_SCLK_DIV_32      0x50
 #define BG_SPI_SCLK_DIV_128     0x60
 
-
+//=================================================================//
+//                          SPI Functions                          //
+//=================================================================//
 /**
- * Initializes the SPI hardware to operate in the Master mode, to
- * send the most significant bit first, and to have slave clock
- * frequency at half the system clock.
- * Initializes the ss, sclk, and mosi pins as outputs
- * and the miso pin as input. It also drives the mosi and sclk pins
- * low and the ss pin high.
+ * Initializes the SPI hardware to operate in master mode with the
+ * desired flags. Initializes the ss, sclk, and mosi pins as outputs
+ * and the miso pin as input. It also sets the slave select pin.
  * @param ss    Slave Select. Pointer to AVRPin struct
  * @param flags Set of flags that indicate how to set up SPI
- * @see AVRPin
+ * @see avr_pin
+ * @see SPI Flags
  */
 void spi_master_init(avr_pin* ss, uint8_t flags);
 
@@ -103,51 +111,57 @@ void spi_master_init(avr_pin* ss, uint8_t flags);
  * Firstly, it initializes the ss, sclk, and mosi pins as inputs and
  * the miso pin as output.
  * @param ss    Slave Select. Pointer to AVRPin struct
- * @param sclk  Slave Clock. Pointer to AVRPin struct
- * @param mosi  Master Out Slave In. Pointer to AVRPin struct
- * @param miso  Master In Slave Out. Pointer to AVRPin struct
- * @see AVRPin
+ * @see avr_pin
  */
-void spi_slave_init(avr_pin* ss, avr_pin* sclk, avr_pin* mosi, avr_pin* miso);
-
-/**
- * Empty for now.
- */
-void spiSetClkPrescalar(uint8_t prescalar);
+void spi_slave_init(avr_pin* ss);
 
 /**
  * Initializes the SPI transaction by driving the slave select pin
  * low.
- * @param ss    AVRPin structure for the slave select pin.
+ * @param ss    avr_pin structure for the slave select pin.
+ * @see avr_pin
  */
-void spi_start_transmission(avr_pin* ss);
+void spi_select_slave(avr_pin* ss);
+
+/**
+ * Ends the SPI transaction by driving the slave select pin high.
+ * @param ss    avr_pin structure for the slave select pin.
+ */
+void spi_deselect_slave(avr_pin* ss);
+
+/**
+ * Transmits n bytes of data through hardware SPI.
+ * Will return once data has been transmitted.
+ * @param data  pointer to data to be transmitted.
+ * @param n     number of bytes to be transmitted.
+ */
+void spi_master_transmit(uint8_t* data, uint8_t n);
 
 /**
  * Transmits a single byte of data through hardware SPI.
- * Will return once data has been transmitted
+ * Will return once data has been transmitted.
  * @param data  byte of data to be transmitted.
  */
-void spi_master_transmit(uint8_t data);
+void spi_master_transmit8(uint8_t data);
 
 /**
  * Transmits a two bytes of data through hardware SPI.
- * Will return once data has been transmitted
+ * Will return once data has been transmitted.
  * @param data  16-bit data to be transmitted.
  */
 void spi_master_transmit16(uint16_t data);
 
 /**
  * Transmits a four bytes of data through hardware SPI.
- * Will return once data has been transmitted
+ * Will return once data has been transmitted.
  * @param data  32-bit data to be transmitted.
  */
 void spi_master_transmit32(uint32_t data);
 
 /**
- * Ends the SPI transaction by driving the slave select pin high.
- * @param ss    AVRPin structure for the slave select pin.
+ * Will read one byte from the SPI data register and return it.
  */
-void spi_end_transmission(avr_pin* ss);
+uint8_t spi_master_recieve(void);
 
 /**
  * Used to read data from a master through SPI.

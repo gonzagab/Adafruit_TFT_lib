@@ -2,16 +2,16 @@
  * File:        spi_driver.c
  * Author:      Bryant Gonzaga
  * Created:     11/30/2017
- * Modified:    3/29/2018
+ * Modified:    6/11/2018
  *
  * Notes:
- *  This SPI driver was written to work with the ATmega128 and
- * ATmega324. The "system_config.h" file specifies what MCU is to be
- * used and compiler specific code. This file only needs to be edited
+ *  This SPI driver was written to work with the ATmega16, ATmega128,
+ * and ATmega324. The "system_config.h" file specifies what MCU is to
+ * be used and compiler specific code. This file only needs to be edited
  * slightly to define what MCU is used.
  *
  * Description:
- *  This is the C file that defines functions for initializing and
+ *  This is a header file that declares functions for initializing and
  * using the hardware SPI on the MCU. It provides support for Master
  * and Slave mode of the MCU.
  *******************************************************************/
@@ -23,7 +23,7 @@ void spi_master_init(avr_pin* ss, uint8_t flags)
     //setup DDRx register for SPI
     BG_SPI_SCLK_DDR |= BG_SPI_SCLK_MASK;
     BG_SPI_MOSI_DDR |= BG_SPI_MOSI_MASK;
-    BG_SPI_MISO_DDR |= BG_SPI_MISO_MASK;
+    BG_SPI_MISO_DDR &= ~BG_SPI_MISO_MASK;
     *(ss->DDRx) |= ss->mask;
     
     //set slave select
@@ -49,27 +49,40 @@ void spi_master_init(avr_pin* ss, uint8_t flags)
     SPSR = (flags >> 4);
 }
 
-void spi_slave_init(avr_pin* ss, avr_pin* sclk, avr_pin* mosi, avr_pin* miso)
+void spi_slave_init(avr_pin* ss)
 {
     //setup DDRx register for SPI
+    BG_SPI_SCLK_DDR &= ~BG_SPI_SCLK_MASK;
+    BG_SPI_MOSI_DDR &= ~BG_SPI_MOSI_MASK;
+    BG_SPI_MISO_DDR |= BG_SPI_MISO_MASK;
     *(ss->DDRx) &= ~ss->mask;
-    *(sclk->DDRx) &= ~sclk->mask;
-    *(mosi->DDRx) &= ~mosi->mask;
-    *(miso->DDRx) |= miso->mask;
+    
     /* Enable SPI */
     SPCR = _BV(SPE);
 }
 
-void spiSetClkPrescalar(uint8_t prescalar)
-{
-}
-
-void spi_start_transmission(avr_pin* ss)
+void spi_select_slave(avr_pin* ss)
 {
     *(ss->PORTx) &= ~(ss->mask);
 }
 
-void spi_master_transmit(uint8_t data)
+void spi_deselect_slave(avr_pin* ss)
+{
+    *(ss->PORTx) |= ss->mask;
+}
+
+void spi_master_transmit8(uint8_t* data, uint8_t n)
+{
+    for (n; n > 0; n--) {
+        SPDR = *(data++);
+        //Wait for transmission complete
+        while (!(SPSR & _BV(SPIF))) {
+            //do nothing
+        }
+    }
+}
+
+void spi_master_transmit8(uint8_t data)
 {
     //start transmission
     SPDR = data;
@@ -81,8 +94,8 @@ void spi_master_transmit(uint8_t data)
 
 void spi_master_transmit16(uint16_t data)
 {
-    spi_master_transmit(data >> 8);
-    spi_master_transmit(data);
+    spi_master_transmit8(data >> 8);
+    spi_master_transmit8(data);
 }
 
 void spi_master_transmit32(uint32_t data)
@@ -91,14 +104,16 @@ void spi_master_transmit32(uint32_t data)
     spi_master_transmit16(data);
 }
 
-void spi_end_transmission(avr_pin* ss)
+uint8_t spi_master_recieve(void)
 {
-    *(ss->PORTx) |= ss->mask;
+    //return data register
+    uint8_t temp = SPDR;
+    return temp;
 }
 
 uint8_t spi_slave_recieve(void)
 {
-    while (!(SPSR & _BV(SPIF))) {
+    while ( !(SPSR & _BV(SPIF)) ) {
         //wait for reception complete
     }
     //return data register
