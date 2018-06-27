@@ -18,7 +18,7 @@
 
 #include "i2c_driver.h"
 
-bool i2c_start_condition()
+bool i2c_start_condition(void)
 {
     //send a start condition
     TWCR = _BV(TWINT) | _BV(TWSTA) | _BV(TWEN);
@@ -95,7 +95,7 @@ bool i2c_read_data(uint8_t* dataAddr, uint8_t numOfBytes)
     return true;
 }
 
-void i2c_stop_condition()
+void i2c_stop_condition(void)
 {
     //Transmit stop condition
     TWCR = _BV(TWINT) | _BV(TWEN) | _BV(TWSTO);

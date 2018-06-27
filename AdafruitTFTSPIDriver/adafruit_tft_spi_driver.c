@@ -46,7 +46,7 @@ static void write_command_tft(uint8_t cmd, tft_vars* var)
     *(var->dc->PORTx) |= var->dc->mask;
 }
 
-static void setAddrWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h, tft_vars* var)
+static void set_addr_window(uint16_t x, uint16_t y, uint16_t w, uint16_t h, tft_vars* var)
 {
     uint32_t xa = ((uint32_t)x << 16) | (x + w - 1);
     uint32_t ya = ((uint32_t)y << 16) | (y + h - 1);
@@ -79,7 +79,7 @@ void init_tft(tft_vars* var)
     DELAY_MS(100);
 
     //INITIALIZE SPI
-    spi_master_init(var->cs, var->sclk, var->mosi, var->miso);
+    spi_master_init(var->cs, BG_SPI_SCLK_DIV_2 | BG_SPI_SAMPLE_RISING);
 
     spi_select_slave(var->cs);
     write_command_tft(0xEF, var);
@@ -201,7 +201,7 @@ void init_tft(tft_vars* var)
 
 void init_spi_tft(tft_vars* var)
 {
-    spi_master_init(var->cs, var->sclk, var->mosi, var->miso);
+    spi_master_init(var->cs, BG_SPI_SCLK_DIV_2 | BG_SPI_SAMPLE_RISING);
 }
 
 void setRotationTFT(uint8_t m, tft_vars* var)
@@ -266,7 +266,7 @@ void drawPixel(int16_t x, int16_t y, uint16_t color, tft_vars* var)
         return;
     }
 
-    setAddrWindow(x, y, 1, 1, var);
+    set_addr_window(x, y, 1, 1, var);
     spi_select_slave(var->cs);
     spi_master_transmit16(color);
     spi_deselect_slave(var->cs);
@@ -401,7 +401,7 @@ void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_va
     }
 
     int32_t len = (int32_t)w * h;
-    setAddrWindow(x, y, w, h, var);
+    set_addr_window(x, y, w, h, var);
     writeColor(color, len, var);
 }
 

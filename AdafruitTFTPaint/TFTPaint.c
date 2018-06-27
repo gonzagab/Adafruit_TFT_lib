@@ -2,14 +2,14 @@
  * AdafruitTFTPaint.c
  *
  * Created: 12/15/2017 2:28:02 PM
- * Author : gonza
+ * Author : Bryant Gonzaga
  */ 
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#include "AdafruitTFTI2CDriver/AdafruitTFTI2CDriver.h"
-#include "AdafruitTFTSPIDriver/AdafruitTFTSPIDriver.h"
+#include "adafruit_tft_spi_driver.h"
+#include "adafruit_tft_i2c_driver.h"
 
 // Size of the color selection boxes and the paintbrush size
 #define BOXSIZE 40

@@ -71,7 +71,7 @@ void spi_deselect_slave(avr_pin* ss)
     *(ss->PORTx) |= ss->mask;
 }
 
-void spi_master_transmit8(uint8_t* data, uint8_t n)
+void spi_master_transmit(uint8_t* data, uint8_t n)
 {
     for (n; n > 0; n--) {
         SPDR = *(data++);
@@ -114,7 +114,7 @@ uint8_t spi_master_recieve(void)
 uint8_t spi_slave_recieve(void)
 {
     while ( !(SPSR & _BV(SPIF)) ) {
-        //wait for reception complete
+        //wait for data
     }
     //return data register
     uint8_t temp = SPDR;

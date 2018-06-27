@@ -25,7 +25,7 @@
  * Sends a start condition.
  * @return true if slave acknowledges start condition.
  */
-bool i2c_start_condition();
+bool i2c_start_condition(void);
 
 /**
  * Send address of slave and write bit.
@@ -62,6 +62,6 @@ bool i2c_read_data(uint8_t* dataAddr, uint8_t numOfBytes);
 /**
  * Stop Condition is used to end transmission
  */
-void i2c_stop_condition();
+void i2c_stop_condition(void);
 
 #endif /* BG_LIB_I2C_DRIVER_H_ */

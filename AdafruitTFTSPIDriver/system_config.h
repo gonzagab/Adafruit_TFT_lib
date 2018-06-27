@@ -26,6 +26,7 @@
 #define SYSTEM_CONFIG_H_
 
 /* Specify Microcontroller */
+// #define ATMEGA16
 // #define ATMEGA128
 #define ATMEGA324
 

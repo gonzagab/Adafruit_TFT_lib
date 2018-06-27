@@ -2,7 +2,7 @@
  * File:        spi_driver.h
  * Author:      Bryant Gonzaga
  * Created:     11/30/2017
- * Modified:    3/29/2018
+ * Modified:    6/11/2018
  *
  * Notes:
  *  This SPI driver was written to work with the ATmega16, ATmega128,
@@ -73,9 +73,9 @@
     #define BG_SPI_MISO_MASK 0x40
     #define BG_SPI_SCLK_MASK 0x80
 #else
-    #error "This SPI Driver is only guaranteed to work with the \
-              ATmeg324 and ATmega128. Please define one in the    \
-              system_config.h file"
+    #error "This SPI Driver is only guaranteed to work with the     \
+            ATmega16, ATmega128, and ATmeg324. Please define one in \
+            the system_config.h file"
 #endif
 
 //=================================================================//
