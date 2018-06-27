@@ -1,10 +1,10 @@
 # Not Yet Done
 This libraray currently works and has a lot of functionality. However, there are still a few things I would like to change/add. Now that I have more time, I am working on this repo to implement the following points:
 - [ ] SPI Driver
-  - [ ] Settable Prescalar Clock Frequency.
-  - [ ] Initialize as a master or Slave.
-  - [ ] MSB first or LSB First?
-  - [ ] A general spi driver that allows users to set up most (hopefully all) spi hardware functionality.
+  - [x] Settable Prescalar Clock Frequency.
+  - [x] Initialize as a master or Slave.
+  - [x] MSB first or LSB First?
+  - [x] A general spi driver that allows users to set up most (hopefully all) spi hardware functionality.
   - [ ] Support for ATmega128, ATmega324, and ATmega16. (Hopefully support can be easily added for many more AVR microcontrollers)
 - [ ] I2C Driver
   - [ ] A general i2c driver that allows users to set up most (hopefully all) i2c hardware functionality.
