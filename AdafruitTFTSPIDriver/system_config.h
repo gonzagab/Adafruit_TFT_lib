@@ -16,7 +16,7 @@
  * Studio 7 are both supported.
  *
  * How To:
- *  1: Choose MCU. Uncomment you choice while leaving the rest
+ *  1: Choose MCU. Uncomment your choice while leaving the rest
  *     commented out.
  *  2: This is all that needs to be done in this file. Make sure to
  *     include it in your project.

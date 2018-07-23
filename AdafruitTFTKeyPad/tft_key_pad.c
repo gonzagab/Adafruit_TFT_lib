@@ -73,7 +73,7 @@ int main(void)
     tftVars.gfxFont = NULL;
     tftVars.textColor = ILI9341_BLUE;
     tftVars.textBGColor = ILI9341_BLACK;
-    tftVars.textSize = 3;
+    tftVars.text_size = 3;
     tftVars.cp437 = false;
     tftVars.wrap = true;
     tftVars.cursor_x = 0;

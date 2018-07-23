@@ -50,27 +50,6 @@ int main(void)
     cs.mask = 0x10;
     tftVars.cs = &cs;
 
-    avr_pin mosi;
-    mosi.DDRx = (uint8_t*) &DDRB;
-    mosi.PORTx = (uint8_t*) &PORTB;
-    mosi.PINx = (uint8_t*) &PINB;
-    mosi.mask = 0x20;
-    tftVars.mosi = &mosi;
-
-    avr_pin miso;
-    miso.DDRx = (uint8_t*) &DDRB;
-    miso.PORTx = (uint8_t*) &PORTB;
-    miso.PINx = (uint8_t*) &PINB;
-    miso.mask = 0x40;
-    tftVars.miso = &miso;
-    
-     avr_pin sclk;
-     sclk.DDRx = (uint8_t*) &DDRB;
-     sclk.PORTx = (uint8_t*) &PORTB;
-     sclk.PINx = (uint8_t*) &PINB;
-     sclk.mask = 0x80;
-     tftVars.sclk = &sclk;
-
     //INITIALIZE TOUCH SCREEN
     init_tft(&tftVars);
 
@@ -346,7 +325,7 @@ void testText(tft_vars* tftVars)
 	tftVars->gfxFont = NULL;
     tftVars->textColor = ILI9341_BLUE;
 	tftVars->textBGColor = ILI9341_BLACK;
-    tftVars->textSize = 4;
+    tftVars->text_size = 4;
 	tftVars->cp437 = false;
 	tftVars->wrap = true;
 	tftVars->cursor_x = 0;
@@ -365,7 +344,7 @@ void testText(tft_vars* tftVars)
 	write('D', tftVars);
 	write('\n', tftVars);
 	
-	tftVars->textSize = 2;
+	tftVars->text_size = 2;
 
 	write('C', tftVars);
 	write('O', tftVars);
@@ -384,7 +363,7 @@ void testText(tft_vars* tftVars)
 	write('S', tftVars);
 	write('\n', tftVars);
 	
-	tftVars->textSize = 1;
+	tftVars->text_size = 1;
 	write('T', tftVars);
 	write('h', tftVars);
 	write('i', tftVars);

@@ -730,19 +730,19 @@ void write(uint8_t c, tft_vars* var)
     if (!(var->gfxFont)) { // 'Classic' built-in font
         if (c == '\n') {                       // Newline?
             var->cursor_x  = 0;                     // Reset x to zero,
-            var->cursor_y += var->textSize * 8;          // advance y one line
+            var->cursor_y += var->text_size * 8;          // advance y one line
         } else if (c != '\r') {                // Ignore carriage returns
-            if (var->wrap && ((var->cursor_x + var->textSize * 6) > var->width)) { // Off right?
+            if (var->wrap && ((var->cursor_x + var->text_size * 6) > var->width)) { // Off right?
                 var->cursor_x  = 0;                 // Reset x to zero,
-                var->cursor_y += var->textSize * 8;      // advance y one line
+                var->cursor_y += var->text_size * 8;      // advance y one line
             }
-            drawChar(var->cursor_x, var->cursor_y, c, var->textColor, var->textBGColor, var->textSize, var);
-            var->cursor_x += var->textSize * 6;          // Advance x one char
+            drawChar(var->cursor_x, var->cursor_y, c, var->textColor, var->textBGColor, var->text_size, var);
+            var->cursor_x += var->text_size * 6;          // Advance x one char
         }
     } else { // Custom font
         if (c == '\n') {
             var->cursor_x  = 0;
-            var->cursor_y += (int16_t)var->textSize *
+            var->cursor_y += (int16_t)var->text_size *
             (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
             } else if (c != '\r') {
             uint8_t first = READ_FLASH_BYTE(&var->gfxFont->first);
@@ -753,14 +753,14 @@ void write(uint8_t c, tft_vars* var)
                 uint8_t h = READ_FLASH_BYTE(&glyph->height);
                 if ((w > 0) && (h > 0)) { // Is there an associated bitmap?
                     int16_t xo = (int8_t)READ_FLASH_BYTE(&glyph->xOffset); // sic
-                    if (var->wrap && ((var->cursor_x + var->textSize * (xo + w)) > var->width)) {
+                    if (var->wrap && ((var->cursor_x + var->text_size * (xo + w)) > var->width)) {
                         var->cursor_x  = 0;
-                        var->cursor_y += (int16_t)var->textSize *
+                        var->cursor_y += (int16_t)var->text_size *
                         (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
                     }
-                    drawChar(var->cursor_x, var->cursor_y, c, var->textColor, var->textBGColor, var->textSize, var);
+                    drawChar(var->cursor_x, var->cursor_y, c, var->textColor, var->textBGColor, var->text_size, var);
                 }
-                var->cursor_x += (uint8_t)READ_FLASH_BYTE(&glyph->xAdvance) * (int16_t)var->textSize;
+                var->cursor_x += (uint8_t)READ_FLASH_BYTE(&glyph->xAdvance) * (int16_t)var->text_size;
             }
         }
 
@@ -774,7 +774,7 @@ void charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, in
     if (var->gfxFont) {
         if (c == '\n') { // Newline?
             *x  = 0;    // Reset x to zero, advance y by one line
-            *y += var->textSize * (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
+            *y += var->text_size * (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
         } else if (c != '\r') { // Not a carriage return; is normal char
             uint8_t first = READ_FLASH_BYTE(&var->gfxFont->first);
             uint8_t last  = READ_FLASH_BYTE(&var->gfxFont->last);
@@ -786,11 +786,11 @@ void charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, in
                         xa = READ_FLASH_BYTE(&glyph->xAdvance);
                 int8_t  xo = READ_FLASH_BYTE(&glyph->xOffset),
                         yo = READ_FLASH_BYTE(&glyph->yOffset);
-                if (var->wrap && ((*x+(((int16_t)xo+gw)*var->textSize)) > var->width)) {
+                if (var->wrap && ((*x+(((int16_t)xo+gw)*var->text_size)) > var->width)) {
                     *x  = 0; // Reset x to zero, advance y by one line
-                    *y += var->textSize * (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
+                    *y += var->text_size * (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
                 }
-                int16_t ts = (int16_t)var->textSize,
+                int16_t ts = (int16_t)var->text_size,
                         x1 = *x + xo * ts,
                         y1 = *y + yo * ts,
                         x2 = x1 + gw * ts - 1,
@@ -807,20 +807,20 @@ void charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, in
 
         if (c == '\n') {                    // Newline?
             *x  = 0;                        // Reset x to zero,
-            *y += var->textSize * 8;             // advance y one line
+            *y += var->text_size * 8;             // advance y one line
             // min/max x/y unchanged -- that waits for next 'normal' character
         } else if (c != '\r') { // Normal char; ignore carriage returns
-            if (var->wrap && ((*x + var->textSize * 6) > var->width)) { // Off right?
+            if (var->wrap && ((*x + var->text_size * 6) > var->width)) { // Off right?
                 *x  = 0;                    // Reset x to zero,
-                *y += var->textSize * 8;         // advance y one line
+                *y += var->text_size * 8;         // advance y one line
             }
-            int x2 = *x + var->textSize * 6 - 1, // Lower-right pixel of char
-                y2 = *y + var->textSize * 8 - 1;
+            int x2 = *x + var->text_size * 6 - 1, // Lower-right pixel of char
+                y2 = *y + var->text_size * 8 - 1;
             if (x2 > *maxx) { *maxx = x2; }     // Track max x, y
             if (y2 > *maxy) { *maxy = y2; }
             if (*x < *minx) { *minx = *x; }     // Track min x, y
             if (*y < *miny) { *miny = *y; }
-            *x += var->textSize * 6;             // Advance x one char
+            *x += var->text_size * 6;             // Advance x one char
         }
     }
 }

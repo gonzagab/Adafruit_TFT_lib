@@ -63,7 +63,7 @@ typedef struct
     uint16_t cursor_y;  /**< Cursor y-position used in some methods
                              to specify where to display. >*/
     uint8_t rotation;   /**< Current orientation of the screen >*/
-    uint8_t textSize;   /**< Multiplier for the font >*/
+    uint8_t text_size;   /**< Multiplier for the font >*/
     uint16_t textColor; /**< Color of text >*/
     uint16_t textBGColor;
     bool wrap;          /**< If set, 'wrap' text at right edge of
@@ -76,9 +76,6 @@ typedef struct
     avr_pin* dc;         /**< Data or Command. Low indicates command
                              and high indicates data. >*/
     avr_pin* rst;        /**< Reset. TFT has a active low reset. >*/
-    avr_pin* mosi;       /**< Master Out Slave In SPI Pin. >*/
-    avr_pin* miso;       /**< Master In Slave Out SPI Pin. >*/
-    avr_pin* sclk;       /**< Slave Clock SPI Pin. >*/
 } tft_vars;
 
 /**
