@@ -35,7 +35,7 @@ void draw_button_tft(ts_button_vars* button, tft_vars* tftVars)
     
     
     //DRAW OUTLINE
-    drawRoundRect(button->x, button->y, button->w, button->h, r, button->outlineColor, tftVars);
+    draw_round_rect_tft(button->x, button->y, button->w, button->h, r, button->outlineColor, tftVars);
     //FILL ROUND RECTANGLE
     fillRoundRect(button->x, button->y, button->w, button->h, r, button->fillColor, tftVars);
     //DRAW BUTTON LABEL

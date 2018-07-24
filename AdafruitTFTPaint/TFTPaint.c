@@ -69,18 +69,18 @@ int main(void)
     init_tft(&tftVars);
     initCPTTS(FT6206_DEFAULT_THRESSHOLD);
       
-    fillScreenTFT(ILI9341_BLACK, &tftVars);
+    fill_screen_tft(ILI9341_BLACK, &tftVars);
       
     // make the color selection boxes
-    fillRect(0, 0, BOXSIZE, BOXSIZE, ILI9341_RED, &tftVars);
-    fillRect(BOXSIZE, 0, BOXSIZE, BOXSIZE, ILI9341_YELLOW, &tftVars);
-    fillRect(BOXSIZE*2, 0, BOXSIZE, BOXSIZE, ILI9341_GREEN, &tftVars);
-    fillRect(BOXSIZE*3, 0, BOXSIZE, BOXSIZE, ILI9341_CYAN, &tftVars);
-    fillRect(BOXSIZE*4, 0, BOXSIZE, BOXSIZE, ILI9341_BLUE, &tftVars);
-    fillRect(BOXSIZE*5, 0, BOXSIZE, BOXSIZE, ILI9341_MAGENTA, &tftVars);
+    fill_rect_tft(0, 0, BOXSIZE, BOXSIZE, ILI9341_RED, &tftVars);
+    fill_rect_tft(BOXSIZE, 0, BOXSIZE, BOXSIZE, ILI9341_YELLOW, &tftVars);
+    fill_rect_tft(BOXSIZE*2, 0, BOXSIZE, BOXSIZE, ILI9341_GREEN, &tftVars);
+    fill_rect_tft(BOXSIZE*3, 0, BOXSIZE, BOXSIZE, ILI9341_CYAN, &tftVars);
+    fill_rect_tft(BOXSIZE*4, 0, BOXSIZE, BOXSIZE, ILI9341_BLUE, &tftVars);
+    fill_rect_tft(BOXSIZE*5, 0, BOXSIZE, BOXSIZE, ILI9341_MAGENTA, &tftVars);
       
     // select the current color 'red'
-    drawRect(0, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
+    draw_rect_tft(0, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
     currentcolor = ILI9341_RED;
     //SET UP INTERRUPT
     DDRD &= 0xFB;
@@ -107,41 +107,41 @@ ISR(INT0_vect)
 
         if (p.x < BOXSIZE) {
             currentcolor = ILI9341_RED;
-            drawRect(0, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
+            draw_rect_tft(0, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
             } else if (p.x < BOXSIZE*2) {
             currentcolor = ILI9341_YELLOW;
-            drawRect(BOXSIZE, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
+            draw_rect_tft(BOXSIZE, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
             } else if (p.x < BOXSIZE*3) {
             currentcolor = ILI9341_GREEN;
-            drawRect(BOXSIZE*2, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
+            draw_rect_tft(BOXSIZE*2, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
             } else if (p.x < BOXSIZE*4) {
             currentcolor = ILI9341_CYAN;
-            drawRect(BOXSIZE*3, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
+            draw_rect_tft(BOXSIZE*3, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
             } else if (p.x < BOXSIZE*5) {
             currentcolor = ILI9341_BLUE;
-            drawRect(BOXSIZE*4, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
+            draw_rect_tft(BOXSIZE*4, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
             } else if (p.x <= BOXSIZE*6) {
             currentcolor = ILI9341_MAGENTA;
-            drawRect(BOXSIZE*5, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
+            draw_rect_tft(BOXSIZE*5, 0, BOXSIZE, BOXSIZE, ILI9341_WHITE, &tftVars);
         }
 
         if (oldcolor != currentcolor) {
             if (oldcolor == ILI9341_RED)
-            fillRect(0, 0, BOXSIZE, BOXSIZE, ILI9341_RED, &tftVars);
+            fill_rect_tft(0, 0, BOXSIZE, BOXSIZE, ILI9341_RED, &tftVars);
             if (oldcolor == ILI9341_YELLOW)
-            fillRect(BOXSIZE, 0, BOXSIZE, BOXSIZE, ILI9341_YELLOW, &tftVars);
+            fill_rect_tft(BOXSIZE, 0, BOXSIZE, BOXSIZE, ILI9341_YELLOW, &tftVars);
             if (oldcolor == ILI9341_GREEN)
-            fillRect(BOXSIZE*2, 0, BOXSIZE, BOXSIZE, ILI9341_GREEN, &tftVars);
+            fill_rect_tft(BOXSIZE*2, 0, BOXSIZE, BOXSIZE, ILI9341_GREEN, &tftVars);
             if (oldcolor == ILI9341_CYAN)
-            fillRect(BOXSIZE*3, 0, BOXSIZE, BOXSIZE, ILI9341_CYAN, &tftVars);
+            fill_rect_tft(BOXSIZE*3, 0, BOXSIZE, BOXSIZE, ILI9341_CYAN, &tftVars);
             if (oldcolor == ILI9341_BLUE)
-            fillRect(BOXSIZE*4, 0, BOXSIZE, BOXSIZE, ILI9341_BLUE, &tftVars);
+            fill_rect_tft(BOXSIZE*4, 0, BOXSIZE, BOXSIZE, ILI9341_BLUE, &tftVars);
             if (oldcolor == ILI9341_MAGENTA)
-            fillRect(BOXSIZE*5, 0, BOXSIZE, BOXSIZE, ILI9341_MAGENTA, &tftVars);
+            fill_rect_tft(BOXSIZE*5, 0, BOXSIZE, BOXSIZE, ILI9341_MAGENTA, &tftVars);
         }
     }
          
     if (((p.y-PENRADIUS) > BOXSIZE) && ((p.y+PENRADIUS) < tftVars.height)) {
-        fillCircle(p.x, p.y, PENRADIUS, currentcolor, &tftVars);
+        fill_circle_tft(p.x, p.y, PENRADIUS, currentcolor, &tftVars);
     }
 }

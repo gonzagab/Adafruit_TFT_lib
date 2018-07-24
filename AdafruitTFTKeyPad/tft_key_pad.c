@@ -67,12 +67,12 @@ int main(void)
     //INITIALIZE TOUCH SCREEN
     init_tft(&tftVars);
     initCPTTS(FT6206_DEFAULT_THRESSHOLD);
-    fillScreenTFT(ILI9341_BLACK, &tftVars);
+    fill_screen_tft(ILI9341_BLACK, &tftVars);
     
     //INITIALIZE TEXT FORMATING
-    tftVars.gfxFont = NULL;
-    tftVars.textColor = ILI9341_BLUE;
-    tftVars.textBGColor = ILI9341_BLACK;
+    tftVars.gfx_font = NULL;
+    tftVars.text_color = ILI9341_BLUE;
+    tftVars.text_bg_color = ILI9341_BLACK;
     tftVars.text_size = 3;
     tftVars.cp437 = false;
     tftVars.wrap = true;
@@ -80,7 +80,7 @@ int main(void)
     tftVars.cursor_y = 0;
     
     /* Set Screen Orientation */
-    setRotationTFT(1, &tftVars);
+    set_rotation_tft(1, &tftVars);
     
     /* Create Buttons */
     for (uint8_t i = 0; i < 16; i++) {

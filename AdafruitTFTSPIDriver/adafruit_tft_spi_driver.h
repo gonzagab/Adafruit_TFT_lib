@@ -56,38 +56,53 @@
  */
 typedef struct
 {
-    uint16_t width;     /**< Screen width according to rotation. >*/
-    uint16_t height;    /**< Screen height according to rotation. >*/
-    uint16_t cursor_x;  /**< Cursor x-position used in some methods
-                             to specify where to display. >*/
-    uint16_t cursor_y;  /**< Cursor y-position used in some methods
-                             to specify where to display. >*/
-    uint8_t rotation;   /**< Current orientation of the screen >*/
-    uint8_t text_size;   /**< Multiplier for the font >*/
-    uint16_t textColor; /**< Color of text >*/
-    uint16_t textBGColor;
-    bool wrap;          /**< If set, 'wrap' text at right edge of
-                             display >*/
-    bool cp437;         /**< If set, use correct CP437 char set
-                             (default is off) >*/
-    GFXfont *gfxFont;   /**< Pointer to a GFXfont structure for
-                             custom fonts. >*/  
-    avr_pin* cs;         /**< Chip Select. >*/
-    avr_pin* dc;         /**< Data or Command. Low indicates command
-                             and high indicates data. >*/
-    avr_pin* rst;        /**< Reset. TFT has a active low reset. >*/
+    uint16_t width;         /**< Screen width according to rotation.
+                                >*/
+    uint16_t height;        /**< Screen height according to rotation.
+                                >*/
+    uint16_t cursor_x;      /**< Cursor x-position used in some
+                                 methods to specify where to display.
+                                >*/
+    uint16_t cursor_y;      /**< Cursor y-position used in some
+                                 methods to specify where to display.
+                                >*/
+    uint8_t rotation;       /**< Current orientation of the screen.
+                                >*/
+    uint8_t text_size;      /**< Multiplier for the font >*/
+    uint16_t text_color;    /**< Color of text >*/
+    uint16_t text_bg_color; /**< Text background color >*/
+    bool wrap;              /**< If set, 'wrap' text at right edge of
+                                 display >*/
+    bool cp437;             /**< If set, use correct CP437 char set
+                                 (default is off) >*/
+    GFXfont* gfx_font;      /**< Pointer to a GFXfont structure for
+                                 custom fonts. >*/
+    avr_pin* cs;            /**< Chip Select. >*/
+    avr_pin* dc;            /**< Data or Command. Low indicates
+                                 command and high indicates data. >*/
+    avr_pin* rst;           /**< Reset. TFT has a active low reset.
+                                >*/
 } tft_vars;
 
 /**
- * Initializes the SPI hardware with SUCH PARAMETERS. As well as
- * initiating the touchscreen.
+ * Initializes the direction of the rst and dc pin to output. Then
+ * initializes the SPI hardware as a master with the following
+ * parameters: most significant bit is sent first, slave clock
+ * frequency is half the system clock frequency, slave clock idles
+ * low, and data is sampled or sent on the rising edge. Finally, the
+ * touchscreen is initialized.
  * @param var   Pointer to tft_vars structure that contains the
  *              current variables used for a touchscreen.
  */
 void init_tft(tft_vars* var);
 
 /**
- *
+ * This function is for initializing the SPI only when a MCU has
+ * multiple slaves and needs to change its SPI settings for each one.
+ * Initializes the SPI hardware as a master with the following
+ * parameters: most significant bit is sent first, slave clock
+ * frequency is half the system clock frequency, slave clock idles
+ * low, and data is sampled or sent on the rising edge.
  */
 void init_spi_tft(tft_vars* var);
 
@@ -102,7 +117,7 @@ void init_spi_tft(tft_vars* var);
  * @param r     rotation can be from 0 to 3.
  * @param var   pointer to TFTVars structure
  */
-void setRotationTFT(uint8_t r, tft_vars* var);
+void set_rotation_tft(uint8_t r, tft_vars* var);
 
 /**
  * Invert display according to the boolean value of <code> i </code>
@@ -139,7 +154,7 @@ uint16_t color565(uint8_t r, uint8_t g, uint8_t b);
  * @param color Color the screen is to be filled with.
  * @param var   Pointer to TFTVars structure.
  */
-void fillScreenTFT(uint16_t color, tft_vars* var);
+void fill_screen_tft(uint16_t color, tft_vars* var);
 
 /**
  * Draws a vertical line on the screen of length <code> h </code>
@@ -150,7 +165,7 @@ void fillScreenTFT(uint16_t color, tft_vars* var);
  * @param color Color of line.
  * @param var   Pointer to TFTVars structure.
  */
-void drawVLineTFT(int16_t x, int16_t y, int16_t h, uint16_t color, tft_vars* var);
+void draw_v_line_tft(int16_t x, int16_t y, int16_t h, uint16_t color, tft_vars* var);
 
 /**
  * Draws a horizontal line on the screen of length <code> w </code>
@@ -161,7 +176,7 @@ void drawVLineTFT(int16_t x, int16_t y, int16_t h, uint16_t color, tft_vars* var
  * @param color Color of line.
  * @param var   Pointer to TFTVars structure.
  */
-void drawHLineTFT(int16_t x, int16_t y, int16_t w, uint16_t color, tft_vars* var);
+void draw_h_line_tft(int16_t x, int16_t y, int16_t w, uint16_t color, tft_vars* var);
 
 /**
  * Draws a line on the screen of from (x0,  y0) to (x1, y1)
@@ -172,7 +187,7 @@ void drawHLineTFT(int16_t x, int16_t y, int16_t w, uint16_t color, tft_vars* var
  * @param color Color of line.
  * @param var   Pointer to TFTVars structure.
  */
-void drawLineTFT(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, tft_vars* var);
+void draw_line_tft(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, tft_vars* var);
 
 /**
  * Draws a filled rectangle with dimensions <code> w </code> and
@@ -184,7 +199,7 @@ void drawLineTFT(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color,
  * @param color Color of rectangle
  * @param var   Pointer to TFTVars structure
  */
-void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_vars* var);
+void fill_rect_tft(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_vars* var);
 
 /**
  * Draws a hollow rectangle with dimensions <code> w </code> and
@@ -196,7 +211,7 @@ void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_va
  * @param color Color of rectangle
  * @param var   Pointer to TFTVars structure
  */
-void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_vars* var);
+void draw_rect_tft(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_vars* var);
 
 /**
  * Draws a hollow circle with radius <code> r </code>.
@@ -206,7 +221,7 @@ void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_va
  * @param color Circle color
  * @param var   Pointer to TFTVars structure
  */
-void drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, tft_vars* var);
+void draw_circle_tft(int16_t x0, int16_t y0, int16_t r, uint16_t color, tft_vars* var);
 
 /**
  * Draws a filled circle with radius <code> r </code>
@@ -216,7 +231,7 @@ void drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, tft_vars* var
  * @param color Circle color
  * @param var   Pointer to TFTVars structure
  */
-void fillCircle(int16_t x, int16_t y, int16_t r, uint16_t color, tft_vars* var);
+void fill_circle_tft(int16_t x, int16_t y, int16_t r, uint16_t color, tft_vars* var);
 
 /**
  * Draws a hollow rectangle with dimensions <code> w </code> and
@@ -229,7 +244,7 @@ void fillCircle(int16_t x, int16_t y, int16_t r, uint16_t color, tft_vars* var);
  * @param color     Color of rectangle
  * @param var       Pointer to TFTVars structure
  */
-void drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t radius, uint16_t color, tft_vars* var);
+void draw_round_rect_tft(int16_t x, int16_t y, int16_t w, int16_t h, int16_t radius, uint16_t color, tft_vars* var);
 
 /**
  * Helper method to help with drawing circles. Used for round
@@ -296,7 +311,7 @@ void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg
 
 /**
  * Draws the specified character onto the screen. This method uses
- * the values stored in the TFTVars structure to format the character
+ * the values stored in the tft_vars structure to format the character
  * accordingly. Users should pass a pointer that points to a
  * structure with already set values for <code> cursor_x </code>,
  * <code> cursor_y </code>, <code> textSize </code>, <code> textColor

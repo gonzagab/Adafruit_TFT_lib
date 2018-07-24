@@ -30,7 +30,6 @@
 //===================================================================
 //                         STATIC FUNCTIONS
 //===================================================================
-
 /**
  * Sends a command to the touchscreen through SPI.
  * @param cmd   8-bit command
@@ -63,24 +62,24 @@ static void set_addr_window(uint16_t x, uint16_t y, uint16_t w, uint16_t h, tft_
 //=================================================================//
 //                         PUBLIC FUNCTIONS                        //
 //=================================================================//
-
 void init_tft(tft_vars* var)
 {
-    //DATA DIRECTION REGISTERS
+    /* Set up Data Direction Registers */
     *(var->dc->DDRx) |= var->dc->mask;
     *(var->rst->DDRx) |= var->rst->mask;
 
-    // toggle RST low to reset
-    *(var->rst->PORTx) |= var->rst->mask;
+    /* Toggle RST */
+    *(var->rst->PORTx) |= var->rst->mask;   // set rst
     DELAY_MS(100);
-    *(var->rst->PORTx) &= ~(var->rst->mask);
+    *(var->rst->PORTx) &= ~(var->rst->mask);// clear rst
     DELAY_MS(100);
-    *(var->rst->PORTx) |= var->rst->mask;
+    *(var->rst->PORTx) |= var->rst->mask;   // set rst
     DELAY_MS(100);
 
-    //INITIALIZE SPI
+    /* Initialize SPI */
     spi_master_init(var->cs, BG_SPI_SCLK_DIV_2 | BG_SPI_SAMPLE_RISING);
 
+    /* Initialize the touchscreen */
     spi_select_slave(var->cs);
     write_command_tft(0xEF, var);
     spi_master_transmit8(0x03);
@@ -204,7 +203,7 @@ void init_spi_tft(tft_vars* var)
     spi_master_init(var->cs, BG_SPI_SCLK_DIV_2 | BG_SPI_SAMPLE_RISING);
 }
 
-void setRotationTFT(uint8_t m, tft_vars* var)
+void set_rotation_tft(uint8_t m, tft_vars* var)
 {
     var->rotation = m % 4; // can't be higher than 3
     switch (var->rotation) {
@@ -301,33 +300,33 @@ uint16_t color565(uint8_t r, uint8_t g, uint8_t b)
     return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | ((b & 0xF8) >> 3);
 }
 
-void fillScreenTFT(uint16_t color, tft_vars* var)
+void fill_screen_tft(uint16_t color, tft_vars* var)
 {
-    fillRect(0, 0, var->width, var->height, color, var);
+    fill_rect_tft(0, 0, var->width, var->height, color, var);
 }
 
-void drawVLineTFT(int16_t x, int16_t y, int16_t h, uint16_t color, tft_vars* var)
+void draw_v_line_tft(int16_t x, int16_t y, int16_t h, uint16_t color, tft_vars* var)
 {
-    fillRect(x, y, 1, h, color, var);
+    fill_rect_tft(x, y, 1, h, color, var);
 }
 
-void drawHLineTFT(int16_t x, int16_t y, int16_t w, uint16_t color, tft_vars* var)
+void draw_h_line_tft(int16_t x, int16_t y, int16_t w, uint16_t color, tft_vars* var)
 {
-    fillRect(x, y, w, 1, color, var);
+    fill_rect_tft(x, y, w, 1, color, var);
 }
 
-void drawLineTFT(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, tft_vars* var)
+void draw_line_tft(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, tft_vars* var)
 {
     if (x0 == x1) {
         if (y0 > y1) {
             _swap_int16_t(y0, y1);
         }
-        drawVLineTFT(x0, y0, y1 - y0 + 1, color, var);
+        draw_v_line_tft(x0, y0, y1 - y0 + 1, color, var);
     } else if (y0 == y1) {
         if (x0 > x1) {
             _swap_int16_t(x0, x1);
         }
-        drawHLineTFT(x0, y0, x1 - x0 + 1, color, var);
+        draw_h_line_tft(x0, y0, x1 - x0 + 1, color, var);
     } else {
         // Bresenham's algorithm - thanks Wikipedia
         int16_t steep = abs(y1 - y0) > abs(x1 - x0);
@@ -369,7 +368,7 @@ void drawLineTFT(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color,
     }
 }
 
-void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_vars* var)
+void fill_rect_tft(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_vars* var)
 {
     if ((x >= var->width) || (y >= var->height)) {
         return;
@@ -405,15 +404,15 @@ void fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_va
     writeColor(color, len, var);
 }
 
-void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_vars* var)
+void draw_rect_tft(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, tft_vars* var)
 {
-    drawHLineTFT(x, y, w, color, var);
-    drawHLineTFT(x, (y + h - 1), w, color, var);
-    drawVLineTFT(x, y, h, color, var);
-    drawVLineTFT((x + w - 1), y, h, color, var);
+    draw_h_line_tft(x, y, w, color, var);
+    draw_h_line_tft(x, (y + h - 1), w, color, var);
+    draw_v_line_tft(x, y, h, color, var);
+    draw_v_line_tft((x + w - 1), y, h, color, var);
 }
 
-void drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, tft_vars* var)
+void draw_circle_tft(int16_t x0, int16_t y0, int16_t r, uint16_t color, tft_vars* var)
 {
     int16_t f = 1 - r;
     int16_t ddF_x = 1;
@@ -447,19 +446,19 @@ void drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, tft_vars* var
     }
 }
 
-void fillCircle(int16_t x, int16_t y, int16_t r, uint16_t color, tft_vars* var)
+void fill_circle_tft(int16_t x, int16_t y, int16_t r, uint16_t color, tft_vars* var)
 {
-    drawVLineTFT(x, (y - r), ((2 * r) + 1), color, var);
+    draw_v_line_tft(x, (y - r), ((2 * r) + 1), color, var);
     fillCircleHelper(x, y, r, 3, 0, color, var);
 }
 
-void drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color, tft_vars* var)
+void draw_round_rect_tft(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color, tft_vars* var)
 {
     // smarter version
-    drawHLineTFT((x + r)    ,  y         , (w - (2 * r)), color, var); // Top
-    drawHLineTFT((x + r)    , (y + h - 1), (w - (2 * r)), color, var); // Bottom
-    drawVLineTFT( x         , (y + r)    , (h - (2 * r)), color, var); // Left
-    drawVLineTFT((x + w - 1), (y + r )   , (h - (2 * r)), color, var); // Right
+    draw_h_line_tft((x + r)    ,  y         , (w - (2 * r)), color, var); // Top
+    draw_h_line_tft((x + r)    , (y + h - 1), (w - (2 * r)), color, var); // Bottom
+    draw_v_line_tft( x         , (y + r)    , (h - (2 * r)), color, var); // Left
+    draw_v_line_tft((x + w - 1), (y + r )   , (h - (2 * r)), color, var); // Right
     // draw four corners
     drawCircleHelper((x + r)        , (y + r)        , r, 1, color, var);
     drawCircleHelper((x + w - r - 1), (y + r)        , r, 2, color, var);
@@ -505,7 +504,7 @@ void drawCircleHelper( int16_t x0, int16_t y0, int16_t r, uint8_t cornername, ui
 void fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color, tft_vars* var)
 {
     // smarter version
-    fillRect((x + r), y, (w - (2 * r)), h, color, var);
+    fill_rect_tft((x + r), y, (w - (2 * r)), h, color, var);
     // draw four corners
     fillCircleHelper((x + w - r - 1), (y + r), r, 1, (h - (2 * r) - 1), color, var);
     fillCircleHelper((x + r)        , (y + r), r, 2, (h - (2 * r) - 1), color, var);
@@ -530,21 +529,21 @@ void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int
         f     += ddF_x;
 
         if (cornername & 0x1) {
-            drawVLineTFT((x0 + x), (y0 - y), ((2 * y) + 1 + delta), color, var);
-            drawVLineTFT((x0 + y), (y0 - x), ((2 * x) + 1 + delta), color, var);
+            draw_v_line_tft((x0 + x), (y0 - y), ((2 * y) + 1 + delta), color, var);
+            draw_v_line_tft((x0 + y), (y0 - x), ((2 * x) + 1 + delta), color, var);
         }
         if (cornername & 0x2) {
-            drawVLineTFT((x0 - x), (y0 - y), ((2 * y) + 1 + delta), color, var);
-            drawVLineTFT((x0 - y), (y0 - x), ((2 * x) + 1 + delta), color, var);
+            draw_v_line_tft((x0 - x), (y0 - y), ((2 * y) + 1 + delta), color, var);
+            draw_v_line_tft((x0 - y), (y0 - x), ((2 * x) + 1 + delta), color, var);
         }
     }
 }
 
 void drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color, tft_vars* var)
 {
-    drawLineTFT(x0, y0, x1, y1, color, var);
-    drawLineTFT(x1, y1, x2, y2, color, var);
-    drawLineTFT(x2, y2, x0, y0, color, var);
+    draw_line_tft(x0, y0, x1, y1, color, var);
+    draw_line_tft(x1, y1, x2, y2, color, var);
+    draw_line_tft(x2, y2, x0, y0, color, var);
 }
 
 void fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color, tft_vars* var)
@@ -571,7 +570,7 @@ void fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, in
         else if (x1 > b) { b = x1; }
         if (x2 < a)      { a = x2; }
         else if (x2 > b) { b = x2; }
-        drawHLineTFT(a, y0, b-a+1, color, var);
+        draw_h_line_tft(a, y0, b-a+1, color, var);
         return;
     }
 
@@ -605,7 +604,7 @@ void fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, in
         b = x0 + (x2 - x0) * (y - y0) / (y2 - y0);
         */
         if (a > b) { _swap_int16_t(a,b); }
-        drawHLineTFT(a, y, b-a+1, color, var);
+        draw_h_line_tft(a, y, b-a+1, color, var);
     }
 
     // For lower part of triangle, find scan line crossings for segments
@@ -622,13 +621,13 @@ void fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, in
         b = x0 + (x2 - x0) * (y - y0) / (y2 - y0);
         */
         if (a > b) { _swap_int16_t(a,b); }
-        drawHLineTFT(a, y, b-a+1, color, var);
+        draw_h_line_tft(a, y, b-a+1, color, var);
     }
 }
 
 void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size, tft_vars* var)
 {
-    if (!(var->gfxFont)) { // 'Classic' built-in font
+    if (!(var->gfx_font)) { // 'Classic' built-in font
         if ((x >= var->width)    || // Clip right
                 (y >= var->height)       || // Clip bottom
                 ((x + 6 * size - 1) < 0) || // Clip left
@@ -646,22 +645,22 @@ void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg
                     if (size == 1) {
                         drawPixel(x+i, y+j, color, var);
                     } else {
-                        fillRect(x+i*size, y+j*size, size, size, color, var);
+                        fill_rect_tft(x+i*size, y+j*size, size, size, color, var);
                     }
                 } else if (bg != color) {
                     if (size == 1) {
                         drawPixel(x+i, y+j, bg, var);
                     } else {
-                        fillRect(x+i*size, y+j*size, size, size, bg, var);
+                        fill_rect_tft(x+i*size, y+j*size, size, size, bg, var);
                     }
                 }
             }
         }
         if (bg != color) { // If opaque, draw vertical line for last column
             if (size == 1) {
-                drawVLineTFT(x+5, y, 8, bg, var);
+                draw_v_line_tft(x+5, y, 8, bg, var);
             } else {
-                fillRect(x+5*size, y, size, 8*size, bg, var);
+                fill_rect_tft(x+5*size, y, size, 8*size, bg, var);
             }
         }
 
@@ -670,9 +669,9 @@ void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg
         // newlines, returns, non-printable characters, etc.  Calling
         // drawChar() directly with 'bad' characters of font may cause mayhem!
 
-        c -= (uint8_t)READ_FLASH_BYTE(&(var->gfxFont->first));
-        GFXglyph *glyph  = &(((GFXglyph *)READ_FLASH_PTR(&var->gfxFont->glyph))[c]);
-        uint8_t  *bitmap = (uint8_t *)READ_FLASH_PTR(&var->gfxFont->bitmap);
+        c -= (uint8_t)READ_FLASH_BYTE(&(var->gfx_font->first));
+        GFXglyph *glyph  = &(((GFXglyph *)READ_FLASH_PTR(&var->gfx_font->glyph))[c]);
+        uint8_t  *bitmap = (uint8_t *)READ_FLASH_PTR(&var->gfx_font->bitmap);
 
         uint16_t bo = READ_FLASH_WORD(&glyph->bitmapOffset);
         uint8_t  w  = READ_FLASH_BYTE(&glyph->width),
@@ -714,7 +713,7 @@ void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg
                     if (size == 1) {
                         drawPixel(x+xo+xx, y+yo+yy, color, var);
                     } else {
-                        fillRect(x+(xo16+xx)*size, y+(yo16+yy)*size,
+                        fill_rect_tft(x+(xo16+xx)*size, y+(yo16+yy)*size,
                                  size, size, color, var);
                     }
                 }
@@ -727,7 +726,7 @@ void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg
 
 void write(uint8_t c, tft_vars* var)
 {
-    if (!(var->gfxFont)) { // 'Classic' built-in font
+    if (!(var->gfx_font)) { // 'Classic' built-in font
         if (c == '\n') {                       // Newline?
             var->cursor_x  = 0;                     // Reset x to zero,
             var->cursor_y += var->text_size * 8;          // advance y one line
@@ -736,19 +735,19 @@ void write(uint8_t c, tft_vars* var)
                 var->cursor_x  = 0;                 // Reset x to zero,
                 var->cursor_y += var->text_size * 8;      // advance y one line
             }
-            drawChar(var->cursor_x, var->cursor_y, c, var->textColor, var->textBGColor, var->text_size, var);
+            drawChar(var->cursor_x, var->cursor_y, c, var->text_color, var->text_bg_color, var->text_size, var);
             var->cursor_x += var->text_size * 6;          // Advance x one char
         }
     } else { // Custom font
         if (c == '\n') {
             var->cursor_x  = 0;
             var->cursor_y += (int16_t)var->text_size *
-            (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
+            (uint8_t)READ_FLASH_BYTE(&var->gfx_font->yAdvance);
             } else if (c != '\r') {
-            uint8_t first = READ_FLASH_BYTE(&var->gfxFont->first);
-            if ((c >= first) && (c <= (uint8_t)READ_FLASH_BYTE(&var->gfxFont->last))) {
+            uint8_t first = READ_FLASH_BYTE(&var->gfx_font->first);
+            if ((c >= first) && (c <= (uint8_t)READ_FLASH_BYTE(&var->gfx_font->last))) {
                 GFXglyph *glyph = &(((GFXglyph*)READ_FLASH_PTR(
-                &var->gfxFont->glyph))[c - first]);
+                &var->gfx_font->glyph))[c - first]);
                 uint8_t w = READ_FLASH_BYTE(&glyph->width);
                 uint8_t h = READ_FLASH_BYTE(&glyph->height);
                 if ((w > 0) && (h > 0)) { // Is there an associated bitmap?
@@ -756,9 +755,9 @@ void write(uint8_t c, tft_vars* var)
                     if (var->wrap && ((var->cursor_x + var->text_size * (xo + w)) > var->width)) {
                         var->cursor_x  = 0;
                         var->cursor_y += (int16_t)var->text_size *
-                        (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
+                        (uint8_t)READ_FLASH_BYTE(&var->gfx_font->yAdvance);
                     }
-                    drawChar(var->cursor_x, var->cursor_y, c, var->textColor, var->textBGColor, var->text_size, var);
+                    drawChar(var->cursor_x, var->cursor_y, c, var->text_color, var->text_bg_color, var->text_size, var);
                 }
                 var->cursor_x += (uint8_t)READ_FLASH_BYTE(&glyph->xAdvance) * (int16_t)var->text_size;
             }
@@ -771,16 +770,16 @@ void write(uint8_t c, tft_vars* var)
 void charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy, tft_vars* var)
 {
 
-    if (var->gfxFont) {
+    if (var->gfx_font) {
         if (c == '\n') { // Newline?
             *x  = 0;    // Reset x to zero, advance y by one line
-            *y += var->text_size * (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
+            *y += var->text_size * (uint8_t)READ_FLASH_BYTE(&var->gfx_font->yAdvance);
         } else if (c != '\r') { // Not a carriage return; is normal char
-            uint8_t first = READ_FLASH_BYTE(&var->gfxFont->first);
-            uint8_t last  = READ_FLASH_BYTE(&var->gfxFont->last);
+            uint8_t first = READ_FLASH_BYTE(&var->gfx_font->first);
+            uint8_t last  = READ_FLASH_BYTE(&var->gfx_font->last);
             if ((c >= first) && (c <= last)) { // Char present in this font?
                 GFXglyph *glyph = &(((GFXglyph *)READ_FLASH_PTR(
-                                         &var->gfxFont->glyph))[c - first]);
+                                         &var->gfx_font->glyph))[c - first]);
                 uint8_t gw = READ_FLASH_BYTE(&glyph->width),
                         gh = READ_FLASH_BYTE(&glyph->height),
                         xa = READ_FLASH_BYTE(&glyph->xAdvance);
@@ -788,7 +787,7 @@ void charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, in
                         yo = READ_FLASH_BYTE(&glyph->yOffset);
                 if (var->wrap && ((*x+(((int16_t)xo+gw)*var->text_size)) > var->width)) {
                     *x  = 0; // Reset x to zero, advance y by one line
-                    *y += var->text_size * (uint8_t)READ_FLASH_BYTE(&var->gfxFont->yAdvance);
+                    *y += var->text_size * (uint8_t)READ_FLASH_BYTE(&var->gfx_font->yAdvance);
                 }
                 int16_t ts = (int16_t)var->text_size,
                         x1 = *x + xo * ts,
@@ -852,17 +851,17 @@ void getTextBounds(char *str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, ui
 void setFont(const GFXfont* f, tft_vars* var)
 {
     if (f) {           // Font struct pointer passed in?
-        if (!var->gfxFont) { // And no current font struct?
+        if (!var->gfx_font) { // And no current font struct?
             // Switching from classic to new font behavior.
             // Move cursor pos down 6 pixels so it's on baseline.
             var->cursor_y += 6;
         }
-        } else if (var->gfxFont) { // NULL passed.  Current font struct defined?
+        } else if (var->gfx_font) { // NULL passed.  Current font struct defined?
         // Switching from new to classic font behavior.
         // Move cursor pos up 6 pixels so it's at top-left of char.
         var->cursor_y -= 6;
     }
-    var->gfxFont = (GFXfont*) f;
+    var->gfx_font = (GFXfont*) f;
 }
 
 void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color, tft_vars* var)
