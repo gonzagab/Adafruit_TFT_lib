@@ -2,15 +2,16 @@
  * File:        avr_pin.h
  * Author:      Bryant Gonzaga
  * Created:     11/30/2017 5:49:54 PM
- * Modified:    3/29/2018
+ * Modified:    3/9/2020
  *
  * Notes:
  *  This file is expected to be used to describe the Port structure
- * of the ATmega324 and ATmega128.
+ * that can be used for microcontoller pins. It tries to accomidate
+ * for avr architecture along with arm architectures.
  *
  * Description:
  *  Defines a structure with pointers to the three registers
- * associated with a Port on an Atmel chip. The structure also 
+ * associated with a Port on an microcontroller. The structure also 
  * contains a bit mask for a specific pin.
  *******************************************************************/
 

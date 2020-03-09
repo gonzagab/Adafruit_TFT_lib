@@ -77,10 +77,10 @@ typedef struct
                                  (default is off) >*/
     GFXfont* gfx_font;      /**< Pointer to a GFXfont structure for
                                  custom fonts. >*/
-    avr_pin* cs;            /**< Chip Select. >*/
-    avr_pin* dc;            /**< Data or Command. Low indicates
+    pin_intrf* cs;            /**< Chip Select. >*/
+    pin_intrf* dc;            /**< Data or Command. Low indicates
                                  command and high indicates data. >*/
-    avr_pin* rst;           /**< Reset. TFT has a active low reset.
+    pin_intrf* rst;           /**< Reset. TFT has a active low reset.
                                 >*/
 } tft_vars;
 
