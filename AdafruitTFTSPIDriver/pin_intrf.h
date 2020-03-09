@@ -14,17 +14,23 @@
  * contains a bit mask for a specific pin.
  *******************************************************************/
 
-#ifndef BG_LIB_AVR_PIN_H_
-#define BG_LIB_AVR_PIN_H_
+#ifndef BG_LIB_PIN_INTRF_H_
+#define BG_LIB_PIN_INTRF_H_
 
 #include <stdint.h>
 
+#if defined(ATMEGA324)
+    typedef uint8_t sys_reg;
+#if defined(__SAML21J18B__ )
+    typedef uint32_t sys_reg;
+#endif
+
 typedef struct
 {
-    uint8_t* DDRx;  /**< Pointer to Data Direction Register */
-    uint8_t* PORTx; /**< Pointer to PORT Register */
-    uint8_t* PINx;  /**< Pointer to PIN Register */
-    uint8_t mask;   /**< 8-bit mask. 1 in position of desired pin */
-} avr_pin;
+    sys_reg* DDRx;  /**< Pointer to Data Direction Register */
+    sys_reg* PORTx; /**< Pointer to PORT Register */
+    sys_reg* PINx;  /**< Pointer to PIN Register */
+    sys_reg mask;   /**< n-bit mask. 1 in position of desired pin */
+} pin_intrf;
 
-#endif /* BG_LIB_AVR_PIN_H_ */
+#endif /* BG_LIB_PIN_INTRF_H_ */
