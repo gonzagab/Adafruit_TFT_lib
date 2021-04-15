@@ -18,7 +18,7 @@
 
 #include "spi_driver.h"
 
-void spi_master_init(avr_pin* ss, uint8_t flags)
+void spi_master_init(pin_intrf* ss, uint8_t flags)
 {
     //setup DDRx register for SPI
     BG_SPI_SCLK_DDR |= BG_SPI_SCLK_MASK;
@@ -60,12 +60,12 @@ void spi_slave_init(void)
     BG_SPI_CR = _BV(SPE);
 }
 
-void spi_select_slave(avr_pin* ss)
+void spi_select_slave(pin_intrf* ss)
 {
     *(ss->PORTx) &= ~(ss->mask);
 }
 
-void spi_deselect_slave(avr_pin* ss)
+void spi_deselect_slave(pin_intrf* ss)
 {
     *(ss->PORTx) |= ss->mask;
 }

@@ -21,7 +21,7 @@
 #define BG_LIB_SPI_DRIVER_H_
 
 #include "system_config.h"
-#include "avr_pin.h"
+#include "pin_intrf.h"
 
 //=================================================================//
 //                SPI Port and Register Definitions                //
@@ -115,10 +115,10 @@
  * and the miso pin as input. It also sets the slave select pin.
  * @param ss    Slave Select. Pointer to AVRPin struct
  * @param flags Set of flags that indicate how to set up SPI
- * @see avr_pin
+ * @see pin_intrf
  * @see SPI Flags
  */
-void spi_master_init(avr_pin* ss, uint8_t flags);
+void spi_master_init(pin_intrf* ss, uint8_t flags);
 
 /**
  * Initializes the SPI hardware to operate in the Slave mode.
@@ -130,17 +130,17 @@ void spi_slave_init(void);
 /**
  * Initializes the SPI transaction by driving the slave select pin
  * low.
- * @param ss    avr_pin structure for the slave select pin.
- * @see avr_pin
+ * @param ss    pin_intrf structure for the slave select pin.
+ * @see pin_intrf
  */
-void spi_select_slave(avr_pin* ss);
+void spi_select_slave(pin_intrf* ss);
 
 /**
  * Ends the SPI transaction by driving the slave select pin high.
- * @param ss    avr_pin structure for the slave select pin.
- * @see avr_pin
+ * @param ss    pin_intrf structure for the slave select pin.
+ * @see pin_intrf
  */
-void spi_deselect_slave(avr_pin* ss);
+void spi_deselect_slave(pin_intrf* ss);
 
 /**
  * Transmits n bytes of data through hardware SPI.
