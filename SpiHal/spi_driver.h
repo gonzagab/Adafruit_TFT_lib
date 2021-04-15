@@ -86,6 +86,8 @@
     #define BG_SPI_MISO_MASK 0x40
     #define BG_SPI_SCLK_MASK 0x80
     
+#elif defined(ATSAML21J18B)
+
 #else
     #error "This SPI Driver is only guaranteed to work with the     \
             ATmega16, ATmega128, and ATmeg324. Please define one in \

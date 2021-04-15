@@ -22,10 +22,10 @@
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
-    <RamSnippetAddress />
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue />
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
     <eraseonlaunchrule>0</eraseonlaunchrule>
     <AsfFrameworkConfig>
@@ -57,7 +57,7 @@
   <armgcc.compiler.directories.IncludePaths>
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\SAML21_DFP\1.1.110\saml21b\include</Value>
-      <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Include\</Value>
+      <Value>%24(PackRepoDir)\ARM\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
   <armgcc.compiler.optimization.level>Optimize for size (-Os)</armgcc.compiler.optimization.level>
@@ -72,13 +72,13 @@
   <armgcc.assembler.general.IncludePaths>
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\SAML21_DFP\1.1.110\saml21b\include</Value>
-      <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Include\</Value>
+      <Value>%24(PackRepoDir)\ARM\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
     </ListValues>
   </armgcc.assembler.general.IncludePaths>
   <armgcc.preprocessingassembler.general.IncludePaths>
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\SAML21_DFP\1.1.110\saml21b\include</Value>
-      <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Include\</Value>
+      <Value>%24(PackRepoDir)\ARM\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
     </ListValues>
   </armgcc.preprocessingassembler.general.IncludePaths>
 </ArmGcc>
@@ -100,10 +100,10 @@
   <armgcc.compiler.directories.IncludePaths>
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\SAML21_DFP\1.1.110\saml21b\include</Value>
-      <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Include\</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Driver\Include</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
-  <armgcc.compiler.optimization.level>Optimize (-O1)</armgcc.compiler.optimization.level>
   <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
   <armgcc.compiler.optimization.DebugLevel>Maximum (-g3)</armgcc.compiler.optimization.DebugLevel>
   <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
@@ -113,27 +113,41 @@
     </ListValues>
   </armgcc.linker.libraries.Libraries>
   <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
+  <armgcc.linker.memorysettings.ExternalRAM />
   <armgcc.assembler.general.IncludePaths>
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\SAML21_DFP\1.1.110\saml21b\include</Value>
-      <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Include\</Value>
+      <Value>%24(PackRepoDir)\ARM\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
     </ListValues>
   </armgcc.assembler.general.IncludePaths>
   <armgcc.assembler.debugging.DebugLevel>Default (-g)</armgcc.assembler.debugging.DebugLevel>
   <armgcc.preprocessingassembler.general.IncludePaths>
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\SAML21_DFP\1.1.110\saml21b\include</Value>
-      <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Include\</Value>
+      <Value>%24(PackRepoDir)\ARM\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
     </ListValues>
   </armgcc.preprocessingassembler.general.IncludePaths>
   <armgcc.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcc.preprocessingassembler.debugging.DebugLevel>
 </ArmGcc>
     </ToolchainSettings>
+    <OutputFileName>libSpiHal</OutputFileName>
+    <OutputFileExtension>.a</OutputFileExtension>
+    <OutputType>StaticLibrary</OutputType>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="include\saml21_spi_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="library.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="source\saml21_spi_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="include" />
+    <Folder Include="source" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
