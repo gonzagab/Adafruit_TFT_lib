@@ -22,89 +22,8 @@
 
 #include "system_config.h"
 #include "pin_intrf.h"
-
-//=================================================================//
-//                SPI Port and Register Definitions                //
-//=================================================================//
-#define BG_SPI_SCLK_DDR DDRB
-#define BG_SPI_MOSI_DDR DDRB
-#define BG_SPI_MISO_DDR DDRB
-
-#define BG_SPI_SCLK_PIN PINB
-#define BG_SPI_MOSI_PIN PINB
-#define BG_SPI_MISO_PIN PINB
-
-#define BG_SPI_SCLK_PORT PORTB
-#define BG_SPI_MOSI_PORT PORTB
-#define BG_SPI_MISO_PORT PORTB
-
-#if defined(ATMEGA324)
-    /* Register Definitions */
-    #define  BG_SPI_CR   SPCR0
-    #define  BG_SPI_DR   SPDR0
-    #define  BG_SPI_SR   SPSR0
-    
-    /* SPI Status Register Bit Definitions */
-    #define SPIF    SPIF0
-    #define WCOL    WCOL0
-    #define SPI2X   SPI2X0
-
-    /* SPI Control Register Bit Definitions */
-    #define SPIE    SPIE0
-    #define SPE     SPE0
-    #define DORD    DORD0
-    #define MSTR    MSTR0
-    #define CPOL    CPOL0
-    #define CPHA    CPHA0
-    #define SPR1    SPR10
-    #define SPR0    SPR00
-    
-    /* SPI Pin Masks */
-    #define BG_SPI_MOSI_MASK 0x20
-    #define BG_SPI_MISO_MASK 0x40
-    #define BG_SPI_SCLK_MASK 0x80
-    
-#elif defined(ATMEGA128)
-    /* Register Definitions */
-    #define  BG_SPI_CR   SPCR
-    #define  BG_SPI_DR   SPDR
-    #define  BG_SPI_SR   SPSR
-
-    /* SPI Pin Masks */
-    #define BG_SPI_SCLK_MASK 0x02
-    #define BG_SPI_MOSI_MASK 0x04
-    #define BG_SPI_MISO_MASK 0x08
-    
-#elif defined(ATMEGA16)
-    /* Register Definitions */
-    #define  BG_SPI_CR   SPCR
-    #define  BG_SPI_DR   SPDR
-    #define  BG_SPI_SR   SPSR
-
-    /* SPI Pin Masks */
-    #define BG_SPI_MOSI_MASK 0x20
-    #define BG_SPI_MISO_MASK 0x40
-    #define BG_SPI_SCLK_MASK 0x80
-    
-#else
-    #error "This SPI Driver is only guaranteed to work with the     \
-            ATmega16, ATmega128, and ATmeg324. Please define one in \
-            the system_config.h file"
-#endif
-
-//=================================================================//
-//                         SPI Flags                               //
-//=================================================================//
-#define BG_SPI_LSB_FIRST        0x01
-#define BG_SPI_SCLK_IDLE_HIGH   0x02
-#define BG_SPI_SAMPLE_RISING    0x04
-#define BG_SPI_SCLK_DIV_4       0x00
-#define BG_SPI_SCLK_DIV_2       0x10
-#define BG_SPI_SCLK_DIV_16      0x20
-#define BG_SPI_SCLK_DIV_8       0x30
-#define BG_SPI_SCLK_DIV_64      0x40
-#define BG_SPI_SCLK_DIV_32      0x50
-#define BG_SPI_SCLK_DIV_128     0x60
+#include "spi_driver_hal_defs.h"
+#include "spi_driver_user_flags.h"
 
 //=================================================================//
 //                          SPI Functions                          //
@@ -118,7 +37,7 @@
  * @see pin_intrf
  * @see SPI Flags
  */
-void spi_master_init(pin_intrf* ss, uint8_t flags);
+void spi_master_init(pin_intrf* ss, uint16_t flags);
 
 /**
  * Initializes the SPI hardware to operate in the Slave mode.
@@ -174,12 +93,12 @@ void spi_master_transmit32(uint32_t data);
 /**
  * Will read one byte from the SPI data register and return it.
  */
-uint8_t spi_master_recieve(void);
+uint8_t spi_master_receive(void);
 
 /**
  * Used to read data from a master through SPI.
  * @return a byte of data received from master.
  */
-uint8_t spi_slave_recieve(void);
+uint8_t spi_slave_receive(void);
 
 #endif /* BG_LIB_SPI_DRIVER_H_ */

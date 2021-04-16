@@ -20,9 +20,9 @@
 
 #include <stdint.h>
 
-#if defined(ATMEGA324)
+#if defined(ATMEGA324) || defined(AVR128DB48)
     typedef uint8_t sys_reg;
-#if defined(__SAML21J18B__ )
+#elif defined(__SAML21J18B__ )
     typedef uint32_t sys_reg;
 #endif
 

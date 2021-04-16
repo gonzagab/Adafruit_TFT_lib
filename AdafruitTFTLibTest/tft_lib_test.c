@@ -29,25 +29,27 @@ int main(void)
     //INITIALIZE VARIABLES FOR TFT
     tft_vars tftVars;
     //INITIALIZE PORTS FOR TFT
-    avr_pin rst;
-    rst.DDRx = (uint8_t*) &DDRB;
-    rst.PORTx = (uint8_t*) &PORTB;
-    rst.PINx = (uint8_t*) &PINB;
-    rst.mask = 0x04;
+    pin_intrf rst = {
+	    .DDRx = (uint8_t*) &PORTA_DIR,
+		.PORTx = (uint8_t*) &PORTA_OUT,
+		.PINx = (uint8_t*) &PORTA_IN,
+		.mask = 0x04
+	};
+	
     tftVars.rst = &rst;
     
-    avr_pin dc;
-    dc.DDRx = (uint8_t*) &DDRB;
-    dc.PORTx = (uint8_t*) &PORTB;
-    dc.PINx = (uint8_t*) &PINB;
+    pin_intrf dc;
+    dc.DDRx = (uint8_t*) &PORTA_DIR;
+    dc.PORTx = (uint8_t*) &PORTA_OUT;
+    dc.PINx = (uint8_t*) &PORTA_IN;
     dc.mask = 0x08;
     tftVars.dc = &dc;
     
-    avr_pin cs;
-    cs.DDRx = (uint8_t*) &DDRB;
-    cs.PORTx = (uint8_t*) &PORTB;
-    cs.PINx = (uint8_t*) &PINB;
-    cs.mask = 0x10;
+    pin_intrf cs;
+    cs.DDRx = (uint8_t*) &PORTF_DIR;
+    cs.PORTx = (uint8_t*) &PORTF_OUT;
+    cs.PINx = (uint8_t*) &PORTF_IN;
+    cs.mask = 0x08;
     tftVars.cs = &cs;
 
     //INITIALIZE TOUCH SCREEN

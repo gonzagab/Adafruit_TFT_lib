@@ -39,7 +39,6 @@
 
 #include "adafruit_tft_commands.h"
 #include "adafruit_tft_colors.h"
-#include "system_config.h"
 #include "spi_driver.h"
 #include "gfx_font.h"
 #include "font_5x7.h"

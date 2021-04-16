@@ -18,46 +18,32 @@
 
 #include "spi_driver.h"
 
-void spi_master_init(pin_intrf* ss, uint8_t flags)
+void spi_master_init(pin_intrf* ss, uint16_t flags)
 {
-    //setup DDRx register for SPI
-    BG_SPI_SCLK_DDR |= BG_SPI_SCLK_MASK;
-    BG_SPI_MOSI_DDR |= BG_SPI_MOSI_MASK;
-    BG_SPI_MISO_DDR &= ~BG_SPI_MISO_MASK;
+    // check mutual exclusivity of flags
+    
+    // setup DDRx register for SPI
+    BG_SPI_SCLK_DDR |= BG_SPI_SCLK_PIN_BM;
+    BG_SPI_MOSI_DDR |= BG_SPI_MOSI_PIN_BM;
+    BG_SPI_MISO_DDR &= ~BG_SPI_MISO_PIN_BM;
     *(ss->DDRx) |= ss->mask;
     
-    //set slave select
+    // set slave select
     *(ss->PORTx) |= ss->mask;
     
-	//set up SPI with given flags
-    uint8_t spcr_val = 0;
-    if (flags & BG_SPI_LSB_FIRST) {
-        spcr_val |= _BV(DORD);
-    }
-    if (flags & BG_SPI_SCLK_IDLE_HIGH) {
-        spcr_val |= _BV(CPOL);
-        if (flags & BG_SPI_SAMPLE_RISING) {
-            spcr_val |= _BV(CPHA);
-        }
-    } else {
-        if ( !(flags & BG_SPI_SAMPLE_RISING) ) {
-            spcr_val |= _BV(CPHA);
-        }
-    }
-    
-	BG_SPI_CR = _BV(SPE) | _BV(MSTR) | spcr_val | (flags >> 5);
-    BG_SPI_SR = (flags >> 4);
+    // write to spi control register
+	BG_SPI_CR = BG_SPI_ENABLE_BM | BG_SPI_MSTR_BM | flags;
 }
 
 void spi_slave_init(void)
 {
     /* setup DDRx register for SPI */
-    BG_SPI_SCLK_DDR &= ~BG_SPI_SCLK_MASK;
-    BG_SPI_MOSI_DDR &= ~BG_SPI_MOSI_MASK;
-    BG_SPI_MISO_DDR |= BG_SPI_MISO_MASK;
+    BG_SPI_SCLK_DDR &= ~BG_SPI_SCLK_PIN_BM;
+    BG_SPI_MOSI_DDR &= ~BG_SPI_MOSI_PIN_BM;
+    BG_SPI_MISO_DDR |= BG_SPI_MISO_PIN_BM;
     
     /* Enable SPI */
-    BG_SPI_CR = _BV(SPE);
+    BG_SPI_CR = BG_SPI_ENABLE_BM;
 }
 
 void spi_select_slave(pin_intrf* ss)
@@ -75,7 +61,7 @@ void spi_master_transmit(uint8_t* data, uint8_t n)
     for (n; n > 0; n--) {
         BG_SPI_DR = *(data++);
         //Wait for transmission complete
-        while (!(BG_SPI_SR & _BV(SPIF))) {
+        while ( !(BG_SPI_SR & BG_SPI_INTF_BM) ) {
             //do nothing
         }
     }
@@ -86,7 +72,7 @@ void spi_master_transmit8(uint8_t data)
     //start transmission
     BG_SPI_DR = data;
     //Wait for transmission complete
-    while (!(BG_SPI_SR & _BV(SPIF))) {
+    while ( !(BG_SPI_SR & BG_SPI_INTF_BM) ) {
         //do nothing
     }
 }
@@ -103,16 +89,16 @@ void spi_master_transmit32(uint32_t data)
     spi_master_transmit16(data);
 }
 
-uint8_t spi_master_recieve(void)
+uint8_t spi_master_receive(void)
 {
     //return data register
     uint8_t temp = BG_SPI_DR;
     return temp;
 }
 
-uint8_t spi_slave_recieve(void)
+uint8_t spi_slave_receive(void)
 {
-    while ( !(BG_SPI_SR & _BV(SPIF)) ) {
+    while ( !(BG_SPI_SR & BG_SPI_INTF_BM) ) {
         //wait for data
     }
     //return data register

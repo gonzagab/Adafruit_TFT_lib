@@ -1,11 +1,11 @@
 /*
- * SpiHal.c
+ * GccLibrary1.c
  *
- * Created: 4/27/2020 1:10:04 PM
+ * Created: 4/15/2021 3:05:26 PM
  * Author : gonza
  */ 
 
-//#include "sam.h"
+#include <avr/io.h>
 
 
 /* Replace with your library code */
@@ -13,5 +13,4 @@ int myfunc(void)
 {
 	return 0;
 }
-
 

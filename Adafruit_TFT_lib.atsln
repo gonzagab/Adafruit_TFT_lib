@@ -13,8 +13,6 @@ Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "AdafruitTFTPaint", "Adafrui
 EndProject
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "AdafruitTFTKeyPad", "AdafruitTFTKeyPad\AdafruitTFTKeyPad.cproj", "{03E288EB-BA14-44C6-9EC6-84AED79DDD45}"
 EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "SpiHal", "SpiHal\SpiHal.cproj", "{DBB488BC-3F04-4398-9FD8-F5587E7CF5B9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -26,6 +24,7 @@ Global
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|ARM.ActiveCfg = Debug|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.ActiveCfg = Debug|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Build.0 = Debug|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Deploy.0 = Debug|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|ARM.ActiveCfg = Release|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.ActiveCfg = Release|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.Build.0 = Release|AVR
@@ -53,12 +52,6 @@ Global
 		{03E288EB-BA14-44C6-9EC6-84AED79DDD45}.Release|ARM.ActiveCfg = Release|AVR
 		{03E288EB-BA14-44C6-9EC6-84AED79DDD45}.Release|AVR.ActiveCfg = Release|AVR
 		{03E288EB-BA14-44C6-9EC6-84AED79DDD45}.Release|AVR.Build.0 = Release|AVR
-		{DBB488BC-3F04-4398-9FD8-F5587E7CF5B9}.Debug|ARM.ActiveCfg = Debug|ARM
-		{DBB488BC-3F04-4398-9FD8-F5587E7CF5B9}.Debug|ARM.Build.0 = Debug|ARM
-		{DBB488BC-3F04-4398-9FD8-F5587E7CF5B9}.Debug|AVR.ActiveCfg = Debug|ARM
-		{DBB488BC-3F04-4398-9FD8-F5587E7CF5B9}.Release|ARM.ActiveCfg = Release|ARM
-		{DBB488BC-3F04-4398-9FD8-F5587E7CF5B9}.Release|ARM.Build.0 = Release|ARM
-		{DBB488BC-3F04-4398-9FD8-F5587E7CF5B9}.Release|AVR.ActiveCfg = Release|ARM
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

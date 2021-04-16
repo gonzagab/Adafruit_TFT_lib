@@ -28,7 +28,8 @@
 /* Specify Microcontroller */
 // #define ATMEGA16
 // #define ATMEGA128
-#define ATMEGA324
+// #define ATMEGA324
+#define AVR128DB48
 
 /* Specify Clock Frequency */
 #define SYS_CLK_FREQ 16000000

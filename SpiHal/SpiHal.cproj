@@ -29,17 +29,19 @@
     <BootSegment>2</BootSegment>
     <eraseonlaunchrule>0</eraseonlaunchrule>
     <AsfFrameworkConfig>
-      <framework-data xmlns="">
-        <options />
-        <configurations />
-        <files />
-        <documentation help="" />
-        <offline-documentation help="" />
-        <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.34.1" />
-        </dependencies>
-      </framework-data>
+      <framework-data>
+  <options />
+  <configurations />
+  <files />
+  <documentation help="" />
+  <offline-documentation help="" />
+  <dependencies>
+    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.42.0" />
+  </dependencies>
+</framework-data>
     </AsfFrameworkConfig>
+    <ResetRule>0</ResetRule>
+    <EraseKey />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -102,6 +104,7 @@
       <Value>%24(PackRepoDir)\atmel\SAML21_DFP\1.1.110\saml21b\include</Value>
       <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
       <Value>%24(PackRepoDir)\arm\CMSIS\4.2.0\CMSIS\Driver\Include</Value>
+      <Value>../include</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
   <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
@@ -135,13 +138,19 @@
     <OutputType>StaticLibrary</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="include\saml21_spi_driver.h">
+    <Compile Include="include\spi_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\spi_driver_hal_defs.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\spi_driver_user_flags.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="library.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="source\saml21_spi_driver.c">
+    <Compile Include="source\spi_driver.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
