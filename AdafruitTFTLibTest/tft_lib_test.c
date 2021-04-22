@@ -28,6 +28,7 @@ int main(void)
 {
     //INITIALIZE VARIABLES FOR TFT
     tft_vars tftVars;
+    
     //INITIALIZE PORTS FOR TFT
     pin_intrf rst = {
 	    .DDRx = (uint8_t*) &PORTA_DIR,
@@ -35,21 +36,22 @@ int main(void)
 		.PINx = (uint8_t*) &PORTA_IN,
 		.mask = 0x04
 	};
-	
     tftVars.rst = &rst;
     
-    pin_intrf dc;
-    dc.DDRx = (uint8_t*) &PORTA_DIR;
-    dc.PORTx = (uint8_t*) &PORTA_OUT;
-    dc.PINx = (uint8_t*) &PORTA_IN;
-    dc.mask = 0x08;
+    pin_intrf dc {
+        .DDRx = (uint8_t*) &PORTA_DIR;
+        .PORTx = (uint8_t*) &PORTA_OUT;
+        .PINx = (uint8_t*) &PORTA_IN;
+        .mask = 0x08;
+    };        
     tftVars.dc = &dc;
     
-    pin_intrf cs;
-    cs.DDRx = (uint8_t*) &PORTF_DIR;
-    cs.PORTx = (uint8_t*) &PORTF_OUT;
-    cs.PINx = (uint8_t*) &PORTF_IN;
-    cs.mask = 0x08;
+    pin_intrf cs {
+        .DDRx = (uint8_t*) &PORTF_DIR;
+        .PORTx = (uint8_t*) &PORTF_OUT;
+        .PINx = (uint8_t*) &PORTF_IN;
+        .mask = 0x08;
+    };        
     tftVars.cs = &cs;
 
     //INITIALIZE TOUCH SCREEN

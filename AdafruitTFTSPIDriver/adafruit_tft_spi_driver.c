@@ -70,11 +70,11 @@ void init_tft(tft_vars* var)
 
     /* Toggle RST */
     *(var->rst->PORTx) |= var->rst->mask;   // set rst
-    DELAY_MS(100);
+    DELAY_MS(3000);
     *(var->rst->PORTx) &= ~(var->rst->mask);// clear rst
-    DELAY_MS(100);
+    DELAY_MS(3000);
     *(var->rst->PORTx) |= var->rst->mask;   // set rst
-    DELAY_MS(100);
+    DELAY_MS(500);
 
     /* Initialize SPI */
     spi_master_init(var->cs, BG_SPI_SCLK_DIV_2 | BG_SPI_SAMPLE_RISING);

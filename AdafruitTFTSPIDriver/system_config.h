@@ -32,7 +32,7 @@
 #define AVR128DB48
 
 /* Specify Clock Frequency */
-#define SYS_CLK_FREQ 16000000
+#define SYS_CLK_FREQ 4000000
 #define F_CPU SYS_CLK_FREQ
 
 /* Compiler Specific */

@@ -20,7 +20,7 @@
 
 void spi_master_init(pin_intrf* ss, uint16_t flags)
 {
-    // check mutual exclusivity of flags
+    // TODO: check mutual exclusivity of flags
     
     // setup DDRx register for SPI
     BG_SPI_SCLK_DDR |= BG_SPI_SCLK_PIN_BM;
