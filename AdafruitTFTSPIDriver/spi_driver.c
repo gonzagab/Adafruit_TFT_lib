@@ -22,6 +22,12 @@ void spi_master_init(pin_intrf* ss, uint16_t flags)
 {
     // TODO: check mutual exclusivity of flags
     
+    
+    // Check for Sampling
+    if (flags & BG_SPI_SAMPLE_RISING) {
+        
+    }
+    
     // setup DDRx register for SPI
     BG_SPI_SCLK_DDR |= BG_SPI_SCLK_PIN_BM;
     BG_SPI_MOSI_DDR |= BG_SPI_MOSI_PIN_BM;
@@ -31,8 +37,20 @@ void spi_master_init(pin_intrf* ss, uint16_t flags)
     // set slave select
     *(ss->PORTx) |= ss->mask;
     
+    // TODO: this is a hack and ugly. fix
+    #if defined(AVR128DB48)
+        *( ((uint8_t*)&BG_SPI_CR) + 1 ) = (BG_SPI_MSTR_BM >> 8);
+    #endif
+    
     // write to spi control register
-	BG_SPI_CR = BG_SPI_ENABLE_BM | BG_SPI_MSTR_BM | flags;
+	BG_SPI_CR |= BG_SPI_ENABLE_BM | BG_SPI_MSTR_BM | flags;
+
+    // Send a byte to no one to set int flag
+    BG_SPI_DR = 0xAA;
+    // wait for the dummy data to send
+    while ( !(BG_SPI_SR & BG_SPI_INTF_BM) ) {
+        //do nothing
+    }
 }
 
 void spi_slave_init(void)

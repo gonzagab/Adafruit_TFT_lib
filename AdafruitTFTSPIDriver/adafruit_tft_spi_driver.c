@@ -70,18 +70,25 @@ void init_tft(tft_vars* var)
 
     /* Toggle RST */
     *(var->rst->PORTx) |= var->rst->mask;   // set rst
-    DELAY_MS(3000);
+    DELAY_MS(10);
     *(var->rst->PORTx) &= ~(var->rst->mask);// clear rst
-    DELAY_MS(3000);
+    DELAY_MS(1);
     *(var->rst->PORTx) |= var->rst->mask;   // set rst
-    DELAY_MS(500);
+    DELAY_MS(100);
 
     /* Initialize SPI */
-    spi_master_init(var->cs, BG_SPI_SCLK_DIV_2 | BG_SPI_SAMPLE_RISING);
+    spi_master_init(var->cs, 
+        BG_SPI_SCLK_DIV_2 |
+        BG_SPI_SCLK_IDLE_LOW |
+        BG_SPI_SAMPLE_LEADING
+    );
 
     /* Initialize the touchscreen */
     spi_select_slave(var->cs);
     write_command_tft(0xEF, var);
+    
+    PORTB_OUTTGL = PIN3_bm;
+    
     spi_master_transmit8(0x03);
     spi_master_transmit8(0x80);
     spi_master_transmit8(0x02);
@@ -188,9 +195,9 @@ void init_tft(tft_vars* var)
     spi_master_transmit8(0x0F);
 
     write_command_tft(ILI9341_SLPOUT, var);    //Exit Sleep
-    DELAY_MS(120);
+    DELAY_MS(150);
     write_command_tft(ILI9341_DISPON, var);    //Display on
-    DELAY_MS(120);
+    DELAY_MS(150);
 
     spi_deselect_slave(var->cs);
 

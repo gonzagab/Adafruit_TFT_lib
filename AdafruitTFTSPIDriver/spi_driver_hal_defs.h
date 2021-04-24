@@ -125,7 +125,8 @@
     #define  BG_SPI_CR          SPCR0
     #define  BG_SPI_DR          SPDR0
     #define  BG_SPI_SR          SPSR0
-
+    
+    // TODO: check if  these are actually bit masks or positions
      /* SPI Control Register Bit Definitions */
      #define BG_SPI_ENABLE_BM   SPIE0
      #define BG_SPI_MSTR_BM     MSTR0

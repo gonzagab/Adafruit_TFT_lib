@@ -26,6 +26,9 @@ void testText(tft_vars* tftVars);
 
 int main(void)
 {
+    
+    
+    PORTB_DIRSET = PIN3_bm;
     //INITIALIZE VARIABLES FOR TFT
     tft_vars tftVars;
     
@@ -38,36 +41,51 @@ int main(void)
 	};
     tftVars.rst = &rst;
     
-    pin_intrf dc {
-        .DDRx = (uint8_t*) &PORTA_DIR;
-        .PORTx = (uint8_t*) &PORTA_OUT;
-        .PINx = (uint8_t*) &PORTA_IN;
-        .mask = 0x08;
+    pin_intrf dc = {
+        .DDRx = (uint8_t*) &PORTA_DIR,
+        .PORTx = (uint8_t*) &PORTA_OUT,
+        .PINx = (uint8_t*) &PORTA_IN,
+        .mask = 0x08
     };        
     tftVars.dc = &dc;
     
-    pin_intrf cs {
-        .DDRx = (uint8_t*) &PORTF_DIR;
-        .PORTx = (uint8_t*) &PORTF_OUT;
-        .PINx = (uint8_t*) &PORTF_IN;
-        .mask = 0x08;
+    pin_intrf cs = {
+        .DDRx = (uint8_t*) &PORTF_DIR,
+        .PORTx = (uint8_t*) &PORTF_OUT,
+        .PINx = (uint8_t*) &PORTF_IN,
+        .mask = 0x08
     };        
     tftVars.cs = &cs;
+
+    PORTB_OUTTGL = PIN3_bm;
 
     //INITIALIZE TOUCH SCREEN
     init_tft(&tftVars);
 
+    PORTB_OUTTGL = PIN3_bm;
+
 	testFillScreen(&tftVars);
+    PORTB_OUTTGL = PIN3_bm;
 	testLines(ILI9341_BLUE, &tftVars);
+    PORTB_OUTTGL = PIN3_bm;
 	testRects(ILI9341_YELLOW, &tftVars);
+    PORTB_OUTTGL = PIN3_bm;
 	testFastLines(ILI9341_WHITE, ILI9341_BLUE, &tftVars);
+    PORTB_OUTTGL = PIN3_bm;
 	testFilledRects(ILI9341_BLUE, ILI9341_RED, &tftVars);
+    PORTB_OUTTGL = PIN3_bm;
 	testCircles(20, ILI9341_BLUE, &tftVars);
+    PORTB_OUTTGL = PIN3_bm;
 	testFilledCircles(20, ILI9341_BLUE, &tftVars);
+    PORTB_OUTTGL = PIN3_bm;
 	testTriangles(&tftVars);
+    PORTB_OUTTGL = PIN3_bm;
 	testFilledTriangles(&tftVars);
+    PORTB_OUTTGL = PIN3_bm;
 	testRoundRects(&tftVars);
+    PORTB_OUTTGL = PIN3_bm;
 	testFilledRoundRects(&tftVars);
+    PORTB_OUTTGL = PIN3_bm;
 	testText(&tftVars);
 	
     while (1) {
@@ -75,6 +93,8 @@ int main(void)
 			set_rotation_tft(rotation, &tftVars);
 			testText(&tftVars);
 			DELAY_MS( (uint32_t) 5000 );
+            
+            PORTB_OUTTGL = PIN3_bm;
 		}
     }
 }
